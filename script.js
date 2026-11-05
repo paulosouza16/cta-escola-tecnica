@@ -229,4 +229,46 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   }
+
+  // Community filter tabs
+  const communityTabs = Array.from(document.querySelectorAll(".community-tab"));
+  const communityGrid = document.getElementById("community-grid");
+  if (communityTabs.length > 0 && communityGrid) {
+    const cards = Array.from(communityGrid.querySelectorAll("[data-category]"));
+    communityTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const filter = tab.getAttribute("data-filter") || "all";
+        communityTabs.forEach((t) => {
+          const isActive = t === tab;
+          t.classList.toggle("community-tab--active", isActive);
+          t.setAttribute("aria-selected", String(isActive));
+        });
+        cards.forEach((card) => {
+          const cat = card.getAttribute("data-category");
+          const show = filter === "all" || cat === filter;
+          card.classList.toggle("community-card--hidden", !show);
+        });
+      });
+    });
+  }
+
+  // Career trail tabs
+  const trailTabs = Array.from(document.querySelectorAll(".trail-tab"));
+  const trailPanels = Array.from(document.querySelectorAll(".trail-panel"));
+  if (trailTabs.length > 0 && trailPanels.length > 0) {
+    trailTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = tab.getAttribute("data-trail");
+        trailTabs.forEach((t) => {
+          const isActive = t === tab;
+          t.classList.toggle("trail-tab--active", isActive);
+          t.setAttribute("aria-selected", String(isActive));
+        });
+        trailPanels.forEach((panel) => {
+          const isMatch = panel.getAttribute("data-trail-panel") === target;
+          panel.classList.toggle("trail-panel--active", isMatch);
+        });
+      });
+    });
+  }
 });

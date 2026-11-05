@@ -44,6 +44,9 @@ function PageHeader({ enrollHref = "/inscricao" }: { enrollHref?: string }) {
           <a href="/#sobre" onClick={() => setMenuOpen(false)}>
             A CTA
           </a>
+          <a href="/#comunidade" onClick={() => setMenuOpen(false)}>
+            Comunidade
+          </a>
           <a href="/#unidades" onClick={() => setMenuOpen(false)}>
             Unidades
           </a>

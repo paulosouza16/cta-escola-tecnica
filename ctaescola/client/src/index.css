@@ -195,7 +195,7 @@ img { display: block; max-width: 100%; }
 .locations-top { display: flex; align-items: flex-end; justify-content: space-between; gap: 50px; margin-bottom: 33px; }
 .locations-top h2 { font-size: clamp(37px, 4vw, 51px); }
 .locations-top > p { width: min(390px, 40%); margin: 0 0 5px; color: #67717d; font-size: 13px; line-height: 1.8; }
-.location-cards { display: grid; grid-template-columns: minmax(280px, 520px); gap: 12px; align-items: stretch; }
+.location-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; align-items: stretch; }
 .location-card { position: relative; min-height: 216px; padding: 20px 23px 18px; overflow: hidden; background: var(--navy); color: white; }
 .location-card::before { content: ''; position: absolute; width: 230px; height: 230px; right: -96px; bottom: -126px; border: 1px solid rgba(255,216,0,.38); border-radius: 50%; box-shadow: 0 0 0 25px rgba(255,216,0,.05), 0 0 0 50px rgba(255,216,0,.035); }
 .location-card--north { background: #243c60; }
@@ -545,6 +545,740 @@ img { display: block; max-width: 100%; }
   .catalog-intro__badges { grid-template-columns: 1fr; }
   .course-detail-body { padding: 26px 20px; }
   .course-cta-bar { flex-direction: column; align-items: stretch; }
+}
+
+/* ==========================================================================
+   Seção Comunidade CTA (index.html / Home.tsx)
+   ========================================================================== */
+.community-section {
+  padding-top: 96px;
+  padding-bottom: 102px;
+  background: linear-gradient(180deg, #f1efe8 0%, var(--paper) 100%);
+  border-top: 1px solid #e2e0d7;
+}
+.community-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+  margin-bottom: 36px;
+}
+.community-header h2 {
+  margin: 0;
+  color: var(--navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(36px, 4.1vw, 52px);
+  font-weight: 600;
+  letter-spacing: -.055em;
+  line-height: 1.12;
+}
+.community-header h2 span {
+  color: var(--blue);
+}
+.community-header__aside {
+  width: min(450px, 46%);
+}
+.community-header__aside p {
+  margin: 0 0 18px;
+  color: var(--body-copy);
+  font-size: 13px;
+  line-height: 1.75;
+}
+.community-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 5px;
+  border: 1px solid #dcdad0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, .75);
+}
+.community-tab {
+  padding: 8px 13px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #5b6675;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .01em;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+.community-tab:hover {
+  color: var(--navy);
+  background: rgba(16, 31, 58, .05);
+}
+.community-tab--active {
+  background: var(--navy);
+  color: var(--gold);
+  box-shadow: 0 4px 12px rgba(16, 31, 58, .14);
+}
+.community-tab--active:hover {
+  background: var(--navy);
+  color: var(--gold);
+}
+
+.community-pulse-bar {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+  padding: 18px 22px;
+  border: 1px solid #dfddd3;
+  border-left: 4px solid var(--gold);
+  border-radius: 4px;
+  background: white;
+  box-shadow: 0 10px 28px rgba(14, 32, 57, .04);
+}
+.community-pulse-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding-right: 12px;
+  border-right: 1px solid #ebecee;
+}
+.community-pulse-item:last-child {
+  border-right: 0;
+  padding-right: 0;
+}
+.community-pulse-icon {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff9cc;
+  color: var(--navy);
+  border: 1px solid rgba(255, 216, 0, .55);
+}
+.community-pulse-item strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+}
+.community-pulse-item span {
+  display: block;
+  color: var(--body-copy);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.community-stories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.community-card--hidden {
+  display: none !important;
+}
+
+.story-card {
+  position: relative;
+  padding: 26px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0e1e1;
+  border-top: 3px solid var(--navy);
+  border-radius: 4px;
+  background: white;
+  box-shadow: 0 12px 32px rgba(14, 32, 57, .05);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.story-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(14, 32, 57, .09);
+}
+.story-card--violet { border-top-color: #6556a2; }
+.story-card--coral { border-top-color: #b5564c; }
+.story-card--mint { border-top-color: #357b75; }
+
+.story-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.story-badge {
+  padding: 4px 9px;
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--navy);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+.story-card--violet .story-badge { background: #f0eef8; color: #544590; }
+.story-card--coral .story-badge { background: #f8eeec; color: #9e433a; }
+.story-card--mint .story-badge { background: #eaf4f1; color: #296660; }
+
+.story-quote-icon {
+  color: #dfe2e7;
+}
+.story-card__quote {
+  margin: 0 0 18px;
+  color: #2c384a;
+  font-size: 13px;
+  line-height: 1.72;
+  font-style: normal;
+  flex: 1;
+}
+.story-card__highlight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 8px 11px;
+  border-radius: 4px;
+  background: #f8f7f3;
+  border: 1px solid #eceae2;
+  color: var(--navy);
+  font-size: 11px;
+  font-weight: 600;
+}
+.story-card__highlight svg {
+  color: var(--blue);
+  flex: 0 0 auto;
+}
+.story-card__author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 15px;
+  border-top: 1px solid #eef0f2;
+}
+.story-avatar {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--gold);
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+.story-avatar--violet { background: #6556a2; color: white; }
+.story-avatar--coral { background: #b5564c; color: white; }
+.story-avatar--mint { background: #357b75; color: white; }
+
+.story-card__author strong {
+  display: block;
+  color: var(--navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.story-card__author span {
+  display: block;
+  color: #747e8c;
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.life-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e0e1e1;
+  border-radius: 4px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 12px 32px rgba(14, 32, 57, .05);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.life-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px rgba(14, 32, 57, .09);
+}
+.life-card__media {
+  position: relative;
+  height: 176px;
+  background: var(--navy-deep);
+  overflow: hidden;
+}
+.life-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .45s ease;
+}
+.life-card:hover .life-card__media img {
+  transform: scale(1.05);
+}
+.life-card__tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  background: rgba(11, 23, 43, .86);
+  color: var(--gold);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.life-card__body {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.life-card__meta {
+  display: block;
+  margin-bottom: 6px;
+  color: #7b8594;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+.life-card__body h3 {
+  margin: 0 0 8px;
+  color: var(--navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+  line-height: 1.25;
+}
+.life-card__body p {
+  margin: 0;
+  color: var(--body-copy);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.community-banner {
+  margin-top: 28px;
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  border-radius: 4px;
+  background: var(--navy);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.community-banner::before {
+  content: '';
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  right: -90px;
+  bottom: -140px;
+  border: 1px solid rgba(255, 216, 0, .25);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.community-banner__copy {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+}
+.community-banner__eyebrow {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--gold);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+.community-banner__copy h3 {
+  margin: 0 0 6px;
+  color: white;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 700;
+  letter-spacing: -.03em;
+}
+.community-banner__copy p {
+  margin: 0;
+  color: #c0cad7;
+  font-size: 12.5px;
+}
+.community-banner__actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 1050px) {
+  .community-pulse-bar {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .community-pulse-item {
+    border-right: 0;
+    border-bottom: 1px solid #ebecee;
+    padding-right: 0;
+    padding-bottom: 12px;
+  }
+  .community-pulse-item:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  .community-stories-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .community-section {
+    padding-top: 68px;
+    padding-bottom: 72px;
+  }
+  .community-header {
+    display: block;
+    margin-bottom: 24px;
+  }
+  .community-header__aside {
+    width: auto;
+    margin-top: 14px;
+  }
+  .community-stories-grid {
+    grid-template-columns: 1fr;
+  }
+  .community-banner {
+    padding: 24px 20px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .community-banner__actions {
+    flex-direction: column;
+  }
+}
+
+/* ==========================================================================
+   Seção Trilhas de Carreira (#trilhas & páginas de cursos)
+   ========================================================================== */
+.career-trail-section {
+  padding-top: 90px;
+  padding-bottom: 98px;
+  background: #efede6;
+  border-top: 1px solid #e0ded5;
+}
+.career-trail-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+  margin-bottom: 36px;
+}
+.career-trail-header h2 {
+  margin: 0;
+  color: var(--navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(35px, 4vw, 50px);
+  font-weight: 600;
+  letter-spacing: -.055em;
+  line-height: 1.12;
+}
+.career-trail-header h2 span {
+  color: var(--blue);
+}
+.career-trail-header__aside {
+  width: min(490px, 48%);
+}
+.career-trail-header__aside p {
+  margin: 0 0 18px;
+  color: var(--body-copy);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.trail-selector {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid #dad8ce;
+  border-radius: 6px;
+  background: white;
+}
+.trail-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #55606f;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background .2s ease, color .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+.trail-tab:hover {
+  color: var(--navy);
+  background: #f6f5f1;
+}
+.trail-tab--active.trail-tab--violet {
+  background: #6556a2;
+  color: white;
+  box-shadow: 0 6px 16px rgba(101, 86, 162, .25);
+}
+.trail-tab--active.trail-tab--coral {
+  background: #b5564c;
+  color: white;
+  box-shadow: 0 6px 16px rgba(181, 86, 76, .25);
+}
+.trail-tab--active.trail-tab--mint {
+  background: #357b75;
+  color: white;
+  box-shadow: 0 6px 16px rgba(53, 123, 117, .25);
+}
+
+.trail-panel {
+  display: none;
+  border: 1px solid #dfddd4;
+  border-radius: 6px;
+  background: white;
+  padding: 32px 32px 26px;
+  box-shadow: 0 16px 40px rgba(14, 32, 57, .06);
+}
+.trail-panel--active {
+  display: block;
+}
+.trail-panel--violet { border-top: 4px solid #6556a2; }
+.trail-panel--coral { border-top: 4px solid #b5564c; }
+.trail-panel--mint { border-top: 4px solid #357b75; }
+
+.trail-panel__intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: 24px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid #ebecee;
+}
+.trail-panel__badge span {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  color: #7c8591;
+}
+.trail-panel--violet .trail-panel__badge span { color: #6556a2; }
+.trail-panel--coral .trail-panel__badge span { color: #b5564c; }
+.trail-panel--mint .trail-panel__badge span { color: #357b75; }
+
+.trail-panel__badge h3 {
+  margin: 0;
+  color: var(--navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(22px, 2.5vw, 28px);
+  font-weight: 700;
+  letter-spacing: -.035em;
+}
+.trail-panel__intro > p {
+  margin: 0;
+  max-width: 520px;
+  color: var(--body-copy);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.trail-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.trail-step-card {
+  position: relative;
+  padding: 20px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e4e5e8;
+  border-radius: 4px;
+  background: #fbfbfa;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.trail-step-card:hover {
+  background: white;
+  border-color: #c8ccd3;
+  transform: translateY(-3px);
+}
+.trail-step-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.trail-step-num {
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: var(--navy);
+  color: var(--gold);
+  font-size: 8.5px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+.trail-panel--violet .trail-step-num { background: #6556a2; color: white; }
+.trail-panel--coral .trail-step-num { background: #b5564c; color: white; }
+.trail-panel--mint .trail-step-num { background: #357b75; color: white; }
+
+.trail-step-phase {
+  color: #848d99;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .11em;
+  text-align: right;
+}
+.trail-step-card h4 {
+  margin: 0 0 9px;
+  color: var(--navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.25;
+}
+.trail-step-card p {
+  margin: 0 0 16px;
+  color: var(--body-copy);
+  font-size: 12px;
+  line-height: 1.62;
+  flex: 1;
+}
+.trail-tags {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0 0;
+  border-top: 1px dashed #e2e4e8;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.trail-tags li {
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: white;
+  border: 1px solid #e1e3e7;
+  color: var(--navy);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.trail-panel__footer {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #ebecee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.trail-panel__footer > span {
+  color: #4f5967;
+  font-size: 13px;
+}
+.trail-panel__footer > span strong {
+  color: var(--navy);
+}
+.trail-panel__actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* Bloco de Trilha nas páginas internas dos cursos */
+.course-career-roadmap {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+.roadmap-item {
+  padding: 18px 16px;
+  border: 1px solid #e3e4e7;
+  border-left: 3px solid var(--navy);
+  border-radius: 4px;
+  background: #fbfbfa;
+}
+.roadmap-item__step {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--blue);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .13em;
+}
+.roadmap-item h3 {
+  margin: 0 0 6px;
+  color: var(--navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  line-height: 1.3;
+}
+.roadmap-item p {
+  margin: 0 !important;
+  color: var(--body-copy) !important;
+  font-size: 12px !important;
+  line-height: 1.6 !important;
+}
+
+@media (max-width: 1050px) {
+  .trail-steps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .course-career-roadmap {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .career-trail-section {
+    padding-top: 68px;
+    padding-bottom: 72px;
+  }
+  .career-trail-header {
+    display: block;
+    margin-bottom: 24px;
+  }
+  .career-trail-header__aside {
+    width: auto;
+    margin-top: 14px;
+  }
+  .trail-panel {
+    padding: 22px 18px;
+  }
+  .trail-panel__intro {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .trail-steps-grid {
+    grid-template-columns: 1fr;
+  }
+  .trail-panel__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .trail-panel__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 

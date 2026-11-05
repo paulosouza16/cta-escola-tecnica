@@ -118,6 +118,7 @@ export default function Inscricao() {
           <nav id="mobile-navigation" className={`main-nav${menuOpen ? " main-nav--open" : ""}`} aria-label="Navegação principal">
             <a href="/nossos-cursos" onClick={() => setMenuOpen(false)}>Cursos</a>
             <a href="/#sobre" onClick={() => setMenuOpen(false)}>A CTA</a>
+            <a href="/#comunidade" onClick={() => setMenuOpen(false)}>Comunidade</a>
             <a href="/#unidades" onClick={() => setMenuOpen(false)}>Unidades</a>
             <a href="/#contato" onClick={() => setMenuOpen(false)}>Contato</a>
             <a className="mobile-nav-apply" href="/">
