@@ -314,6 +314,26 @@ export default function Home() {
   const [paused, setPaused] = useState(false);
   const [communityFilter, setCommunityFilter] = useState<"all" | "depoimentos" | "vivencia">("all");
   const [activeTrail, setActiveTrail] = useState<"eletrotecnica" | "enfermagem" | "informatica">("eletrotecnica");
+  const [activeMapUnit, setActiveMapUnit] = useState<"bangu" | "campogrande">("bangu");
+
+  const mapUnits = {
+    bangu: {
+      title: "Unidade Bangu · Zona Oeste",
+      address: "Campus da Universidade Cândido Mendes — Bangu, Rio de Janeiro - RJ",
+      embedUrl:
+        "https://maps.google.com/maps?q=Universidade+Candido+Mendes+Bangu+Rio+de+Janeiro&t=&z=16&ie=UTF8&iwloc=&output=embed",
+      routeUrl:
+        "https://www.google.com/maps/search/?api=1&query=Universidade+Candido+Mendes+Bangu+Rio+de+Janeiro",
+    },
+    campogrande: {
+      title: "Unidade Campo Grande · Zona Oeste",
+      address: "Rua Cariús, 223 — Campo Grande, Rio de Janeiro - RJ",
+      embedUrl:
+        "https://maps.google.com/maps?q=Rua+Carius+223+Campo+Grande+Rio+de+Janeiro&t=&z=16&ie=UTF8&iwloc=&output=embed",
+      routeUrl:
+        "https://www.google.com/maps/search/?api=1&query=Rua+Carius+223+Campo+Grande+Rio+de+Janeiro",
+    },
+  };
 
   useEffect(() => {
     if (paused) return;
@@ -742,31 +762,107 @@ export default function Home() {
             <p>O CTA está presente em Bangu e em Campo Grande, na Zona Oeste do Rio de Janeiro. Entre em contato para consultar as unidades, disponibilidade e a melhor forma de chegar.</p>
           </div>
           <div className="location-cards">
-            <div className="location-card location-card--west">
+            <div
+              className={`location-card location-card--west${activeMapUnit === "bangu" ? " location-card--active" : ""}`}
+              onClick={() => setActiveMapUnit("bangu")}
+            >
               <span className="location-card__index">UNIDADE 01 · ZONA OESTE</span>
               <MapPin size={22} />
               <h3>Bangu</h3>
               <p>Campus da Universidade Cândido Mendes</p>
-              <a
-                href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20a%20unidade%20Bangu."
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Consultar unidade <ArrowUpRight size={15} />
-              </a>
+              <div className="location-card__actions">
+                <button
+                  type="button"
+                  className="location-map-trigger"
+                  onClick={() => setActiveMapUnit("bangu")}
+                >
+                  Ver no mapa interativo
+                </button>
+                <a
+                  href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20a%20unidade%20Bangu."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Consultar unidade <ArrowUpRight size={15} />
+                </a>
+              </div>
             </div>
-            <div className="location-card location-card--north">
+            <div
+              className={`location-card location-card--north${activeMapUnit === "campogrande" ? " location-card--active" : ""}`}
+              onClick={() => setActiveMapUnit("campogrande")}
+            >
               <span className="location-card__index">UNIDADE 02 · ZONA OESTE</span>
               <MapPin size={22} />
               <h3>Campo Grande</h3>
               <p>Rua Cariús, 223 — Campo Grande</p>
-              <a
-                href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20a%20unidade%20Campo%20Grande."
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Consultar unidade <ArrowUpRight size={15} />
-              </a>
+              <div className="location-card__actions">
+                <button
+                  type="button"
+                  className="location-map-trigger"
+                  onClick={() => setActiveMapUnit("campogrande")}
+                >
+                  Ver no mapa interativo
+                </button>
+                <a
+                  href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20a%20unidade%20Campo%20Grande."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Consultar unidade <ArrowUpRight size={15} />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="interactive-map-shell" aria-label="Mapa interativo das unidades CTA">
+            <div className="interactive-map-bar">
+              <div className="interactive-map-bar__info">
+                <span className="pulse-dot" />
+                <div>
+                  <strong>{mapUnits[activeMapUnit].title}</strong>
+                  <span>{mapUnits[activeMapUnit].address}</span>
+                </div>
+              </div>
+              <div className="interactive-map-bar__controls">
+                <div className="map-unit-switcher" role="tablist" aria-label="Alternar unidade no mapa">
+                  <button
+                    type="button"
+                    className={`map-switch-btn${activeMapUnit === "bangu" ? " map-switch-btn--active" : ""}`}
+                    role="tab"
+                    aria-selected={activeMapUnit === "bangu"}
+                    onClick={() => setActiveMapUnit("bangu")}
+                  >
+                    01 · Bangu
+                  </button>
+                  <button
+                    type="button"
+                    className={`map-switch-btn${activeMapUnit === "campogrande" ? " map-switch-btn--active" : ""}`}
+                    role="tab"
+                    aria-selected={activeMapUnit === "campogrande"}
+                    onClick={() => setActiveMapUnit("campogrande")}
+                  >
+                    02 · Campo Grande (Rua Cariús, 223)
+                  </button>
+                </div>
+                <a
+                  className="button button--gold map-route-btn"
+                  href={mapUnits[activeMapUnit].routeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Traçar rota no Google Maps <ArrowUpRight size={14} />
+                </a>
+              </div>
+            </div>
+            <div className="interactive-map-frame-wrap">
+              <iframe
+                className="interactive-map-iframe"
+                title="Localização da Unidade CTA no Google Maps"
+                src={mapUnits[activeMapUnit].embedUrl}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
             </div>
           </div>
         </section>

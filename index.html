@@ -923,34 +923,89 @@
           </div>
 
           <div class="location-cards">
-            <div class="location-card location-card--west">
+            <div class="location-card location-card--west location-card--active" data-map-unit="bangu">
               <span class="location-card__index">UNIDADE 01 · ZONA OESTE</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
               <h3>Bangu</h3>
               <p>Campus da Universidade Cândido Mendes</p>
-              <a
-                href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20a%20unidade%20Bangu."
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Consultar unidade
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-              </a>
+              <div class="location-card__actions">
+                <button type="button" class="location-map-trigger" data-select-unit="bangu">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>
+                  Ver no mapa interativo
+                </button>
+                <a
+                  href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20a%20unidade%20Bangu."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Consultar unidade
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </a>
+              </div>
             </div>
 
-            <div class="location-card location-card--north">
+            <div class="location-card location-card--north" data-map-unit="campogrande">
               <span class="location-card__index">UNIDADE 02 · ZONA OESTE</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
               <h3>Campo Grande</h3>
               <p>Rua Cariús, 223 — Campo Grande</p>
-              <a
-                href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20a%20unidade%20Campo%20Grande."
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Consultar unidade
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-              </a>
+              <div class="location-card__actions">
+                <button type="button" class="location-map-trigger" data-select-unit="campogrande">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" x2="9" y1="3" y2="18"/><line x1="15" x2="15" y1="6" y2="21"/></svg>
+                  Ver no mapa interativo
+                </button>
+                <a
+                  href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20a%20unidade%20Campo%20Grande."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Consultar unidade
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="interactive-map-shell" aria-label="Mapa interativo das unidades CTA">
+            <div class="interactive-map-bar">
+              <div class="interactive-map-bar__info">
+                <span class="pulse-dot"></span>
+                <div>
+                  <strong id="map-active-title">Unidade Bangu · Zona Oeste</strong>
+                  <span id="map-active-address">Campus da Universidade Cândido Mendes — Bangu, Rio de Janeiro - RJ</span>
+                </div>
+              </div>
+              <div class="interactive-map-bar__controls">
+                <div class="map-unit-switcher" role="tablist" aria-label="Alternar unidade no mapa">
+                  <button type="button" class="map-switch-btn map-switch-btn--active" data-select-unit="bangu" role="tab" aria-selected="true">
+                    01 · Bangu
+                  </button>
+                  <button type="button" class="map-switch-btn" data-select-unit="campogrande" role="tab" aria-selected="false">
+                    02 · Campo Grande (Rua Cariús, 223)
+                  </button>
+                </div>
+                <a
+                  id="map-external-route"
+                  class="button button--gold map-route-btn"
+                  href="https://www.google.com/maps/search/?api=1&query=Universidade+Candido+Mendes+Bangu+Rio+de+Janeiro"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Traçar rota no Google Maps
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                </a>
+              </div>
+            </div>
+            <div class="interactive-map-frame-wrap">
+              <iframe
+                id="unit-map-iframe"
+                class="interactive-map-iframe"
+                title="Localização da Unidade CTA no Google Maps"
+                src="https://maps.google.com/maps?q=Universidade+Candido+Mendes+Bangu+Rio+de+Janeiro&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+              ></iframe>
             </div>
           </div>
         </section>

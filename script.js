@@ -271,4 +271,80 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+  // Interactive step selection inside career trails
+  const stepCards = Array.from(document.querySelectorAll(".trail-step-card"));
+  stepCards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const parentGrid = card.closest(".trail-steps-grid");
+      if (!parentGrid) return;
+      parentGrid.querySelectorAll(".trail-step-card").forEach((c) => {
+        c.classList.toggle("trail-step-card--selected", c === card);
+      });
+    });
+  });
+
+  // Interactive Map Switcher (#unidades)
+  const mapIframe = document.getElementById("unit-map-iframe");
+  const mapTitle = document.getElementById("map-active-title");
+  const mapAddress = document.getElementById("map-active-address");
+  const mapRouteBtn = document.getElementById("map-external-route");
+  const unitCards = Array.from(document.querySelectorAll("[data-map-unit]"));
+  const unitTriggers = Array.from(document.querySelectorAll("[data-select-unit]"));
+
+  const unitMapData = {
+    bangu: {
+      title: "Unidade Bangu · Zona Oeste",
+      address: "Campus da Universidade Cândido Mendes — Bangu, Rio de Janeiro - RJ",
+      embedUrl:
+        "https://maps.google.com/maps?q=Universidade+Candido+Mendes+Bangu+Rio+de+Janeiro&t=&z=16&ie=UTF8&iwloc=&output=embed",
+      routeUrl:
+        "https://www.google.com/maps/search/?api=1&query=Universidade+Candido+Mendes+Bangu+Rio+de+Janeiro",
+    },
+    campogrande: {
+      title: "Unidade Campo Grande · Zona Oeste",
+      address: "Rua Cariús, 223 — Campo Grande, Rio de Janeiro - RJ",
+      embedUrl:
+        "https://maps.google.com/maps?q=Rua+Carius+223+Campo+Grande+Rio+de+Janeiro&t=&z=16&ie=UTF8&iwloc=&output=embed",
+      routeUrl:
+        "https://www.google.com/maps/search/?api=1&query=Rua+Carius+223+Campo+Grande+Rio+de+Janeiro",
+    },
+  };
+
+  function selectMapUnit(unitKey) {
+    const info = unitMapData[unitKey];
+    if (!info) return;
+    if (mapIframe && mapIframe.getAttribute("src") !== info.embedUrl) {
+      mapIframe.setAttribute("src", info.embedUrl);
+    }
+    if (mapTitle) mapTitle.textContent = info.title;
+    if (mapAddress) mapAddress.textContent = info.address;
+    if (mapRouteBtn) mapRouteBtn.setAttribute("href", info.routeUrl);
+
+    unitCards.forEach((card) => {
+      const isMatch = card.getAttribute("data-map-unit") === unitKey;
+      card.classList.toggle("location-card--active", isMatch);
+    });
+
+    document.querySelectorAll(".map-switch-btn").forEach((btn) => {
+      const isMatch = btn.getAttribute("data-select-unit") === unitKey;
+      btn.classList.toggle("map-switch-btn--active", isMatch);
+      btn.setAttribute("aria-selected", String(isMatch));
+    });
+  }
+
+  unitTriggers.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const unitKey = btn.getAttribute("data-select-unit");
+      if (unitKey) selectMapUnit(unitKey);
+    });
+  });
+
+  unitCards.forEach((card) => {
+    card.addEventListener("click", (e) => {
+      if (e.target.closest("a")) return;
+      const unitKey = card.getAttribute("data-map-unit");
+      if (unitKey) selectMapUnit(unitKey);
+    });
+  });
 });
