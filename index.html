@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#101f3a" />
     <meta
       name="description"
       content="Conheça a CTA Escola Técnica: cursos de Eletrotécnica, Enfermagem e Informática, além de diferentes caminhos de formação no Rio de Janeiro."
@@ -114,7 +113,6 @@
                     class="hero-photo hero-slide hero-slide--active"
                     src="hero-slide-1.jpg"
                     alt="Estudantes da CTA Escola Técnica em aula prática no laboratório de informática"
-                    fetchpriority="high"
                   />
                   <img
                     class="hero-photo hero-slide"
@@ -133,23 +131,23 @@
                 <div class="photo-caption">
                   <span class="caption-dot"></span>Aprender fazendo muda tudo.
                 </div>
-                <div class="hero-slider-controls" aria-label="Controles da galeria">
-                  <div class="hero-slider-dots" role="tablist" aria-label="Selecionar foto">
-                    <button type="button" class="hero-slider-dot hero-slider-dot--active" data-slide="0" aria-label="Foto 1" aria-selected="true"></button>
-                    <button type="button" class="hero-slider-dot" data-slide="1" aria-label="Foto 2" aria-selected="false"></button>
-                    <button type="button" class="hero-slider-dot" data-slide="2" aria-label="Foto 3" aria-selected="false"></button>
+                <div class="hero-slider-controls">
+                  <div class="hero-slider-dots">
+                    <button type="button" class="hero-slider-dot hero-slider-dot--active" data-slide="0" aria-label="Foto 1" title="Foto 1"></button>
+                    <button type="button" class="hero-slider-dot" data-slide="1" aria-label="Foto 2" title="Foto 2"></button>
+                    <button type="button" class="hero-slider-dot" data-slide="2" aria-label="Foto 3" title="Foto 3"></button>
                   </div>
                   <div class="hero-slider-arrows">
-                    <button type="button" class="hero-slider-btn" id="hero-prev" aria-label="Foto anterior">
+                    <button type="button" class="hero-slider-btn" id="hero-prev" aria-label="Foto anterior" title="Foto anterior">
                       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
                     </button>
-                    <button type="button" class="hero-slider-btn" id="hero-next" aria-label="Próxima foto">
+                    <button type="button" class="hero-slider-btn" id="hero-next" aria-label="Próxima foto" title="Próxima foto">
                       <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </button>
                   </div>
                 </div>
               </div>
-              <div class="hero-stamp" aria-label="Desde 2002, o CTA é premiado em mostras de projetos">
+              <div class="hero-stamp">
                 <span class="stamp-top">PROJETOS &amp; TECNOLOGIA</span>
                 <strong>Desde<br /><b>2002</b></strong>
                 <span class="stamp-bottom">IDEIAS EM MOVIMENTO</span>
@@ -190,12 +188,10 @@
             </div>
             <div class="section-heading__aside">
               <p>
-                Encontre uma área que combina com os seus planos. Conheça as formações técnicas do CTA e consulte os detalhes de cada curso nos canais oficiais.
+                Encontre uma área que combina com os seus planos. Conheça as formações técnicas do CTA e consulte os detalhes de cada curso.
               </p>
               <a
-                href="https://ctarj.org.br/nossos-cursos/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="nossos-cursos.html"
                 class="text-link"
               >
                 Ver todos os cursos
@@ -207,9 +203,7 @@
           <div class="course-grid">
             <a
               class="course-card course-card--violet"
-              href="https://ctarj.org.br/tecnico-em-eletrotecnica/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="tecnico-em-eletrotecnica.html"
             >
               <div class="course-card__top">
                 <span class="course-number">01 <span>/ 03</span></span>
@@ -230,9 +224,7 @@
 
             <a
               class="course-card course-card--coral"
-              href="https://ctarj.org.br/tecnico-em-enfermagem/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="tecnico-em-enfermagem.html"
             >
               <div class="course-card__top">
                 <span class="course-number">02 <span>/ 03</span></span>
@@ -253,9 +245,7 @@
 
             <a
               class="course-card course-card--mint"
-              href="https://ctarj.org.br/tecnico-em-informatica/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="tecnico-em-informatica.html"
             >
               <div class="course-card__top">
                 <span class="course-number">03 <span>/ 03</span></span>
@@ -303,9 +293,7 @@
             </p>
             <a
               class="button button--gold"
-              href="https://ctarj.org.br/nossos-cursos/"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="nossos-cursos.html"
             >
               Conheça a proposta
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
@@ -480,11 +468,11 @@
           </div>
           <div class="footer-links-col">
             <span class="footer-title">EXPLORE</span>
-            <a href="#cursos">Cursos</a>
+            <a href="nossos-cursos.html">Nossos Cursos</a>
             <a href="#sobre">A CTA</a>
             <a href="#unidades">Unidades</a>
-            <a href="https://ctarj.org.br/nossos-cursos/" target="_blank" rel="noopener noreferrer">
-              Site oficial
+            <a href="inscricao.html">
+              Faça sua inscrição
               <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
             </a>
           </div>

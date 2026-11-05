@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -38,7 +38,7 @@ const courses: {
     name: "Eletrotécnica",
     category: "ENERGIA & TECNOLOGIA",
     description: "Uma formação conectada a instalações, sistemas e soluções elétricas.",
-    href: `${OFFICIAL}/tecnico-em-eletrotecnica/`,
+    href: "/tecnico-em-eletrotecnica",
     icon: Zap,
     color: "violet",
   },
@@ -47,7 +47,7 @@ const courses: {
     name: "Enfermagem",
     category: "SAÚDE & CUIDADO",
     description: "Conhecimento técnico e responsabilidade no campo da saúde.",
-    href: `${OFFICIAL}/tecnico-em-enfermagem/`,
+    href: "/tecnico-em-enfermagem",
     icon: HeartPulse,
     color: "coral",
   },
@@ -56,7 +56,7 @@ const courses: {
     name: "Informática",
     category: "COMPUTAÇÃO & DIGITAL",
     description: "Tecnologia e computação para ampliar suas possibilidades profissionais.",
-    href: `${OFFICIAL}/tecnico-em-informatica/`,
+    href: "/tecnico-em-informatica",
     icon: Laptop,
     color: "mint",
   },
@@ -133,9 +133,8 @@ export default function Home() {
           <button
             className="menu-toggle"
             type="button"
-            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-navigation"
+            aria-label="Abrir ou fechar menu"
+            title="Menu"
             onClick={() => setMenuOpen((open: boolean) => !open)}
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -172,22 +171,21 @@ export default function Home() {
                       className={`hero-photo hero-slide${idx === activeSlide ? " hero-slide--active" : ""}`}
                       src={slide.src}
                       alt={slide.alt}
-                      fetchPriority={idx === 0 ? "high" : undefined}
                       loading={idx === 0 ? undefined : "lazy"}
                     />
                   ))}
                 </div>
                 <div className="hero-photo-shade" />
                 <div className="photo-caption"><span className="caption-dot" />Aprender fazendo muda tudo.</div>
-                <div className="hero-slider-controls" aria-label="Controles da galeria">
-                  <div className="hero-slider-dots" role="tablist" aria-label="Selecionar foto">
+                <div className="hero-slider-controls">
+                  <div className="hero-slider-dots">
                     {heroSlides.map((slide, idx) => (
                       <button
                         key={slide.src}
                         type="button"
                         className={`hero-slider-dot${idx === activeSlide ? " hero-slider-dot--active" : ""}`}
-                        aria-label={`Foto ${idx + 1}`}
-                        aria-selected={idx === activeSlide}
+                        aria-label="Selecionar foto do laboratório"
+                        title="Selecionar foto do laboratório"
                         onClick={() => setActiveSlide(idx)}
                       />
                     ))}
@@ -197,6 +195,7 @@ export default function Home() {
                       type="button"
                       className="hero-slider-btn"
                       aria-label="Foto anterior"
+                      title="Foto anterior"
                       onClick={() => setActiveSlide((prev: number) => (prev - 1 + heroSlides.length) % heroSlides.length)}
                     >
                       <ChevronLeft size={15} strokeWidth={2.2} />
@@ -205,6 +204,7 @@ export default function Home() {
                       type="button"
                       className="hero-slider-btn"
                       aria-label="Próxima foto"
+                      title="Próxima foto"
                       onClick={() => setActiveSlide((prev: number) => (prev + 1) % heroSlides.length)}
                     >
                       <ChevronRight size={15} strokeWidth={2.2} />
@@ -212,7 +212,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="hero-stamp" aria-label="Desde 2002, o CTA é premiado em mostras de projetos">
+              <div className="hero-stamp">
                 <span className="stamp-top">PROJETOS & TECNOLOGIA</span>
                 <strong>Desde<br /><b>2002</b></strong>
                 <span className="stamp-bottom">IDEIAS EM MOVIMENTO</span>
@@ -240,15 +240,15 @@ export default function Home() {
               <h2 id="courses-title">Conhecimento que<br /><span>vira possibilidade.</span></h2>
             </div>
             <div className="section-heading__aside">
-              <p>Encontre uma área que combina com os seus planos. Conheça as formações técnicas do CTA e consulte os detalhes de cada curso nos canais oficiais.</p>
-              <a href={`${OFFICIAL}/nossos-cursos/`} target="_blank" rel="noopener noreferrer" className="text-link">Ver todos os cursos <ArrowUpRight size={16} /></a>
+              <p>Encontre uma área que combina com os seus planos. Conheça as formações técnicas do CTA e consulte os detalhes de cada curso.</p>
+              <a href="/nossos-cursos" className="text-link">Ver todos os cursos <ArrowUpRight size={16} /></a>
             </div>
           </div>
           <div className="course-grid">
             {courses.map((course) => {
               const Icon = course.icon;
               return (
-                <a className={`course-card course-card--${course.color}`} key={course.number} href={course.href} target="_blank" rel="noopener noreferrer">
+                <a className={`course-card course-card--${course.color}`} key={course.number} href={course.href}>
                   <div className="course-card__top">
                     <span className="course-number">{course.number} <span>/ 03</span></span>
                     <span className="course-icon"><Icon size={21} strokeWidth={1.8} /></span>
@@ -273,7 +273,7 @@ export default function Home() {
             <Eyebrow light>MAIS DO QUE UM CURSO</Eyebrow>
             <h2 id="path-title">Um próximo passo<br />do seu jeito.</h2>
             <p>Da formação técnica ao ensino médio e à educação de jovens e adultos, o CTA oferece diferentes possibilidades para seguir aprendendo em cada etapa.</p>
-            <a className="button button--gold" href={`${OFFICIAL}/nossos-cursos/`} target="_blank" rel="noopener noreferrer">Conheça a proposta <ArrowUpRight size={16} /></a>
+            <a className="button button--gold" href="/nossos-cursos">Conheça a proposta <ArrowUpRight size={16} /></a>
           </div>
           <div className="path-options">
             <div className="path-card path-card--featured">
@@ -364,10 +364,10 @@ export default function Home() {
           </div>
           <div className="footer-links-col">
             <span className="footer-title">EXPLORE</span>
-            <a href="#cursos">Cursos</a>
+            <a href="/nossos-cursos">Nossos Cursos</a>
             <a href="#sobre">A CTA</a>
             <a href="#unidades">Unidades</a>
-            <a href={`${OFFICIAL}/nossos-cursos/`} target="_blank" rel="noopener noreferrer">Site oficial <ArrowUpRight size={13} /></a>
+            <a href={APPLY}>Faça sua inscrição <ArrowUpRight size={13} /></a>
           </div>
           <div className="footer-links-col footer-contact-col">
             <span className="footer-title">FALE COM A GENTE</span>

@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
       dots.forEach((dot, idx) => {
         const isActive = idx === currentIndex;
         dot.classList.toggle("hero-slider-dot--active", isActive);
-        dot.setAttribute("aria-selected", String(isActive));
       });
     }
 
@@ -101,6 +100,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const mailtoLink = document.getElementById("enroll-mailto-link");
   const resetBtn = document.getElementById("enroll-reset-btn");
   const phoneInput = document.getElementById("telefone");
+  const cursoSelect = document.getElementById("curso");
+
+  if (cursoSelect) {
+    const params = new URLSearchParams(window.location.search);
+    const cursoParam = params.get("curso");
+    if (cursoParam) {
+      cursoSelect.value = cursoParam;
+    }
+  }
 
   if (phoneInput) {
     phoneInput.addEventListener("input", (e) => {

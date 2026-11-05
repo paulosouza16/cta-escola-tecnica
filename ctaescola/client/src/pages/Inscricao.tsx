@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -11,7 +11,6 @@ import {
   X,
 } from "lucide-react";
 
-const OFFICIAL = "https://ctarj.org.br";
 const WHATSAPP = "https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20os%20cursos.";
 
 function formatPhone(value: string) {
@@ -40,6 +39,14 @@ export default function Inscricao() {
 
   const [errors, setErrors] = useState<{ nome?: boolean; email?: boolean; curso?: boolean }>({});
   const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const cursoParam = params.get("curso");
+    if (cursoParam) {
+      setCurso(cursoParam);
+    }
+  }, []);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -109,7 +116,7 @@ export default function Inscricao() {
           </a>
 
           <nav id="mobile-navigation" className={`main-nav${menuOpen ? " main-nav--open" : ""}`} aria-label="Navegação principal">
-            <a href="/#cursos" onClick={() => setMenuOpen(false)}>Cursos</a>
+            <a href="/nossos-cursos" onClick={() => setMenuOpen(false)}>Cursos</a>
             <a href="/#sobre" onClick={() => setMenuOpen(false)}>A CTA</a>
             <a href="/#unidades" onClick={() => setMenuOpen(false)}>Unidades</a>
             <a href="/#contato" onClick={() => setMenuOpen(false)}>Contato</a>
@@ -125,9 +132,8 @@ export default function Inscricao() {
           <button
             className="menu-toggle"
             type="button"
-            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-navigation"
+            aria-label="Abrir ou fechar menu"
+            title="Menu"
             onClick={() => setMenuOpen((open: boolean) => !open)}
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -190,7 +196,7 @@ export default function Inscricao() {
                     <a className="button button--navy" href={mailtoHref}>
                       Enviar por E-mail
                     </a>
-                    <button type="button" className="button" onClick={handleReset}>
+                    <button type="button" className="button button--ghost-navy" onClick={handleReset}>
                       Nova inscrição
                     </button>
                   </div>
@@ -217,11 +223,11 @@ export default function Inscricao() {
                   </div>
 
                   <div className="form-field">
-                    <label className="form-label" htmlFor="email">
-                      Email <span className="req">*</span>
-                    </label>
                     <div className="form-row">
                       <div className="form-field">
+                        <label className="form-label" htmlFor="email">
+                          Email <span className="req">*</span>
+                        </label>
                         <input
                           className={`form-input${errors.email ? " form-input--error" : ""}`}
                           type="email"
@@ -235,6 +241,9 @@ export default function Inscricao() {
                         <span className="form-hint">E-mail</span>
                       </div>
                       <div className="form-field">
+                        <label className="form-label" htmlFor="emailConfirm">
+                          Confirmar Email <span className="req">*</span>
+                        </label>
                         <input
                           className={`form-input${errors.email ? " form-input--error" : ""}`}
                           type="email"
@@ -403,11 +412,11 @@ export default function Inscricao() {
           </div>
           <div className="footer-links-col">
             <span className="footer-title">EXPLORE</span>
-            <a href="/#cursos">Cursos</a>
+            <a href="/nossos-cursos">Nossos Cursos</a>
             <a href="/#sobre">A CTA</a>
             <a href="/#unidades">Unidades</a>
-            <a href={`${OFFICIAL}/nossos-cursos/`} target="_blank" rel="noopener noreferrer">
-              Site oficial <ArrowUpRight size={13} />
+            <a href="/inscricao">
+              Faça sua inscrição <ArrowUpRight size={13} />
             </a>
           </div>
           <div className="footer-links-col footer-contact-col">
