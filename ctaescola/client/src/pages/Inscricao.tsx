@@ -117,7 +117,7 @@ export default function Inscricao() {
 
           <nav id="mobile-navigation" className={`main-nav${menuOpen ? " main-nav--open" : ""}`} aria-label="Navegação principal">
             <a href="/nossos-cursos" onClick={() => setMenuOpen(false)}>Cursos</a>
-            <a href="/#sobre" onClick={() => setMenuOpen(false)}>A CTA</a>
+            <a href="/#trilhas" onClick={() => setMenuOpen(false)}>Trilhas</a>
             <a href="/#comunidade" onClick={() => setMenuOpen(false)}>Comunidade</a>
             <a href="/#unidades" onClick={() => setMenuOpen(false)}>Unidades</a>
             <a href="/#contato" onClick={() => setMenuOpen(false)}>Contato</a>
@@ -175,7 +175,7 @@ export default function Inscricao() {
                   </span>
                   <h3>Recebemos os seus dados!</h3>
                   <p>
-                    Sua solicitação de inscrição foi preparada com sucesso. Para atendimento imediato pela secretaria da unidade Bangu, confirme o envio direto pelo WhatsApp ou e-mail abaixo:
+                    Sua solicitação de inscrição foi preparada com sucesso. Para atendimento imediato pela secretaria de Bangu ou Campo Grande, confirme o envio direto pelo WhatsApp ou e-mail abaixo:
                   </p>
                   <div className="enroll-summary">
                     <div><strong>Nome:</strong> {nome}</div>
@@ -345,7 +345,7 @@ export default function Inscricao() {
 
                   <div className="enroll-submit-row">
                     <span className="enroll-submit-note">
-                      Seus dados serão direcionados exclusivamente à equipe de atendimento da CTA Escola Técnica.
+                      Seus dados serão direcionados exclusivamente à equipe de atendimento do CTA Escola Técnica.
                     </span>
                     <button type="submit" className="button button--gold enroll-submit-btn">
                       Enviar <ArrowRight size={16} strokeWidth={2.2} />
@@ -357,10 +357,12 @@ export default function Inscricao() {
 
             <aside className="enroll-aside" aria-label="Informações de atendimento">
               <div className="enroll-aside-card">
-                <span className="enroll-aside-card__tag">UNIDADE · ZONA OESTE</span>
-                <h3>Bangu</h3>
+                <span className="enroll-aside-card__tag">UNIDADES · ZONA OESTE</span>
+                <h3>Bangu &amp; Campo Grande</h3>
                 <p>
-                  Campus da Universidade Cândido Mendes. Atendimento presencial e suporte direto para novos alunos.
+                  <strong>Bangu:</strong> Campus da Universidade Cândido Mendes.<br />
+                  <strong>Campo Grande:</strong> Rua Cariús, 223.<br />
+                  Atendimento presencial e suporte direto para novos alunos.
                 </p>
                 <div className="enroll-contact-list">
                   <a href="tel:+552134493572">
@@ -376,7 +378,7 @@ export default function Inscricao() {
               </div>
 
               <div className="enroll-highlights">
-                <h4>Por que escolher a CTA?</h4>
+                <h4>Por que escolher o CTA?</h4>
                 <ul>
                   <li>
                     <span className="check-badge"><Check size={12} strokeWidth={3} /></span>
@@ -414,7 +416,8 @@ export default function Inscricao() {
           <div className="footer-links-col">
             <span className="footer-title">EXPLORE</span>
             <a href="/nossos-cursos">Nossos Cursos</a>
-            <a href="/#sobre">A CTA</a>
+            <a href="/sobre-o-cta">Sobre o CTA</a>
+            <a href="/#comunidade">Comunidade</a>
             <a href="/#unidades">Unidades</a>
             <a href="/inscricao">
               Faça sua inscrição <ArrowUpRight size={13} />

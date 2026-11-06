@@ -12,6 +12,7 @@ import {
   CursoEnfermagem,
   CursoInformatica,
   NossosCursos,
+  SobreOCTA,
 } from "./pages/Cursos";
 
 function Router() {
@@ -20,6 +21,8 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/index.html"} component={Home} />
+      <Route path={"/sobre-o-cta"} component={SobreOCTA} />
+      <Route path={"/sobre-o-cta.html"} component={SobreOCTA} />
       <Route path={"/inscricao"} component={Inscricao} />
       <Route path={"/inscricao.html"} component={Inscricao} />
       <Route path={"/nossos-cursos"} component={NossosCursos} />

@@ -23,7 +23,6 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-const OFFICIAL = "https://ctarj.org.br";
 const APPLY = "/inscricao";
 const WHATSAPP = "https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20os%20cursos.";
 
@@ -68,22 +67,21 @@ const courses: {
 const heroSlides = [
   {
     src: "/hero-slide-1.jpg",
-    alt: "Estudantes da CTA Escola Técnica em aula prática no laboratório de informática",
+    alt: "Estudantes do CTA Escola Técnica em aula prática no laboratório de informática",
   },
   {
     src: "/hero-slide-2.jpg",
-    alt: "Alunos da CTA colaborando em atividades práticas em laboratório",
+    alt: "Alunos do CTA colaborando em atividades práticas em laboratório",
   },
   {
     src: "/hero-slide-3.jpg",
-    alt: "Desenvolvimento de código e programação na prática na CTA Escola Técnica",
+    alt: "Desenvolvimento de código e programação na prática no CTA Escola Técnica",
   },
 ];
 
 const navItems = [
   { label: "Cursos", href: "#cursos" },
   { label: "Trilhas", href: "#trilhas" },
-  { label: "A CTA", href: "#sobre" },
   { label: "Comunidade", href: "#comunidade" },
   { label: "Unidades", href: "#unidades" },
   { label: "Contato", href: "#contato" },
@@ -504,7 +502,7 @@ export default function Home() {
             </div>
             <div className="career-trail-header__aside">
               <p>A formação técnica abre portas imediatas no mercado de trabalho e serve como um trampolim estratégico para especializações, concursos e ensino superior. Escolha uma área abaixo e veja a jornada completa:</p>
-              <div className="trail-selector" role="tablist" aria-label="Selecionar trilha de carreira por curso">
+              <div className="trail-selector" aria-label="Selecionar trilha de carreira por curso">
                 {careerTrails.map((trail) => {
                   const TrailIcon = trail.icon;
                   const isActive = activeTrail === trail.id;
@@ -513,8 +511,6 @@ export default function Home() {
                       key={trail.id}
                       type="button"
                       className={`trail-tab trail-tab--${trail.color}${isActive ? " trail-tab--active" : ""}`}
-                      role="tab"
-                      aria-selected={isActive}
                       onClick={() => setActiveTrail(trail.id)}
                     >
                       <TrailIcon size={15} strokeWidth={2.2} />
@@ -530,7 +526,6 @@ export default function Home() {
             <div
               key={trail.id}
               className={`trail-panel trail-panel--${trail.color}${activeTrail === trail.id ? " trail-panel--active" : ""}`}
-              role="tabpanel"
             >
               <div className="trail-panel__intro">
                 <div className="trail-panel__badge">
@@ -619,7 +614,7 @@ export default function Home() {
               <div><strong>Projetos reconhecidos desde 2002</strong><span>Premiações em mostras de projetos com soluções que empregam tecnologia.</span></div>
               <span className="award-year">’02</span>
             </div>
-            <a className="text-link" href={OFFICIAL} target="_blank" rel="noopener noreferrer">Saiba mais sobre o CTA <ArrowUpRight size={16} /></a>
+            <a className="text-link" href="/sobre-o-cta">Saiba mais sobre o CTA — Conheça nossa história <ArrowUpRight size={16} /></a>
           </div>
         </section>
 
@@ -631,12 +626,10 @@ export default function Home() {
             </div>
             <div className="community-header__aside">
               <p>Mais do que salas de aula e laboratórios, somos uma rede de estudantes, professores e ex-alunos conectados pela prática, pela troca de experiências e por histórias reais de transformação.</p>
-              <div className="community-tabs" role="tablist" aria-label="Filtrar histórias da comunidade">
+              <div className="community-tabs" aria-label="Filtrar histórias da comunidade">
                 <button
                   type="button"
                   className={`community-tab${communityFilter === "all" ? " community-tab--active" : ""}`}
-                  role="tab"
-                  aria-selected={communityFilter === "all"}
                   onClick={() => setCommunityFilter("all")}
                 >
                   Tudo da Comunidade
@@ -644,8 +637,6 @@ export default function Home() {
                 <button
                   type="button"
                   className={`community-tab${communityFilter === "depoimentos" ? " community-tab--active" : ""}`}
-                  role="tab"
-                  aria-selected={communityFilter === "depoimentos"}
                   onClick={() => setCommunityFilter("depoimentos")}
                 >
                   Depoimentos & Egressos
@@ -653,8 +644,6 @@ export default function Home() {
                 <button
                   type="button"
                   className={`community-tab${communityFilter === "vivencia" ? " community-tab--active" : ""}`}
-                  role="tab"
-                  aria-selected={communityFilter === "vivencia"}
                   onClick={() => setCommunityFilter("vivencia")}
                 >
                   Projetos & Vivência
@@ -824,12 +813,10 @@ export default function Home() {
                 </div>
               </div>
               <div className="interactive-map-bar__controls">
-                <div className="map-unit-switcher" role="tablist" aria-label="Alternar unidade no mapa">
+                <div className="map-unit-switcher" aria-label="Alternar unidade no mapa">
                   <button
                     type="button"
                     className={`map-switch-btn${activeMapUnit === "bangu" ? " map-switch-btn--active" : ""}`}
-                    role="tab"
-                    aria-selected={activeMapUnit === "bangu"}
                     onClick={() => setActiveMapUnit("bangu")}
                   >
                     01 · Bangu
@@ -837,8 +824,6 @@ export default function Home() {
                   <button
                     type="button"
                     className={`map-switch-btn${activeMapUnit === "campogrande" ? " map-switch-btn--active" : ""}`}
-                    role="tab"
-                    aria-selected={activeMapUnit === "campogrande"}
                     onClick={() => setActiveMapUnit("campogrande")}
                   >
                     02 · Campo Grande (Rua Cariús, 223)
@@ -895,7 +880,7 @@ export default function Home() {
           <div className="footer-links-col">
             <span className="footer-title">EXPLORE</span>
             <a href="/nossos-cursos">Nossos Cursos</a>
-            <a href="#sobre">A CTA</a>
+            <a href="/sobre-o-cta">Sobre o CTA</a>
             <a href="#comunidade">Comunidade</a>
             <a href="#unidades">Unidades</a>
             <a href={APPLY}>Faça sua inscrição <ArrowUpRight size={13} /></a>

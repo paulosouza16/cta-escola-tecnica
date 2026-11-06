@@ -41,8 +41,8 @@ function PageHeader({ enrollHref = "/inscricao" }: { enrollHref?: string }) {
           <a href="/nossos-cursos" className="nav-link--active" onClick={() => setMenuOpen(false)}>
             Cursos
           </a>
-          <a href="/#sobre" onClick={() => setMenuOpen(false)}>
-            A CTA
+          <a href="/#trilhas" onClick={() => setMenuOpen(false)}>
+            Trilhas
           </a>
           <a href="/#comunidade" onClick={() => setMenuOpen(false)}>
             Comunidade
@@ -98,7 +98,8 @@ function PageFooter({ whatsappHref = WHATSAPP }: { whatsappHref?: string }) {
           <div className="footer-links-col">
             <span className="footer-title">EXPLORE</span>
             <a href="/nossos-cursos">Nossos Cursos</a>
-            <a href="/#sobre">A CTA</a>
+            <a href="/sobre-o-cta">Sobre o CTA</a>
+            <a href="/#comunidade">Comunidade</a>
             <a href="/#unidades">Unidades</a>
             <a href="/inscricao">
               Faça sua inscrição <ArrowUpRight size={13} />
@@ -235,7 +236,7 @@ export function NossosCursos() {
 
             <article className="catalog-card">
               <div className="catalog-card__media">
-                <img src="/curso-enfermagem.jpg" alt="Alunas do curso Técnico em Enfermagem da CTA" />
+                <img src="/curso-enfermagem.jpg" alt="Alunas do curso Técnico em Enfermagem do CTA" />
                 <span className="catalog-card__tag">02 · SAÚDE &amp; CUIDADO</span>
               </div>
               <div className="catalog-card__body">
@@ -294,7 +295,7 @@ export function NossosCursos() {
           <div className="closing-cta__copy">
             <p className="eyebrow eyebrow--light">
               <span />
-              COMO CHEGAR · UNIDADE BANGU
+              COMO CHEGAR · BANGU &amp; CAMPO GRANDE
             </p>
             <h2 id="closing-title">
               Pronto para iniciar
@@ -302,7 +303,7 @@ export function NossosCursos() {
               <em>sua formação?</em>
             </h2>
             <p>
-              Visite nossa unidade no Campus da Universidade Cândido Mendes em Bangu ou faça sua pré-inscrição online.
+              Visite nossas unidades em Bangu (Campus da Universidade Cândido Mendes) e Campo Grande (Rua Cariús, 223) ou faça sua pré-inscrição online.
             </p>
             <div className="closing-actions">
               <a className="button button--gold" href="/inscricao">
@@ -319,7 +320,7 @@ export function NossosCursos() {
             </div>
           </div>
           <div className="closing-cta__side">
-            <span className="closing-cta__label">UNIDADE BANGU · RJ</span>
+            <span className="closing-cta__label">BANGU &amp; CAMPO GRANDE · RJ</span>
             <span className="closing-cta__big">
               Seu caminho.
               <br />
@@ -349,6 +350,8 @@ interface CourseDetailData {
   modalitiesCourseName: string;
   enrollCourseParam: string;
   whatsappText: string;
+  careerIntro: string;
+  roadmap: { step: string; title: string; text: string }[];
 }
 
 function CourseDetailLayout({ data }: { data: CourseDetailData }) {
@@ -482,6 +485,21 @@ function CourseDetailLayout({ data }: { data: CourseDetailData }) {
                   </div>
                 </div>
 
+                <div className="course-block">
+                  <span className="course-block__eyebrow">TRILHA DE CARREIRA</span>
+                  <h2>O que você pode fazer depois de formado?</h2>
+                  <p>{data.careerIntro}</p>
+                  <div className="course-career-roadmap">
+                    {data.roadmap.map((item) => (
+                      <div key={item.step} className="roadmap-item">
+                        <span className="roadmap-item__step">{item.step}</span>
+                        <h3>{item.title}</h3>
+                        <p>{item.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="course-cta-bar">
                   <div>
                     <h3>Quer cursar {data.breadcrumbName}?</h3>
@@ -515,10 +533,12 @@ function CourseDetailLayout({ data }: { data: CourseDetailData }) {
               </div>
 
               <div className="enroll-aside-card">
-                <span className="enroll-aside-card__tag">UNIDADE · ZONA OESTE</span>
-                <h3>Bangu</h3>
+                <span className="enroll-aside-card__tag">UNIDADES · ZONA OESTE</span>
+                <h3>Bangu &amp; Campo Grande</h3>
                 <p>
-                  Campus da Universidade Cândido Mendes. Consulte disponibilidade de turmas e turnos para {data.enrollCourseParam}.
+                  <strong>Bangu:</strong> Campus da Universidade Cândido Mendes.<br />
+                  <strong>Campo Grande:</strong> Rua Cariús, 223.<br />
+                  Consulte disponibilidade de turmas e turnos para {data.enrollCourseParam}.
                 </p>
                 <div className="enroll-contact-list">
                   <a href="tel:+552134493572">
@@ -554,14 +574,33 @@ export function CursoEletrotecnica() {
           "Uma formação conectada a instalações, circuitos digitais e analógicos, sistemas e soluções elétricas.",
         breadcrumbName: "Técnico em Eletrotécnica",
         imageSrc: "/curso-eletrotecnica.jpg",
-        imageAlt: "Aula prática de laboratório do curso Técnico em Eletrotécnica na CTA",
+        imageAlt: "Aula prática de laboratório do curso Técnico em Eletrotécnica no CTA",
         icon: Zap,
         profileHeading: "Competência prática e registro profissional",
         profileText:
-          "Com registro profissional, emitido pelo Conselho Regional de Engenharia e Arquitetura, CREA-RJ, o profissional Técnico em Eletrotécnica terá capacidade de montar e instalar circuitos digitais e analógicos de acordo com as diretrizes propostas pelos esquemas dos fabricantes dos equipamentos, além de reunir as competências para desenvolver e analisar placas de circuito impresso e suas técnicas de construção e soldagem de componentes eletrônicos, nelas instalados.",
+          "Com registro profissional, emitido pelo Conselho Regional da categoria, o profissional Técnico em Eletrotécnica terá capacidade de montar e instalar circuitos digitais e analógicos de acordo com as diretrizes propostas pelos esquemas dos fabricantes dos equipamentos, além de reunir as competências para desenvolver e analisar placas de circuito impresso e suas técnicas de construção e soldagem de componentes eletrônicos, nelas instalados.",
         modalitiesCourseName: "Técnico em Eletrotécnica",
         enrollCourseParam: "Eletrotécnica",
         whatsappText: "Olá, CTA! Gostaria de saber mais sobre o curso Técnico em Eletrotécnica.",
+        careerIntro:
+          "Após concluir o curso Técnico em Eletrotécnica e obter seu registro profissional, você pode seguir diversos caminhos no mercado de trabalho ou avançar nos estudos:",
+        roadmap: [
+          {
+            step: "01 · MERCADO IMEDIATO",
+            title: "Atuação Técnica e Industrial",
+            text: "Trabalhar como Eletrotécnico em indústrias, concessionárias de energia, manutenção predial/industrial, montagem de painéis ou elaboração de projetos elétricos.",
+          },
+          {
+            step: "02 · ESPECIALIZAÇÃO",
+            title: "Energia Solar, Automação & Alta Tensão",
+            text: "Especializar-se em sistemas fotovoltaicos, programação de CLPs, instrumentação industrial, eficiência energética e subestações.",
+          },
+          {
+            step: "03 · PRÓXIMO NÍVEL",
+            title: "Engenharias, Concursos & Negócio Próprio",
+            text: "Seguir para Engenharia Elétrica ou de Controle e Automação, prestar concursos técnicos (Petrobras, estatais, prefeituras) ou abrir sua própria empresa de serviços elétricos.",
+          },
+        ],
       }}
     />
   );
@@ -579,7 +618,7 @@ export function CursoEnfermagem() {
           "Conhecimento técnico, responsabilidade e preparação completa para atuar no cuidado e na assistência em saúde.",
         breadcrumbName: "Técnico em Enfermagem",
         imageSrc: "/curso-enfermagem.jpg",
-        imageAlt: "Alunas do curso Técnico em Enfermagem da CTA Escola Técnica",
+        imageAlt: "Alunas do curso Técnico em Enfermagem do CTA Escola Técnica",
         icon: HeartPulse,
         profileHeading: "Assistência técnica e humanizada em saúde",
         profileText:
@@ -587,6 +626,25 @@ export function CursoEnfermagem() {
         modalitiesCourseName: "Técnico em Enfermagem",
         enrollCourseParam: "Enfermagem",
         whatsappText: "Olá, CTA! Gostaria de saber mais sobre o curso Técnico em Enfermagem.",
+        careerIntro:
+          "Com a habilitação de Técnico em Enfermagem e registro ativo no COREN, você ingressa em um dos setores que mais contratam no país, com amplas possibilidades de evolução:",
+        roadmap: [
+          {
+            step: "01 · MERCADO IMEDIATO",
+            title: "Hospitais, Clínicas, UPAs e Home Care",
+            text: "Atuar no cuidado direto ao paciente em redes hospitalares públicas e privadas, maternidades, centros diagnósticos, laboratórios e atendimento domiciliar.",
+          },
+          {
+            step: "02 · ESPECIALIZAÇÃO PÓS-TÉCNICA",
+            title: "Instrumentação Cirúrgica, UTI e Saúde do Trabalho",
+            text: "Fazer cursos de especialização técnica para atuar em centros cirúrgicos, terapia intensiva (adulto e neonatal), resgate/emergência e enfermagem ocupacional em empresas.",
+          },
+          {
+            step: "03 · PRÓXIMO NÍVEL",
+            title: "Graduação na Saúde & Concursos Públicos",
+            text: "Avançar para a graduação em Enfermagem, Biomedicina ou Fisioterapia já atuando na área, além de prestar concursos públicos municipais, estaduais, federais e militares.",
+          },
+        ],
       }}
     />
   );
@@ -604,7 +662,7 @@ export function CursoInformatica() {
           "Tecnologia, programação e desenvolvimento voltados para ambiente WEB e software livre.",
         breadcrumbName: "Técnico em Informática",
         imageSrc: "/curso-informatica.jpg",
-        imageAlt: "Alunos do curso Técnico em Informática em aula prática na CTA",
+        imageAlt: "Alunos do curso Técnico em Informática em aula prática no CTA",
         icon: Laptop,
         profileHeading: "Desenvolvimento de sistemas e tecnologias WEB",
         profileText:
@@ -612,7 +670,194 @@ export function CursoInformatica() {
         modalitiesCourseName: "Técnico em Informática",
         enrollCourseParam: "Informática",
         whatsappText: "Olá, CTA! Gostaria de saber mais sobre o curso Técnico em Informática.",
+        careerIntro:
+          "A formação de Técnico em Informática abre portas tanto no desenvolvimento de sistemas quanto na infraestrutura tecnológica, preparando você para o mercado digital:",
+        roadmap: [
+          {
+            step: "01 · MERCADO IMEDIATO",
+            title: "Desenvolvimento Júnior, Suporte & Redes",
+            text: "Atuar como programador júnior (web/sistemas), analista de suporte técnico, administrador de redes, manutenção de hardware ou analista de testes (QA).",
+          },
+          {
+            step: "02 · ESPECIALIZAÇÃO",
+            title: "Full Stack, Cloud Computing, Dados & Cibersegurança",
+            text: "Aprofundar-se em desenvolvimento web e mobile moderno, computação em nuvem (AWS/Azure), segurança da informação, banco de dados e inteligência artificial.",
+          },
+          {
+            step: "03 · PRÓXIMO NÍVEL",
+            title: "Faculdade de Computação & Carreira Global",
+            text: "Ingressar com base sólida em Ciência da Computação, Engenharia de Software ou ADS, atuar remotamente para empresas no Brasil e no exterior ou empreender em tecnologia.",
+          },
+        ],
       }}
     />
+  );
+}
+
+export function SobreOCTA() {
+  return (
+    <div className="site-shell" id="inicio">
+      <a className="skip-link" href="#conteudo">
+        Pular para o conteúdo
+      </a>
+
+      <PageHeader />
+
+      <main id="conteudo">
+        <section className="enroll-hero" aria-labelledby="page-title">
+          <div className="enroll-hero__inner">
+            <div className="enroll-hero__copy">
+              <p className="eyebrow eyebrow--light">
+                <span />
+                NOSSA INSTITUIÇÃO · DESDE 2002
+              </p>
+              <h1 id="page-title">
+                Sobre o <em>CTA</em>
+              </h1>
+              <p className="enroll-hero__sub">
+                O Centro de Tecnologia Aplicada atua na formação profissional e na educação básica no Rio de Janeiro, unindo prática em laboratório, pesquisa aplicada e proximidade com o mundo do trabalho.
+              </p>
+            </div>
+            <nav className="enroll-breadcrumb" aria-label="Localização da página">
+              <a href="/">Home</a>
+              <span>&gt;</span>
+              <span className="current">Sobre o CTA</span>
+            </nav>
+          </div>
+        </section>
+
+        <section className="enroll-section">
+          <div className="catalog-intro">
+            <div>
+              <p className="eyebrow">
+                <span />
+                QUEM SOMOS
+              </p>
+              <h2>Ideias que ganham forma, prática e futuro.</h2>
+              <p>
+                O <strong>Centro de Tecnologia Aplicada (CTA — Escola Técnica)</strong> construiu uma trajetória dedicada a transformar curiosidade em competência profissional. Desde 2002, incentivamos nossos alunos a aprender fazendo por meio de aulas práticas, projetos interdisciplinares e mostras tecnológicas premiadas.
+              </p>
+              <p>
+                Atuamos na <strong>Educação Básica</strong> (níveis Fundamental e Médio), na <strong>Educação de Jovens e Adultos (EJA)</strong> e na <strong>Formação Técnica de Nível Médio</strong> em Eletrotécnica, Enfermagem e Informática, preparando o estudante tanto para o ingresso imediato no mercado quanto para o Ensino Superior.
+              </p>
+            </div>
+            <div className="catalog-intro__badges">
+              <div className="catalog-badge">
+                <span>HISTÓRICO RECONHECIDO</span>
+                <strong>Projetos &amp; Mostras desde 2002</strong>
+              </div>
+              <div className="catalog-badge">
+                <span>FORMAÇÃO TÉCNICA</span>
+                <strong>Integrado, Concomitante &amp; Pós-Médio</strong>
+              </div>
+              <div className="catalog-badge">
+                <span>EDUCAÇÃO BÁSICA &amp; CONTINUADA</span>
+                <strong>Ensino Fundamental, Médio &amp; EJA</strong>
+              </div>
+              <div className="catalog-badge">
+                <span>PRESENÇA NA ZONA OESTE · RJ</span>
+                <strong>Unidades Bangu &amp; Campo Grande</strong>
+              </div>
+            </div>
+          </div>
+
+          <div className="enroll-grid">
+            <article className="course-detail-card">
+              <div className="course-banner">
+                <img src="/cta-ambiente.jpg" alt="Espaço de atendimento do CTA Escola Técnica no Rio de Janeiro" />
+                <span className="course-banner__badge">
+                  CENTRO DE TECNOLOGIA APLICADA · RJ
+                </span>
+              </div>
+
+              <div className="course-detail-body">
+                <div className="course-block">
+                  <span className="course-block__eyebrow">NOSSA PROPOSTA PEDAGÓGICA</span>
+                  <h2>Aprender fazendo para transformar o futuro</h2>
+                  <p>
+                    No <strong>CTA</strong>, acreditamos que a educação técnica vai além da sala de aula tradicional. Nossa metodologia integra base teórica sólida, prática intensiva em laboratório e desenvolvimento de projetos reais em equipe, preparando o estudante para resolver problemas concretos do mercado e da sociedade.
+                  </p>
+                </div>
+
+                <div className="course-block">
+                  <span className="course-block__eyebrow">CAMINHOS DE FORMAÇÃO</span>
+                  <h2>Modalidades que acompanham cada fase da sua vida</h2>
+                  <p>
+                    Oferecemos diferentes formatos para que jovens e adultos possam iniciar, concluir ou acelerar sua qualificação profissional:
+                  </p>
+                  <div className="course-modes-grid">
+                    <div className="course-mode-box">
+                      <span>ENSINO MÉDIO TÉCNICO</span>
+                      <h3>Integrado ao Ensino Médio</h3>
+                    </div>
+                    <div className="course-mode-box">
+                      <span>DURANTE OU APÓS O MÉDIO</span>
+                      <h3>Concomitante &amp; Subsequente (Pós-Médio)</h3>
+                    </div>
+                    <div className="course-mode-box">
+                      <span>EDUCAÇÃO CONTINUADA</span>
+                      <h3>Ensino Básico Geral &amp; EJA</h3>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="course-cta-bar">
+                  <div>
+                    <h3>Quer fazer parte do CTA?</h3>
+                    <p>Escolha seu curso e realize sua pré-inscrição online ou fale diretamente com nossa equipe.</p>
+                  </div>
+                  <a className="button button--gold" href="/inscricao">
+                    Fazer minha inscrição <ArrowRight size={16} />
+                  </a>
+                </div>
+              </div>
+            </article>
+
+            <aside className="enroll-aside" aria-label="Navegação de cursos e contato">
+              <div className="other-courses-nav">
+                <h4>Conheça Nossos Cursos</h4>
+                <div className="other-courses-links">
+                  <a className="other-course-link" href="/tecnico-em-eletrotecnica">
+                    <span>01 · Técnico em Eletrotécnica</span>
+                    <ArrowRight size={14} />
+                  </a>
+                  <a className="other-course-link" href="/tecnico-em-enfermagem">
+                    <span>02 · Técnico em Enfermagem</span>
+                    <ArrowRight size={14} />
+                  </a>
+                  <a className="other-course-link" href="/tecnico-em-informatica">
+                    <span>03 · Técnico em Informática</span>
+                    <ArrowRight size={14} />
+                  </a>
+                </div>
+              </div>
+
+              <div className="enroll-aside-card">
+                <span className="enroll-aside-card__tag">UNIDADES · ZONA OESTE</span>
+                <h3>Bangu &amp; Campo Grande</h3>
+                <p>
+                  <strong>Bangu:</strong> Campus da Universidade Cândido Mendes.<br />
+                  <strong>Campo Grande:</strong> Rua Cariús, 223.<br />
+                  Atendimento presencial e suporte completo para estudantes e responsáveis.
+                </p>
+                <div className="enroll-contact-list">
+                  <a href="tel:+552134493572">
+                    <Phone size={15} /> (21) 3449-3572
+                  </a>
+                  <a href={WHATSAPP} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle size={15} /> WhatsApp: (21) 99436-8367
+                  </a>
+                  <a href="mailto:faleconosco@ctarj.org.br">
+                    <Mail size={15} /> faleconosco@ctarj.org.br
+                  </a>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+
+      <PageFooter />
+    </div>
   );
 }
