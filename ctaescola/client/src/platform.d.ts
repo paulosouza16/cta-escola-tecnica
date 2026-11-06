@@ -5,7 +5,7 @@ interface Window {
     apiUrl: string;
     apiBrowserKey: string;
   };
-  google?: any;
+  google?: typeof google;
 }
 
 interface ImportMetaEnv {
@@ -16,10 +16,26 @@ interface ImportMetaEnv {
 
 interface ImportMeta {
   readonly env: ImportMetaEnv;
+  readonly dirname: string;
+  readonly url: string;
+}
+
+interface Buffer extends Uint8Array {
+  [key: string]: any;
 }
 
 declare var process: any;
-declare var Buffer: any;
+declare var Buffer: {
+  from(...args: any[]): Buffer;
+  isBuffer(obj: any): boolean;
+  [key: string]: any;
+};
+
+declare namespace NodeJS {
+  interface ProcessEnv {
+    [key: string]: string | undefined;
+  }
+}
 
 declare namespace google {
   namespace maps {
@@ -111,10 +127,15 @@ declare namespace React {
 
 declare namespace JSX {
   interface Element {}
+  interface ElementChildrenAttribute {
+    children: {};
+  }
   interface IntrinsicElements {
     [elemName: string]: any;
   }
 }
+
+declare module "*.css" {}
 
 declare module "react" {
   export function useState<T = any>(initialState?: T | (() => T)): [T, (value: any) => void];
@@ -331,7 +352,8 @@ declare module "recharts" {
   export const ResponsiveContainer: any;
   export const Tooltip: any;
   export const Legend: any;
-  [key: string]: any;
+  export type LegendProps = any;
+  export type TooltipProps = any;
 }
 
 declare module "react-resizable-panels" {
@@ -372,7 +394,9 @@ declare module "@tanstack/react-query" {
 }
 
 declare module "@trpc/client" {
-  export class TRPCClientError<T = any> extends Error {}
+  export class TRPCClientError<T = any> extends Error {
+    data?: any;
+  }
   export function httpBatchLink(opts?: any): any;
 }
 
@@ -385,7 +409,10 @@ declare module "@trpc/server" {
     code: string;
     constructor(opts: { code: string; message?: string; cause?: any });
   }
-  export const initTRPC: any;
+  export const initTRPC: {
+    context<T = any>(): { create(opts?: any): any };
+    create(opts?: any): any;
+  };
 }
 
 declare module "@trpc/server/adapters/express" {
@@ -450,14 +477,23 @@ declare module "jose" {
 }
 
 declare module "axios" {
-  export type AxiosInstance = any;
-  const axios: any;
+  export interface AxiosInstance {
+    get<T = any>(url: string, config?: any): Promise<{ data: T }>;
+    post<T = any>(url: string, data?: any, config?: any): Promise<{ data: T }>;
+    [key: string]: any;
+  }
+  const axios: {
+    create(config?: any): AxiosInstance;
+    get<T = any>(url: string, config?: any): Promise<{ data: T }>;
+    post<T = any>(url: string, data?: any, config?: any): Promise<{ data: T }>;
+    isAxiosError(err: any): boolean;
+    [key: string]: any;
+  };
   export default axios;
 }
 
 declare module "drizzle-orm" {
   export function eq(a: any, b: any): any;
-  [key: string]: any;
 }
 
 declare module "drizzle-orm/mysql2" {
