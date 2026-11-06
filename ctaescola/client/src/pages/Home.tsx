@@ -1,3 +1,4 @@
+/// <reference path="../platform.d.ts" />
 import React, { useEffect, useState } from "react";
 import {
   ArrowDownRight,

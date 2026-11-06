@@ -1,3 +1,4 @@
+/// <reference path="./platform.d.ts" />
 import React from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";

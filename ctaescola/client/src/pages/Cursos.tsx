@@ -1,3 +1,4 @@
+/// <reference path="../platform.d.ts" />
 import React, { useState } from "react";
 import {
   ArrowRight,

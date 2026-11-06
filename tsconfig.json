@@ -1,0 +1,26 @@
+{
+  "include": [
+    "ctaescola/client/src/**/*",
+    "ctaescola/shared/**/*",
+    "ctaescola/server/**/*"
+  ],
+  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+  "compilerOptions": {
+    "target": "ES2022",
+    "noEmit": true,
+    "module": "ESNext",
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "jsx": "react",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./ctaescola/client/src/*"],
+      "@shared/*": ["./ctaescola/shared/*"]
+    }
+  }
+}

@@ -1,122 +1,118 @@
-export {};
+interface Window {
+  __MANUS_CONFIG__?: {
+    projectId: string;
+    oauthPortalUrl: string;
+    apiUrl: string;
+    apiBrowserKey: string;
+  };
+  google?: any;
+}
 
-declare global {
-  interface Window {
-    __MANUS_CONFIG__?: {
-      projectId: string;
-      oauthPortalUrl: string;
-      apiUrl: string;
-      apiBrowserKey: string;
-    };
-    google?: any;
-  }
+interface ImportMetaEnv {
+  readonly VITE_APP_ID?: string;
+  readonly VITE_OAUTH_PORTAL_URL?: string;
+  readonly [key: string]: any;
+}
 
-  interface ImportMetaEnv {
-    readonly VITE_APP_ID?: string;
-    readonly VITE_OAUTH_PORTAL_URL?: string;
-    readonly [key: string]: any;
-  }
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
 
-  interface ImportMeta {
-    readonly env: ImportMetaEnv;
-  }
+declare var process: any;
+declare var Buffer: any;
 
-  var process: any;
-  var Buffer: any;
-
-  namespace google {
-    namespace maps {
-      type LatLngLiteral = { lat: number; lng: number };
-      class Map {
-        constructor(el: HTMLElement, opts?: any);
-        [key: string]: any;
-      }
-      namespace marker {
-        class AdvancedMarkerElement {
-          constructor(opts?: any);
-        }
-      }
-      namespace places {
-        class Place {
-          constructor(opts?: any);
-          fetchFields(opts?: any): Promise<any>;
-          location: any;
-        }
-      }
-      class Geocoder {
-        geocode(req: any, cb: (results: any, status: any) => void): void;
-      }
-      namespace geometry {
-        namespace spherical {
-          function computeDistanceBetween(p1: any, p2: any): number;
-        }
-      }
-      class DirectionsService {
-        route(req: any, cb: (res: any, status: any) => void): void;
-      }
-      class DirectionsRenderer {
+declare namespace google {
+  namespace maps {
+    type LatLngLiteral = { lat: number; lng: number };
+    class Map {
+      constructor(el: HTMLElement, opts?: any);
+      [key: string]: any;
+    }
+    namespace marker {
+      class AdvancedMarkerElement {
         constructor(opts?: any);
-        setDirections(res: any): void;
       }
-      class TrafficLayer {
-        setMap(map: any): void;
+    }
+    namespace places {
+      class Place {
+        constructor(opts?: any);
+        fetchFields(opts?: any): Promise<any>;
+        location: any;
       }
-      class TransitLayer {
-        setMap(map: any): void;
+    }
+    class Geocoder {
+      geocode(req: any, cb: (results: any, status: any) => void): void;
+    }
+    namespace geometry {
+      namespace spherical {
+        function computeDistanceBetween(p1: any, p2: any): number;
       }
-      class BicyclingLayer {
-        setMap(map: any): void;
-      }
+    }
+    class DirectionsService {
+      route(req: any, cb: (res: any, status: any) => void): void;
+    }
+    class DirectionsRenderer {
+      constructor(opts?: any);
+      setDirections(res: any): void;
+    }
+    class TrafficLayer {
+      setMap(map: any): void;
+    }
+    class TransitLayer {
+      setMap(map: any): void;
+    }
+    class BicyclingLayer {
+      setMap(map: any): void;
     }
   }
+}
 
-  namespace React {
-    type ReactNode = any;
-    type ReactElement = any;
-    type ComponentType<P = {}> = (props: P) => any;
-    type FC<P = {}> = (props: P) => any;
-    type ComponentProps<T = any> = any;
-    type ComponentPropsWithoutRef<T = any> = any;
-    type ElementRef<T = any> = any;
-    type HTMLAttributes<T = any> = any;
-    type ButtonHTMLAttributes<T = any> = any;
-    type InputHTMLAttributes<T = any> = any;
-    type TextareaHTMLAttributes<T = any> = any;
-    type FormEvent<T = any> = any;
-    type MouseEvent<T = any> = any;
-    type KeyboardEvent<T = any> = any;
-    type KeyboardEventHandler<T = any> = (e: any) => void;
-    type CompositionEvent<T = any> = any;
-    type CompositionEventHandler<T = any> = (e: any) => void;
-    type ChangeEvent<T = any> = any;
-    type CSSProperties = Record<string, any>;
-    type Ref<T = any> = any;
-    type RefObject<T = any> = { current: T };
-    function useState<T = any>(initialState?: T | (() => T)): [T, (value: any) => void];
-    function useEffect(effect: () => void | (() => void), deps?: readonly any[]): void;
-    function useRef<T = any>(initialValue?: T): { current: T };
-    function useCallback<T extends (...args: any[]) => any>(callback: T, deps?: readonly any[]): T;
-    function useMemo<T = any>(factory: () => T, deps?: readonly any[]): T;
-    function useId(): string;
-    function createContext<T = any>(defaultValue?: T): any;
-    function useContext<T = any>(context: any): T;
-    function forwardRef<T = any, P = any>(render: (props: P, ref: any) => any): any;
-    function createElement(type: any, props?: any, ...children: any[]): any;
-    const Fragment: any;
-    class Component<P = {}, S = {}> {
-      props: P;
-      state: S;
-      constructor(props: P);
-      setState(state: any): void;
-      render(): any;
-    }
+declare namespace React {
+  type ReactNode = any;
+  type ReactElement = any;
+  type ComponentType<P = {}> = (props: P) => any;
+  type FC<P = {}> = (props: P) => any;
+  type ComponentProps<T = any> = any;
+  type ComponentPropsWithoutRef<T = any> = any;
+  type ElementRef<T = any> = any;
+  type HTMLAttributes<T = any> = any;
+  type ButtonHTMLAttributes<T = any> = any;
+  type InputHTMLAttributes<T = any> = any;
+  type TextareaHTMLAttributes<T = any> = any;
+  type FormEvent<T = any> = any;
+  type MouseEvent<T = any> = any;
+  type KeyboardEvent<T = any> = any;
+  type KeyboardEventHandler<T = any> = (e: any) => void;
+  type CompositionEvent<T = any> = any;
+  type CompositionEventHandler<T = any> = (e: any) => void;
+  type ChangeEvent<T = any> = any;
+  type CSSProperties = Record<string, any>;
+  type Ref<T = any> = any;
+  type RefObject<T = any> = { current: T };
+  function useState<T = any>(initialState?: T | (() => T)): [T, (value: any) => void];
+  function useEffect(effect: () => void | (() => void), deps?: readonly any[]): void;
+  function useRef<T = any>(initialValue?: T): { current: T };
+  function useCallback<T extends (...args: any[]) => any>(callback: T, deps?: readonly any[]): T;
+  function useMemo<T = any>(factory: () => T, deps?: readonly any[]): T;
+  function useId(): string;
+  function createContext<T = any>(defaultValue?: T): any;
+  function useContext<T = any>(context: any): T;
+  function forwardRef<T = any, P = any>(render: (props: P, ref: any) => any): any;
+  function createElement(type: any, props?: any, ...children: any[]): any;
+  const Fragment: any;
+  class Component<P = {}, S = {}> {
+    props: P;
+    state: S;
+    constructor(props: P);
+    setState(state: any): void;
+    render(): any;
   }
+}
 
-  namespace JSX {
-    interface Element {}
-    interface IntrinsicElements {
-      [elemName: string]: any;
-    }
+declare namespace JSX {
+  interface Element {}
+  interface IntrinsicElements {
+    [elemName: string]: any;
   }
 }
 
@@ -236,6 +232,7 @@ declare module "lucide-react" {
   export const Home: LucideIcon;
   export const Laptop: LucideIcon;
   export const LayoutDashboard: LucideIcon;
+  export const Lightbulb: LucideIcon;
   export const Loader2: LucideIcon;
   export const Loader2Icon: LucideIcon;
   export const LogOut: LucideIcon;
@@ -250,6 +247,7 @@ declare module "lucide-react" {
   export const PanelLeft: LucideIcon;
   export const PanelLeftIcon: LucideIcon;
   export const Phone: LucideIcon;
+  export const Quote: LucideIcon;
   export const RotateCcw: LucideIcon;
   export const Search: LucideIcon;
   export const SearchIcon: LucideIcon;
