@@ -241,7 +241,6 @@ document.addEventListener("DOMContentLoaded", () => {
         communityTabs.forEach((t) => {
           const isActive = t === tab;
           t.classList.toggle("community-tab--active", isActive);
-          t.setAttribute("aria-selected", String(isActive));
         });
         cards.forEach((card) => {
           const cat = card.getAttribute("data-category");
@@ -262,7 +261,6 @@ document.addEventListener("DOMContentLoaded", () => {
         trailTabs.forEach((t) => {
           const isActive = t === tab;
           t.classList.toggle("trail-tab--active", isActive);
-          t.setAttribute("aria-selected", String(isActive));
         });
         trailPanels.forEach((panel) => {
           const isMatch = panel.getAttribute("data-trail-panel") === target;
@@ -329,7 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".map-switch-btn").forEach((btn) => {
       const isMatch = btn.getAttribute("data-select-unit") === unitKey;
       btn.classList.toggle("map-switch-btn--active", isMatch);
-      btn.setAttribute("aria-selected", String(isMatch));
     });
   }
 

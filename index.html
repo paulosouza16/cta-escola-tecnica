@@ -295,13 +295,11 @@
               <p>
                 A formação técnica abre portas imediatas no mercado de trabalho e serve como um trampolim estratégico para especializações, concursos e ensino superior. Escolha uma área abaixo e veja a jornada completa:
               </p>
-              <div class="trail-selector" role="tablist" aria-label="Selecionar trilha de carreira por curso">
+              <div class="trail-selector">
                 <button
                   type="button"
                   class="trail-tab trail-tab--violet trail-tab--active"
                   data-trail="eletrotecnica"
-                  role="tab"
-                  aria-selected="true"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
                   Eletrotécnica
@@ -310,8 +308,6 @@
                   type="button"
                   class="trail-tab trail-tab--coral"
                   data-trail="enfermagem"
-                  role="tab"
-                  aria-selected="false"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>
                   Enfermagem
@@ -320,8 +316,6 @@
                   type="button"
                   class="trail-tab trail-tab--mint"
                   data-trail="informatica"
-                  role="tab"
-                  aria-selected="false"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></svg>
                   Informática
@@ -331,7 +325,7 @@
           </div>
 
           <!-- Painel 01: Eletrotécnica -->
-          <div class="trail-panel trail-panel--violet trail-panel--active" data-trail-panel="eletrotecnica" role="tabpanel">
+          <div class="trail-panel trail-panel--violet trail-panel--active" data-trail-panel="eletrotecnica">
             <div class="trail-panel__intro">
               <div class="trail-panel__badge">
                 <span>TRILHA 01 · ENERGIA, INDÚSTRIA &amp; AUTOMAÇÃO</span>
@@ -427,7 +421,7 @@
           </div>
 
           <!-- Painel 02: Enfermagem -->
-          <div class="trail-panel trail-panel--coral" data-trail-panel="enfermagem" role="tabpanel">
+          <div class="trail-panel trail-panel--coral" data-trail-panel="enfermagem">
             <div class="trail-panel__intro">
               <div class="trail-panel__badge">
                 <span>TRILHA 02 · SAÚDE, ASSISTÊNCIA &amp; CUIDADO HUMANO</span>
@@ -523,7 +517,7 @@
           </div>
 
           <!-- Painel 03: Informática -->
-          <div class="trail-panel trail-panel--mint" data-trail-panel="informatica" role="tabpanel">
+          <div class="trail-panel trail-panel--mint" data-trail-panel="informatica">
             <div class="trail-panel__intro">
               <div class="trail-panel__badge">
                 <span>TRILHA 03 · COMPUTAÇÃO, SOFTWARE &amp; INFRAESTRUTURA</span>
@@ -733,14 +727,14 @@
               <p>
                 Mais do que salas de aula e laboratórios, somos uma rede de estudantes, professores e ex-alunos conectados pela prática, pela troca de experiências e por histórias reais de transformação.
               </p>
-              <div class="community-tabs" role="tablist" aria-label="Filtrar histórias da comunidade">
-                <button type="button" class="community-tab community-tab--active" data-filter="all" role="tab" aria-selected="true">
+              <div class="community-tabs">
+                <button type="button" class="community-tab community-tab--active" data-filter="all">
                   Tudo da Comunidade
                 </button>
-                <button type="button" class="community-tab" data-filter="depoimentos" role="tab" aria-selected="false">
+                <button type="button" class="community-tab" data-filter="depoimentos">
                   Depoimentos &amp; Egressos
                 </button>
-                <button type="button" class="community-tab" data-filter="vivencia" role="tab" aria-selected="false">
+                <button type="button" class="community-tab" data-filter="vivencia">
                   Projetos &amp; Vivência
                 </button>
               </div>
@@ -965,7 +959,7 @@
             </div>
           </div>
 
-          <div class="interactive-map-shell" aria-label="Mapa interativo das unidades CTA">
+          <div class="interactive-map-shell">
             <div class="interactive-map-bar">
               <div class="interactive-map-bar__info">
                 <span class="pulse-dot"></span>
@@ -975,11 +969,11 @@
                 </div>
               </div>
               <div class="interactive-map-bar__controls">
-                <div class="map-unit-switcher" role="tablist" aria-label="Alternar unidade no mapa">
-                  <button type="button" class="map-switch-btn map-switch-btn--active" data-select-unit="bangu" role="tab" aria-selected="true">
+                <div class="map-unit-switcher">
+                  <button type="button" class="map-switch-btn map-switch-btn--active" data-select-unit="bangu">
                     01 · Bangu
                   </button>
-                  <button type="button" class="map-switch-btn" data-select-unit="campogrande" role="tab" aria-selected="false">
+                  <button type="button" class="map-switch-btn" data-select-unit="campogrande">
                     02 · Campo Grande (Rua Cariús, 223)
                   </button>
                 </div>

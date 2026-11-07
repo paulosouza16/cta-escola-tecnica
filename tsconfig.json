@@ -2,16 +2,22 @@
   "include": [
     "ctaescola/client/src/**/*",
     "ctaescola/shared/**/*",
-    "ctaescola/server/**/*"
+    "ctaescola/server/**/*",
+    "ctaescola/drizzle/**/*",
+    "ctaescola/*.ts",
+    "script.js"
   ],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+  "exclude": ["node_modules", "build", "dist", "ctaescola/dist"],
   "compilerOptions": {
     "target": "ES2022",
     "noEmit": true,
+    "allowJs": true,
+    "checkJs": false,
     "module": "ESNext",
     "strict": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true,
     "lib": ["esnext", "dom", "dom.iterable"],
     "jsx": "react",
     "esModuleInterop": true,
@@ -24,4 +30,3 @@
     }
   }
 }
-

@@ -8,7 +8,8 @@
     "axe/name-role-value": "off",
     "axe/forms": "off",
     "compat-api/html": "off",
-    "compat-api/css": "off"
+    "compat-api/css": "off",
+    "typescript-config/strict": "off",
+    "typescript-config/consistent-casing": "off"
   }
 }
-

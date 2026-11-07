@@ -1,6 +1,12 @@
 {
-  "include": ["client/src/**/*", "shared/**/*", "server/**/*"],
-  "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
+  "include": [
+    "client/src/**/*",
+    "shared/**/*",
+    "server/**/*",
+    "drizzle/**/*",
+    "*.ts"
+  ],
+  "exclude": ["node_modules", "build", "dist"],
   "compilerOptions": {
     "target": "ES2022",
     "noEmit": true,
@@ -8,6 +14,7 @@
     "strict": false,
     "noImplicitAny": false,
     "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true,
     "lib": ["esnext", "dom", "dom.iterable"],
     "jsx": "react",
     "esModuleInterop": true,

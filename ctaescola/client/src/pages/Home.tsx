@@ -503,7 +503,7 @@ export default function Home() {
             </div>
             <div className="career-trail-header__aside">
               <p>A formação técnica abre portas imediatas no mercado de trabalho e serve como um trampolim estratégico para especializações, concursos e ensino superior. Escolha uma área abaixo e veja a jornada completa:</p>
-              <div className="trail-selector" aria-label="Selecionar trilha de carreira por curso">
+              <div className="trail-selector">
                 {careerTrails.map((trail) => {
                   const TrailIcon = trail.icon;
                   const isActive = activeTrail === trail.id;
@@ -627,7 +627,7 @@ export default function Home() {
             </div>
             <div className="community-header__aside">
               <p>Mais do que salas de aula e laboratórios, somos uma rede de estudantes, professores e ex-alunos conectados pela prática, pela troca de experiências e por histórias reais de transformação.</p>
-              <div className="community-tabs" aria-label="Filtrar histórias da comunidade">
+              <div className="community-tabs">
                 <button
                   type="button"
                   className={`community-tab${communityFilter === "all" ? " community-tab--active" : ""}`}
@@ -804,7 +804,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="interactive-map-shell" aria-label="Mapa interativo das unidades CTA">
+          <div className="interactive-map-shell">
             <div className="interactive-map-bar">
               <div className="interactive-map-bar__info">
                 <span className="pulse-dot" />
@@ -814,7 +814,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="interactive-map-bar__controls">
-                <div className="map-unit-switcher" aria-label="Alternar unidade no mapa">
+                <div className="map-unit-switcher">
                   <button
                     type="button"
                     className={`map-switch-btn${activeMapUnit === "bangu" ? " map-switch-btn--active" : ""}`}
