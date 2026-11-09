@@ -1,0 +1,24 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "requerimentos_secretaria",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "unidade",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "status",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "criadoEm",
+          "order": "DESCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
+
