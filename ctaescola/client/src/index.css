@@ -3303,6 +3303,11 @@ textarea:focus-visible {
   .eventos-lightbox__nav-btn--prev {
     left: 12px;
   }
+  .eventos-lightbox__nav-btn--next {
+    right: 12px;
+  }
+}
+
 /* ==========================================================================
    Header Login Button (Estilo botão CTA amarelo à esquerda)
    ========================================================================== */
