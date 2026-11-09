@@ -2877,6 +2877,119 @@ document.addEventListener("DOMContentLoaded", () => {
       if (painelStatusObs) painelStatusObs.value = item.observacaoSecretaria || "";
     }
 
+    function renderExtraDatabaseTables() {
+      const dbAlunosCount = document.getElementById("db-alunos-count");
+      const dbAlunosList = document.getElementById("db-alunos-list");
+      const dbBolsaoCount = document.getElementById("db-bolsao-count");
+      const dbBolsaoList = document.getElementById("db-bolsao-list");
+
+      if (dbAlunosList) {
+        const alunos = getLocalAlunos();
+        if (dbAlunosCount) dbAlunosCount.textContent = String(alunos.length);
+        dbAlunosList.innerHTML = "";
+        if (alunos.length === 0) {
+          dbAlunosList.textContent = "Nenhum aluno cadastrado ainda no navegador.";
+        } else {
+          alunos.forEach((al) => {
+            const row = document.createElement("div");
+            row.textContent = `${al.nome} · CPF ${al.cpfMasked || al.cpfFormatted} · ${al.email} · ${al.unidade} (${al.curso})`;
+            dbAlunosList.appendChild(row);
+          });
+        }
+      }
+
+      if (dbBolsaoList) {
+        const bolsaoReg = getLocalDuplicateRegistry();
+        const entries = Object.values(bolsaoReg || {});
+        if (dbBolsaoCount) dbBolsaoCount.textContent = String(entries.length);
+        dbBolsaoList.innerHTML = "";
+        if (entries.length === 0) {
+          dbBolsaoList.textContent = "Nenhuma inscrição do Bolsão registrada ainda neste navegador.";
+        } else {
+          entries.forEach((b) => {
+            const row = document.createElement("div");
+            row.textContent = `${b.protocolo} · CPF ${b.cpf} · Unidade ${b.unidade} · Curso ${b.curso}`;
+            dbBolsaoList.appendChild(row);
+          });
+        }
+      }
+    }
+
+    const exportCsvBtn = document.getElementById("painel-export-csv-btn");
+    const exportJsonBtn = document.getElementById("painel-export-json-btn");
+
+    if (exportCsvBtn) {
+      exportCsvBtn.addEventListener("click", () => {
+        const reqs = ensureDemoDataIfEmpty();
+        const header = [
+          "Protocolo",
+          "Status",
+          "Aluno",
+          "CPF_Mascarado",
+          "Email",
+          "Unidade",
+          "Curso",
+          "Ano_Conclusao",
+          "Tipo_Requerimento",
+          "Criado_Em"
+        ];
+        const rows = reqs.map((r) =>
+          [
+            r.protocolo,
+            r.status,
+            r.nome,
+            r.cpfMasked || "",
+            r.email,
+            r.unidade,
+            r.curso,
+            r.anoConclusao,
+            r.tipoRequerimento,
+            r.criadoEm
+          ]
+            .map((v) => `"${String(v || "").replace(/"/g, '""')}"`)
+            .join(";")
+        );
+        const csvContent = `\uFEFF${header.join(";")}\n${rows.join("\n")}`;
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `cta_secretaria_requerimentos_${new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      });
+    }
+
+    if (exportJsonBtn) {
+      exportJsonBtn.addEventListener("click", () => {
+        const payload = {
+          exportadoEm: new Date().toISOString(),
+          requerimentosSecretaria: ensureDemoDataIfEmpty(),
+          alunosCadastrados: getLocalAlunos().map((a) => ({
+            nome: a.nome,
+            email: a.email,
+            cpfMasked: a.cpfMasked,
+            unidade: a.unidade,
+            curso: a.curso
+          })),
+          inscricoesBolsao: Object.values(getLocalDuplicateRegistry() || {})
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], {
+          type: "application/json;charset=utf-8;"
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `cta_banco_dados_${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      });
+    }
+
     try {
       const savedStaffEmail = window.sessionStorage.getItem(STORAGE_KEY_SEC_SESSAO_STAFF);
       if (savedStaffEmail) {
@@ -2884,6 +2997,7 @@ document.addEventListener("DOMContentLoaded", () => {
         painelLoginCard.classList.add("icon-hidden");
         painelDashboard.classList.remove("icon-hidden");
         renderAdminList();
+        renderExtraDatabaseTables();
       }
     } catch (_e) {
       // ignore
@@ -2927,6 +3041,7 @@ document.addEventListener("DOMContentLoaded", () => {
       painelLoginCard.classList.add("icon-hidden");
       painelDashboard.classList.remove("icon-hidden");
       renderAdminList();
+      renderExtraDatabaseTables();
     });
 
     if (painelLogoutBtn) {
@@ -2944,7 +3059,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (painelRefreshBtn) {
-      painelRefreshBtn.addEventListener("click", () => renderAdminList());
+      painelRefreshBtn.addEventListener("click", () => {
+        renderAdminList();
+        renderExtraDatabaseTables();
+      });
     }
 
     [filtroProtocolo, filtroStatus, filtroUnidade].forEach((el) => {
