@@ -1877,6 +1877,455 @@ textarea:focus-visible {
 /* ==========================================================================
    FASE B — SECRETARIA ONLINE (REQUERIMENTO DE DOCUMENTAÇÃO E PAINEL)
    ========================================================================== */
+.bolsao-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.bolsao-fieldset {
+  margin: 0;
+  padding: 22px 24px;
+  border: 1px solid #e2e4e8;
+  border-radius: 5px;
+  background: #fdfdfc;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.bolsao-legend {
+  padding: 0 8px;
+  color: var(--navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.form-group > label {
+  color: var(--navy);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.required-star {
+  color: #bb443a;
+  font-weight: 800;
+}
+.form-group input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+.form-group select,
+.eventos-filters select,
+.secretaria-filters-bar input,
+.secretaria-filters-bar select {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid #d5d8de;
+  border-radius: 4px;
+  background: #fbfbfa;
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.form-textarea,
+.form-group textarea {
+  width: 100%;
+  min-height: 92px;
+  padding: 12px 14px;
+  border: 1px solid #d5d8de;
+  border-radius: 4px;
+  background: #fbfbfa;
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  resize: vertical;
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+.form-group input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus,
+.form-group select:focus,
+.form-group textarea:focus,
+.form-textarea:focus,
+.eventos-filters select:focus,
+.secretaria-filters-bar input:focus,
+.secretaria-filters-bar select:focus {
+  outline: none;
+  border-color: var(--navy);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(16, 31, 58, .08);
+}
+.form-group input[aria-invalid="true"],
+.form-group select[aria-invalid="true"],
+.form-group textarea[aria-invalid="true"],
+.form-input[aria-invalid="true"],
+.form-select[aria-invalid="true"],
+.form-textarea[aria-invalid="true"] {
+  border-color: #bb443a;
+  background: #fffafa;
+}
+.bolsao-field-hint {
+  color: #657080;
+  font-size: 11.5px;
+  line-height: 1.45;
+}
+.bolsao-field-error {
+  color: #bb443a;
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.bolsao-field-error:empty {
+  display: none;
+}
+.bolsao-rule-banner {
+  padding: 13px 16px;
+  border-radius: 4px;
+  background: #f5f3eb;
+  border-left: 3px solid var(--gold);
+  color: var(--navy);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.bolsao-checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  color: #2f3b4c;
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+.bolsao-checkbox-row input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  flex: 0 0 auto;
+  accent-color: var(--navy);
+  cursor: pointer;
+}
+.bolsao-checkbox-row label {
+  cursor: pointer;
+}
+.enroll-info-card {
+  padding: 24px;
+  background: white;
+  border: 1px solid #e0e1e1;
+  border-radius: 4px;
+  box-shadow: 0 12px 30px rgba(14, 32, 57, .04);
+}
+.enroll-info-card--gold {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: white;
+}
+.enroll-info-card__eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--blue);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.enroll-info-card--gold .enroll-info-card__eyebrow {
+  color: var(--gold);
+}
+.enroll-info-card h3 {
+  margin: 0 0 8px;
+  color: var(--navy);
+  font-family: 'Manrope', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -.025em;
+}
+.enroll-info-card--gold h3 {
+  color: white;
+}
+.enroll-info-card p {
+  margin: 0 0 14px;
+  color: var(--body-copy);
+  font-size: 12.5px;
+  line-height: 1.62;
+}
+.enroll-info-card--gold p {
+  color: #c7d1df;
+}
+.enroll-Check-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.enroll-Check-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #4b5664;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+.enroll-Check-list li .check-badge {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--navy-deep);
+  margin-top: 1px;
+}
+.enroll-info-card--gold .secretaria-aside-meta {
+  border-top-color: rgba(255, 255, 255, .14);
+}
+.enroll-info-card--gold .secretaria-aside-meta span {
+  color: #b8c4d4;
+}
+.enroll-info-card--gold .secretaria-aside-meta strong {
+  color: var(--gold);
+}
+.enroll-whatsapp-btn {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: 4px;
+  background: var(--gold);
+  color: var(--navy-deep);
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  transition: transform .2s ease, filter .2s ease;
+}
+.enroll-whatsapp-btn:hover {
+  filter: brightness(1.04);
+  transform: translateY(-1px);
+}
+.enroll-reset-link {
+  padding: 0 14px;
+  min-height: 44px;
+  border: 1px solid #d5d8de;
+  border-radius: 4px;
+  background: white;
+  color: var(--navy);
+  font-size: 12px;
+  font-weight: 700;
+}
+.enroll-reset-link:hover {
+  border-color: var(--navy);
+  background: var(--paper);
+}
+
+/* Portal Privado da Secretaria Online: Seletor de Área (Aluno vs. Secretários) */
+.secretaria-portal-switch {
+  max-width: 1220px;
+  margin: 0 auto 28px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.secretaria-portal-card-btn {
+  text-align: left;
+  padding: 20px 22px;
+  border: 2px solid #dfe2e7;
+  border-radius: 6px;
+  background: white;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.secretaria-portal-card-btn:hover {
+  border-color: var(--navy);
+  transform: translateY(-1px);
+}
+.secretaria-portal-card-btn--active {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: white;
+  box-shadow: 0 14px 32px rgba(16, 31, 58, .14);
+}
+.secretaria-portal-card-btn__icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 50%;
+  background: #f2efe4;
+  color: var(--navy);
+  display: grid;
+  place-items: center;
+}
+.secretaria-portal-card-btn--active .secretaria-portal-card-btn__icon {
+  background: var(--gold);
+  color: var(--navy-deep);
+}
+.secretaria-portal-card-btn__tag {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: 3px;
+}
+.secretaria-portal-card-btn--active .secretaria-portal-card-btn__tag {
+  color: var(--gold);
+}
+.secretaria-portal-card-btn strong {
+  display: block;
+  font-family: 'Manrope', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+.secretaria-portal-card-btn--active strong {
+  color: white;
+}
+.secretaria-portal-card-btn p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--body-copy);
+}
+.secretaria-portal-card-btn--active p {
+  color: #cbd5e3;
+}
+
+/* Portão de Login e Cadastro Privado do Aluno */
+.secretaria-auth-gate {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.secretaria-auth-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  padding: 6px;
+  border-radius: 6px;
+  background: var(--paper);
+  border: 1px solid #e1e3e7;
+}
+.secretaria-auth-tab {
+  min-height: 44px;
+  padding: 8px 14px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink);
+  font-family: 'Manrope', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background .2s ease, color .2s ease;
+}
+.secretaria-auth-tab--active {
+  background: var(--navy);
+  color: white;
+}
+.secretaria-auth-tab--active svg {
+  color: var(--gold);
+}
+.secretaria-privacy-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 99px;
+  background: #eef3fb;
+  border: 1px solid #d1def3;
+  color: var(--navy);
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* Barra da Área Privada do Aluno Logado */
+.secretaria-student-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px 20px;
+  margin-bottom: 22px;
+  border-radius: 5px;
+  background: var(--navy);
+  color: white;
+  border-left: 4px solid var(--gold);
+}
+.secretaria-student-bar__info span {
+  display: block;
+  color: var(--gold);
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.secretaria-student-bar__info strong {
+  display: block;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+.secretaria-student-bar__info small {
+  display: block;
+  color: #c4cfde;
+  font-size: 12px;
+  margin-top: 2px;
+}
+.secretaria-my-protocols {
+  margin-bottom: 24px;
+  padding: 18px 20px;
+  border-radius: 5px;
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+}
+.secretaria-my-protocols h3 {
+  margin: 0 0 6px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 16px;
+  color: var(--navy);
+}
+.secretaria-my-protocols p {
+  margin: 0 0 12px;
+  color: var(--body-copy);
+  font-size: 12.5px;
+}
+
+@media (max-width: 760px) {
+  .secretaria-portal-switch,
+  .secretaria-auth-tabs {
+    grid-template-columns: 1fr;
+  }
+  .bolsao-fieldset {
+    padding: 18px 16px;
+  }
+}
+
 .secretaria-mode-bar {
   display: flex;
   flex-wrap: wrap;

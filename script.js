@@ -1282,12 +1282,500 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Inicialização da página secretaria.html
+  // Inicialização da página secretaria.html (Portal Privado do Aluno e Área dos Secretários)
+  const STORAGE_KEY_SEC_ALUNOS = "cta_secretaria_alunos_v1";
+  const STORAGE_KEY_SEC_SESSAO_ALUNO = "cta_secretaria_sessao_aluno_v1";
+  const STORAGE_KEY_SEC_SESSAO_STAFF = "cta_secretaria_sessao_staff_v1";
+
+  function getLocalAlunos() {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY_SEC_ALUNOS);
+      return raw ? JSON.parse(raw) : [];
+    } catch (_e) {
+      return [];
+    }
+  }
+
+  function saveLocalAlunos(list) {
+    try {
+      window.localStorage.setItem(STORAGE_KEY_SEC_ALUNOS, JSON.stringify(list));
+    } catch (_e) {
+      // ignore storage quota errors
+    }
+  }
+
+  function getLoggedStudent() {
+    try {
+      const raw = window.sessionStorage.getItem(STORAGE_KEY_SEC_SESSAO_ALUNO);
+      return raw ? JSON.parse(raw) : null;
+    } catch (_e) {
+      return null;
+    }
+  }
+
+  function setLoggedStudent(studentObj) {
+    try {
+      if (!studentObj) {
+        window.sessionStorage.removeItem(STORAGE_KEY_SEC_SESSAO_ALUNO);
+      } else {
+        window.sessionStorage.setItem(STORAGE_KEY_SEC_SESSAO_ALUNO, JSON.stringify(studentObj));
+      }
+    } catch (_e) {
+      // ignore
+    }
+  }
+
+  // Alternância entre Portal do Aluno e Portal dos Secretários
+  const portalBtnAluno = document.getElementById("portal-btn-aluno");
+  const portalBtnSecretaria = document.getElementById("portal-btn-secretaria");
+  const portalAlunoWrap = document.getElementById("portal-aluno-wrap");
+  const portalSecretariosWrap = document.getElementById("portal-secretarios-wrap");
+
+  function switchPortalArea(area) {
+    if (!portalBtnAluno || !portalBtnSecretaria || !portalAlunoWrap || !portalSecretariosWrap) return;
+    const isStaff = area === "secretaria";
+    portalBtnAluno.classList.toggle("secretaria-portal-card-btn--active", !isStaff);
+    portalBtnAluno.setAttribute("aria-pressed", String(!isStaff));
+    portalBtnSecretaria.classList.toggle("secretaria-portal-card-btn--active", isStaff);
+    portalBtnSecretaria.setAttribute("aria-pressed", String(isStaff));
+    portalAlunoWrap.classList.toggle("icon-hidden", isStaff);
+    portalSecretariosWrap.classList.toggle("icon-hidden", !isStaff);
+  }
+
+  if (portalBtnAluno && portalBtnSecretaria) {
+    portalBtnAluno.addEventListener("click", () => switchPortalArea("aluno"));
+    portalBtnSecretaria.addEventListener("click", () => switchPortalArea("secretaria"));
+  }
+
+  // Alternância no Portão do Aluno: Login vs. Criar Cadastro
+  const tabAlunoLogin = document.getElementById("tab-aluno-login");
+  const tabAlunoCadastro = document.getElementById("tab-aluno-cadastro");
+  const painelAlunoLogin = document.getElementById("painel-aluno-login");
+  const painelAlunoCadastro = document.getElementById("painel-aluno-cadastro");
+  const alunoAuthGate = document.getElementById("aluno-auth-gate");
+  const alunoPrivateArea = document.getElementById("aluno-private-area");
+  const alunoLogadoNome = document.getElementById("aluno-logado-nome");
+  const alunoLogadoResumo = document.getElementById("aluno-logado-resumo");
+  const alunoLogoutBtn = document.getElementById("aluno-logout-btn");
+
+  function switchAlunoAuthTab(tab) {
+    if (!tabAlunoLogin || !tabAlunoCadastro || !painelAlunoLogin || !painelAlunoCadastro) return;
+    const isCad = tab === "cadastro";
+    tabAlunoLogin.classList.toggle("secretaria-auth-tab--active", !isCad);
+    tabAlunoLogin.setAttribute("aria-pressed", String(!isCad));
+    tabAlunoCadastro.classList.toggle("secretaria-auth-tab--active", isCad);
+    tabAlunoCadastro.setAttribute("aria-pressed", String(isCad));
+    painelAlunoLogin.classList.toggle("icon-hidden", isCad);
+    painelAlunoCadastro.classList.toggle("icon-hidden", !isCad);
+  }
+
+  if (tabAlunoLogin && tabAlunoCadastro) {
+    tabAlunoLogin.addEventListener("click", () => switchAlunoAuthTab("login"));
+    tabAlunoCadastro.addEventListener("click", () => switchAlunoAuthTab("cadastro"));
+  }
+
+  // Renderizar lista de protocolos do aluno autenticado
+  function renderStudentOwnProtocols() {
+    const box = document.getElementById("aluno-meus-protocolos-box");
+    const listEl = document.getElementById("aluno-meus-protocolos-list");
+    const student = getLoggedStudent();
+    if (!box || !listEl || !student) {
+      if (box) box.classList.add("icon-hidden");
+      return;
+    }
+
+    const allReqs = getLocalSecretariaReqs();
+    const myReqs = allReqs.filter(
+      (r) =>
+        (student.cpfHash && r.cpfHash === student.cpfHash) ||
+        (student.email && r.email && r.email.toLowerCase() === student.email.toLowerCase())
+    );
+
+    if (myReqs.length === 0) {
+      box.classList.add("icon-hidden");
+      listEl.innerHTML = "";
+      return;
+    }
+
+    box.classList.remove("icon-hidden");
+    listEl.innerHTML = "";
+    myReqs.forEach((item) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "secretaria-req-item";
+
+      const topDiv = document.createElement("div");
+      topDiv.className = "secretaria-req-item__top";
+
+      const protSpan = document.createElement("span");
+      protSpan.className = "secretaria-req-item__protocol";
+      protSpan.textContent = item.protocolo;
+
+      const badgeSpan = document.createElement("span");
+      badgeSpan.className = `secretaria-status-badge ${getStatusBadgeClass(item.status)}`;
+      badgeSpan.textContent = item.status;
+
+      topDiv.appendChild(protSpan);
+      topDiv.appendChild(badgeSpan);
+
+      const metaDiv = document.createElement("div");
+      metaDiv.className = "secretaria-req-item__meta";
+      metaDiv.textContent = `${item.tipoRequerimento} · ${item.unidade} (${item.curso})`;
+
+      btn.appendChild(topDiv);
+      btn.appendChild(metaDiv);
+
+      btn.addEventListener("click", () => {
+        const protInput = document.getElementById("consulta-protocolo");
+        const cpfInput = document.getElementById("consulta-cpf");
+        if (protInput) protInput.value = item.protocolo;
+        if (cpfInput && student.cpfFormatted) cpfInput.value = student.cpfFormatted;
+        const cForm = document.getElementById("sec-consulta-form");
+        if (cForm) cForm.dispatchEvent(new Event("submit", { cancelable: true }));
+      });
+
+      listEl.appendChild(btn);
+    });
+  }
+
+  function applyStudentSessionUI() {
+    if (!alunoAuthGate || !alunoPrivateArea) return;
+    const student = getLoggedStudent();
+    if (!student) {
+      alunoAuthGate.classList.remove("icon-hidden");
+      alunoPrivateArea.classList.add("icon-hidden");
+      return;
+    }
+
+    alunoAuthGate.classList.add("icon-hidden");
+    alunoPrivateArea.classList.remove("icon-hidden");
+
+    if (alunoLogadoNome) {
+      alunoLogadoNome.textContent = `Olá, ${student.nome}`;
+    }
+    if (alunoLogadoResumo) {
+      const unitInfo = student.unidade ? `Unidade ${student.unidade}` : "Aluno CTA";
+      const courseInfo = student.curso ? ` · Técnico em ${student.curso}` : "";
+      const cpfInfo = student.cpfMasked ? ` · CPF ${student.cpfMasked}` : "";
+      alunoLogadoResumo.textContent = `${unitInfo}${courseInfo}${cpfInfo}`;
+    }
+
+    // Pré-preencher dados no formulário de requerimento e consulta
+    const secNomeEl = document.getElementById("sec-nome");
+    const secCpfEl = document.getElementById("sec-cpf");
+    const secEmailEl = document.getElementById("sec-email");
+    const secUnidadeEl = document.getElementById("sec-unidade");
+    const secCursoEl = document.getElementById("sec-curso");
+    const consultaCpfEl = document.getElementById("consulta-cpf");
+
+    if (secNomeEl && !secNomeEl.value && student.nome) secNomeEl.value = student.nome;
+    if (secCpfEl && !secCpfEl.value && student.cpfFormatted) secCpfEl.value = student.cpfFormatted;
+    if (secEmailEl && !secEmailEl.value && student.email) secEmailEl.value = student.email;
+    if (consultaCpfEl && !consultaCpfEl.value && student.cpfFormatted) {
+      consultaCpfEl.value = student.cpfFormatted;
+    }
+    if (secUnidadeEl && student.unidade && !secUnidadeEl.value) {
+      secUnidadeEl.value = student.unidade;
+      secUnidadeEl.dispatchEvent(new Event("change"));
+      if (secCursoEl && student.curso) {
+        secCursoEl.value = student.curso;
+      }
+    }
+
+    renderStudentOwnProtocols();
+  }
+
+  // Formulário de Cadastro do Aluno (#aluno-cadastro-form)
+  const alunoCadastroForm = document.getElementById("aluno-cadastro-form");
+  if (alunoCadastroForm) {
+    const cadNome = document.getElementById("aluno-cad-nome");
+    const cadCpf = document.getElementById("aluno-cad-cpf");
+    const cadEmail = document.getElementById("aluno-cad-email");
+    const cadUnidade = document.getElementById("aluno-cad-unidade");
+    const cadCurso = document.getElementById("aluno-cad-curso");
+    const cadSenha = document.getElementById("aluno-cad-senha");
+    const cadConfSenha = document.getElementById("aluno-cad-confirmar-senha");
+    const cadLgpd = document.getElementById("aluno-cad-lgpd");
+    const cadHp = document.getElementById("aluno-cad-hp");
+    const cadAlert = document.getElementById("aluno-cad-alert");
+
+    if (cadCpf) {
+      cadCpf.addEventListener("input", (e) => {
+        e.target.value = maskCPFValue(e.target.value);
+        const err = document.getElementById("aluno-cad-cpf-error");
+        if (err) err.textContent = "";
+        cadCpf.removeAttribute("aria-invalid");
+      });
+    }
+
+    if (cadUnidade && cadCurso) {
+      cadUnidade.addEventListener("change", () => {
+        const unitVal = cadUnidade.value;
+        const allowed = secConfig.unidadesCursos[unitVal] || [];
+        Array.from(cadCurso.options).forEach((opt) => {
+          if (!opt.value) return;
+          const ok = !unitVal || allowed.includes(opt.value);
+          opt.hidden = !ok;
+          opt.disabled = !ok;
+        });
+        if (unitVal && cadCurso.value && !allowed.includes(cadCurso.value)) {
+          cadCurso.value = "";
+        }
+        const err = document.getElementById("aluno-cad-unidade-error");
+        if (err) err.textContent = "";
+        cadUnidade.removeAttribute("aria-invalid");
+      });
+    }
+
+    alunoCadastroForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (cadHp && cadHp.value.trim() !== "") return;
+      if (cadAlert) {
+        cadAlert.textContent = "";
+        cadAlert.classList.add("icon-hidden");
+      }
+
+      let firstBad = null;
+      function setCadErr(el, errId, msg) {
+        const sp = document.getElementById(errId);
+        if (sp) sp.textContent = msg || "";
+        if (el) {
+          if (msg) el.setAttribute("aria-invalid", "true");
+          else el.removeAttribute("aria-invalid");
+        }
+        if (msg && !firstBad && el) firstBad = el;
+      }
+
+      const nomeVal = cadNome ? cadNome.value.trim() : "";
+      if (nomeVal.length < 5 || !nomeVal.includes(" ")) {
+        setCadErr(cadNome, "aluno-cad-nome-error", "Informe seu nome completo (nome e sobrenome).");
+      } else {
+        setCadErr(cadNome, "aluno-cad-nome-error", "");
+      }
+
+      const cpfVal = cadCpf ? cadCpf.value.trim() : "";
+      if (!validateCPFDigits(cpfVal)) {
+        setCadErr(cadCpf, "aluno-cad-cpf-error", "Informe um CPF válido (11 dígitos).");
+      } else {
+        setCadErr(cadCpf, "aluno-cad-cpf-error", "");
+      }
+
+      const emailVal = cadEmail ? cadEmail.value.trim() : "";
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        setCadErr(cadEmail, "aluno-cad-email-error", "Informe um e-mail válido.");
+      } else {
+        setCadErr(cadEmail, "aluno-cad-email-error", "");
+      }
+
+      const unVal = cadUnidade ? cadUnidade.value : "";
+      const curVal = cadCurso ? cadCurso.value : "";
+      const allowedC = secConfig.unidadesCursos[unVal] || [];
+      if (!unVal || !secConfig.unidadesCursos[unVal]) {
+        setCadErr(cadUnidade, "aluno-cad-unidade-error", "Selecione sua unidade (Bangu ou Campo Grande).");
+      } else {
+        setCadErr(cadUnidade, "aluno-cad-unidade-error", "");
+      }
+
+      if (!curVal || !allowedC.includes(curVal)) {
+        setCadErr(
+          cadCurso,
+          "aluno-cad-curso-error",
+          unVal === "Campo Grande"
+            ? "Na unidade Campo Grande estão disponíveis apenas Eletrotécnica e Informática."
+            : "Selecione um curso válido para a unidade escolhida."
+        );
+      } else {
+        setCadErr(cadCurso, "aluno-cad-curso-error", "");
+      }
+
+      const sVal = cadSenha ? cadSenha.value : "";
+      const csVal = cadConfSenha ? cadConfSenha.value : "";
+      if (sVal.length < 6) {
+        setCadErr(cadSenha, "aluno-cad-senha-error", "A senha deve ter no mínimo 6 caracteres.");
+      } else {
+        setCadErr(cadSenha, "aluno-cad-senha-error", "");
+      }
+
+      if (csVal !== sVal || !csVal) {
+        setCadErr(cadConfSenha, "aluno-cad-confirmar-senha-error", "A confirmação de senha não confere.");
+      } else {
+        setCadErr(cadConfSenha, "aluno-cad-confirmar-senha-error", "");
+      }
+
+      if (!cadLgpd || !cadLgpd.checked) {
+        setCadErr(cadLgpd, "aluno-cad-lgpd-error", "Confirme a autorização LGPD para criar seu cadastro.");
+      } else {
+        setCadErr(cadLgpd, "aluno-cad-lgpd-error", "");
+      }
+
+      if (firstBad) {
+        firstBad.focus();
+        return;
+      }
+
+      const cpfFormatted = maskCPFValue(cpfVal);
+      const cpfHash = hashCPFLocal(cpfVal);
+      const passHash = hashCPFLocal(sVal);
+      const studentObj = {
+        nome: nomeVal,
+        email: emailVal,
+        cpfFormatted,
+        cpfMasked: `***.${cpfFormatted.slice(4, 7)}.${cpfFormatted.slice(8, 11)}-**`,
+        cpfHash,
+        passHash,
+        unidade: unVal,
+        curso: curVal
+      };
+
+      const alunos = getLocalAlunos().filter(
+        (a) => a.cpfHash !== cpfHash && a.email.toLowerCase() !== emailVal.toLowerCase()
+      );
+      alunos.push(studentObj);
+      saveLocalAlunos(alunos);
+      setLoggedStudent(studentObj);
+      applyStudentSessionUI();
+    });
+  }
+
+  // Formulário de Login do Aluno (#aluno-login-form)
+  const alunoLoginForm = document.getElementById("aluno-login-form");
+  if (alunoLoginForm) {
+    const loginId = document.getElementById("aluno-login-identificador");
+    const loginSenha = document.getElementById("aluno-login-senha");
+    const loginHp = document.getElementById("aluno-login-hp");
+    const loginAlert = document.getElementById("aluno-login-alert");
+
+    if (loginId) {
+      loginId.addEventListener("input", (e) => {
+        const val = e.target.value;
+        if (/^[\d.\-\s]+$/.test(val) && val.replace(/\D/g, "").length <= 11) {
+          e.target.value = maskCPFValue(val);
+        }
+        const err = document.getElementById("aluno-login-identificador-error");
+        if (err) err.textContent = "";
+        loginId.removeAttribute("aria-invalid");
+      });
+    }
+
+    alunoLoginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (loginHp && loginHp.value.trim() !== "") return;
+      if (loginAlert) {
+        loginAlert.textContent = "";
+        loginAlert.classList.add("icon-hidden");
+      }
+
+      const idVal = loginId ? loginId.value.trim() : "";
+      const senhaVal = loginSenha ? loginSenha.value : "";
+      const idErr = document.getElementById("aluno-login-identificador-error");
+      const senhaErr = document.getElementById("aluno-login-senha-error");
+
+      let hasErr = false;
+      const isEmail = idVal.includes("@");
+      const isCpfValid = !isEmail && validateCPFDigits(idVal);
+
+      if (!idVal || (!isEmail && !isCpfValid)) {
+        if (idErr) idErr.textContent = "Informe um CPF válido ou seu e-mail cadastrado.";
+        if (loginId) loginId.setAttribute("aria-invalid", "true");
+        hasErr = true;
+      } else if (idErr) {
+        idErr.textContent = "";
+      }
+
+      if (!senhaVal || senhaVal.length < 6) {
+        if (senhaErr) senhaErr.textContent = "Informe sua senha de acesso (mínimo 6 caracteres).";
+        if (loginSenha) loginSenha.setAttribute("aria-invalid", "true");
+        hasErr = true;
+      } else if (senhaErr) {
+        senhaErr.textContent = "";
+      }
+
+      if (hasErr) return;
+
+      const alunos = getLocalAlunos();
+      const targetCpfHash = isCpfValid ? hashCPFLocal(idVal) : "";
+      const found = alunos.find(
+        (a) =>
+          (isEmail && a.email.toLowerCase() === idVal.toLowerCase()) ||
+          (!isEmail && a.cpfHash === targetCpfHash)
+      );
+
+      if (!found) {
+        if (loginAlert) {
+          loginAlert.textContent =
+            'Cadastro não localizado para este CPF/e-mail. Clique na aba "Primeiro acesso (Criar Cadastro)" acima para criar sua conta de aluno.';
+          loginAlert.classList.remove("icon-hidden");
+        }
+        return;
+      }
+
+      if (found.passHash !== hashCPFLocal(senhaVal)) {
+        if (loginAlert) {
+          loginAlert.textContent = "Senha incorreta. Verifique sua senha e tente novamente.";
+          loginAlert.classList.remove("icon-hidden");
+        }
+        return;
+      }
+
+      setLoggedStudent(found);
+      applyStudentSessionUI();
+    });
+  }
+
+  if (alunoLogoutBtn) {
+    alunoLogoutBtn.addEventListener("click", () => {
+      setLoggedStudent(null);
+      applyStudentSessionUI();
+    });
+  }
+
+  // Formulário de acesso dos Secretários na página secretaria.html (#sec-staff-gate-form)
+  const secStaffGateForm = document.getElementById("sec-staff-gate-form");
+  if (secStaffGateForm) {
+    const staffEmail = document.getElementById("sec-staff-email");
+    const staffSenha = document.getElementById("sec-staff-senha");
+    const staffHp = document.getElementById("sec-staff-hp");
+
+    secStaffGateForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      if (staffHp && staffHp.value.trim() !== "") return;
+      const em = staffEmail ? staffEmail.value.trim() : "";
+      const pw = staffSenha ? staffSenha.value : "";
+      const emErr = document.getElementById("sec-staff-email-error");
+      const pwErr = document.getElementById("sec-staff-senha-error");
+
+      let bad = false;
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
+        if (emErr) emErr.textContent = "Informe o e-mail institucional da secretaria.";
+        bad = true;
+      } else if (emErr) {
+        emErr.textContent = "";
+      }
+
+      if (!pw || pw.length < 6) {
+        if (pwErr) pwErr.textContent = "Informe a senha administrativa (mínimo 6 caracteres).";
+        bad = true;
+      } else if (pwErr) {
+        pwErr.textContent = "";
+      }
+
+      if (bad) return;
+      try {
+        window.sessionStorage.setItem(STORAGE_KEY_SEC_SESSAO_STAFF, em);
+      } catch (_e) {
+        // ignore
+      }
+      window.location.href = "painel-secretaria.html";
+    });
+  }
+
   const secretariaForm = document.getElementById("secretaria-form");
   const tabBtnReq = document.getElementById("tab-btn-requerimento");
   const tabBtnConsulta = document.getElementById("tab-btn-consulta");
   const painelReq = document.getElementById("painel-novo-requerimento");
   const painelConsulta = document.getElementById("painel-consultar-protocolo");
+
+  applyStudentSessionUI();
 
   function switchSecretariaTab(mode) {
     if (!tabBtnReq || !tabBtnConsulta || !painelReq || !painelConsulta) return;
@@ -1298,6 +1786,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tabBtnConsulta.setAttribute("aria-pressed", String(isConsulta));
     painelReq.classList.toggle("icon-hidden", isConsulta);
     painelConsulta.classList.toggle("icon-hidden", !isConsulta);
+    if (isConsulta) renderStudentOwnProtocols();
   }
 
   if (tabBtnReq && tabBtnConsulta) {
@@ -2388,6 +2877,18 @@ document.addEventListener("DOMContentLoaded", () => {
       if (painelStatusObs) painelStatusObs.value = item.observacaoSecretaria || "";
     }
 
+    try {
+      const savedStaffEmail = window.sessionStorage.getItem(STORAGE_KEY_SEC_SESSAO_STAFF);
+      if (savedStaffEmail) {
+        if (painelUserEmail) painelUserEmail.textContent = savedStaffEmail;
+        painelLoginCard.classList.add("icon-hidden");
+        painelDashboard.classList.remove("icon-hidden");
+        renderAdminList();
+      }
+    } catch (_e) {
+      // ignore
+    }
+
     painelLoginForm.addEventListener("submit", (e) => {
       e.preventDefault();
       if (painelLoginAlert) {
@@ -2417,6 +2918,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (invalid) return;
 
+      try {
+        window.sessionStorage.setItem(STORAGE_KEY_SEC_SESSAO_STAFF, emailVal);
+      } catch (_e) {
+        // ignore
+      }
       if (painelUserEmail) painelUserEmail.textContent = emailVal;
       painelLoginCard.classList.add("icon-hidden");
       painelDashboard.classList.remove("icon-hidden");
@@ -2425,6 +2931,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (painelLogoutBtn) {
       painelLogoutBtn.addEventListener("click", () => {
+        try {
+          window.sessionStorage.removeItem(STORAGE_KEY_SEC_SESSAO_STAFF);
+        } catch (_e) {
+          // ignore
+        }
         painelLoginForm.reset();
         selectedProtocol = "";
         painelDashboard.classList.add("icon-hidden");
