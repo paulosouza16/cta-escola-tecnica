@@ -1,0 +1,30 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Função auxiliar: verifica se o usuário autenticado pertence à secretaria do CTA
+    function isSecretaria() {
+      return request.auth != null && request.auth.token.secretaria == true;
+    }
+
+    // Contadores sequenciais de protocolo (CTA-AAAA-000001): acesso exclusivo via Cloud Functions (Admin SDK)
+    match /contadores_protocolo/{ano} {
+      allow read, write: if false;
+    }
+
+    // Controle de rate-limit por IP/hash: acesso exclusivo via Cloud Functions (Admin SDK)
+    match /rate_limits/{key} {
+      allow read, write: if false;
+    }
+
+    // Requerimentos de documentação (LGPD):
+    // - Criação e consulta pública ocorrem exclusivamente via Cloud Functions (Admin SDK)
+    // - Leitura e atualização de status no painel permitidas apenas para secretaria autenticada
+    match /requerimentos/{protocolo} {
+      allow read: if isSecretaria();
+      allow update: if isSecretaria()
+        && request.resource.data.status in ['Recebido', 'Em análise', 'Pendente de documentos', 'Concluído'];
+      allow create, delete: if false;
+    }
+  }
+}
+

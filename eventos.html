@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Galeria de Eventos do CTA Escola Técnica no Rio de Janeiro: confira os registros do PROJETECH, OLIMPTECH, Cerimônia do Jaleco e outras atividades acadêmicas em Bangu e Campo Grande."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Eventos e Galeria de Fotos — CTA Escola Técnica" />
+    <meta
+      property="og:description"
+      content="Acompanhe as mostras tecnológicas, olimpíadas acadêmicas e solenidades dos cursos de Eletrotécnica, Enfermagem e Informática do CTA Escola Técnica."
+    />
+    <meta property="og:image" content="logo-cta-amarela.png" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Eventos e Galeria de Fotos — CTA Escola Técnica</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "ImageGallery",
+            "name": "Galeria de Eventos — CTA Escola Técnica",
+            "description": "[PREENCHER: descrição institucional da galeria de eventos do CTA Escola Técnica]",
+            "publisher": {
+              "@type": "EducationalOrganization",
+              "name": "CTA — Escola Técnica (Centro de Tecnologia Aplicada)"
+            }
+          },
+          {
+            "@type": "Event",
+            "name": "PROJETECH",
+            "startDate": "[PREENCHER: data do PROJETECH]",
+            "description": "[PREENCHER: descrição curta do PROJETECH]",
+            "location": {
+              "@type": "Place",
+              "name": "[PREENCHER: local/unidade do PROJETECH]",
+              "address": "[PREENCHER: endereço do evento PROJETECH]"
+            },
+            "organizer": {
+              "@type": "EducationalOrganization",
+              "name": "CTA — Escola Técnica"
+            }
+          },
+          {
+            "@type": "Event",
+            "name": "OLIMPTECH",
+            "startDate": "[PREENCHER: data do OLIMPTECH]",
+            "description": "[PREENCHER: descrição curta do OLIMPTECH]",
+            "location": {
+              "@type": "Place",
+              "name": "[PREENCHER: local/unidade do OLIMPTECH]",
+              "address": "[PREENCHER: endereço do evento OLIMPTECH]"
+            },
+            "organizer": {
+              "@type": "EducationalOrganization",
+              "name": "CTA — Escola Técnica"
+            }
+          },
+          {
+            "@type": "Event",
+            "name": "CERIMÔNIA DO JALECO",
+            "startDate": "[PREENCHER: data da Cerimônia do Jaleco]",
+            "description": "[PREENCHER: descrição curta da Cerimônia do Jaleco]",
+            "location": {
+              "@type": "Place",
+              "name": "[PREENCHER: local/unidade da Cerimônia do Jaleco]",
+              "address": "[PREENCHER: endereço da Cerimônia do Jaleco]"
+            },
+            "organizer": {
+              "@type": "EducationalOrganization",
+              "name": "CTA — Escola Técnica"
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div class="site-shell" id="inicio">
+      <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+      <header class="site-header">
+        <div class="header-inner">
+          <a class="brand" href="index.html" aria-label="CTA Escola Técnica — início">
+            <img
+              class="brand__logo"
+              src="logo-cta-amarela.png"
+              alt="CTA — Escola Técnica"
+              width="174"
+              height="48"
+            />
+          </a>
+
+          <nav id="mobile-navigation" class="main-nav" aria-label="Navegação principal">
+            <a href="nossos-cursos.html">Cursos</a>
+            <a href="bolsao.html">Bolsão</a>
+            <a href="secretaria.html">Secretaria</a>
+            <a href="eventos.html" class="nav-link--active" aria-current="page">Eventos</a>
+            <a href="index.html#trilhas">Trilhas</a>
+            <a href="index.html#comunidade">Comunidade</a>
+            <a href="index.html#unidades">Unidades</a>
+            <a href="index.html#contato">Contato</a>
+            <a class="mobile-nav-apply" href="inscricao.html">
+              Inscreva-se
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            </a>
+          </nav>
+
+          <a class="header-cta" href="inscricao.html">
+            Faça sua inscrição
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </a>
+
+          <button
+            id="menu-toggle"
+            class="menu-toggle"
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+            aria-controls="mobile-navigation"
+          >
+            <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            <svg id="icon-close" class="icon-hidden" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main id="conteudo">
+        <section class="enroll-hero" aria-labelledby="eventos-title">
+          <div class="enroll-hero__inner">
+            <div class="enroll-hero__copy">
+              <p class="eyebrow eyebrow--light">
+                <span></span>VIVÊNCIA ACADÊMICO-CIENTÍFICA · BANGU E CAMPO GRANDE
+              </p>
+              <h1 id="eventos-title">Galeria de <em>Eventos</em></h1>
+              <p class="enroll-hero__sub">
+                Acompanhe as mostras de tecnologia, olimpíadas estudantis e solenidades que marcam a jornada dos alunos de Eletrotécnica, Enfermagem e Informática no CTA Escola Técnica.
+              </p>
+            </div>
+            <nav class="enroll-breadcrumb" aria-label="Localização da página">
+              <a href="index.html">Home</a>
+              <span>&gt;</span>
+              <span class="current">Eventos</span>
+            </nav>
+          </div>
+        </section>
+
+        <section class="enroll-section eventos-page-section" aria-labelledby="eventos-heading">
+          <!-- ============================================================
+               VISTA 1: GRADE PRINCIPAL DE EVENTOS + FILTROS
+               ============================================================ -->
+          <div id="eventos-catalogo-view">
+            <div class="eventos-toolbar">
+              <div class="eventos-toolbar__intro">
+                <p class="eyebrow"><span></span>ÁLBUNS &amp; REGISTROS</p>
+                <h2 id="eventos-heading">Escolha um evento para abrir a galeria</h2>
+              </div>
+
+              <div class="eventos-filters" role="search" aria-label="Filtrar eventos por ano ou categoria">
+                <div class="form-group">
+                  <label for="eventos-filtro-ano">Filtrar por Ano</label>
+                  <select id="eventos-filtro-ano">
+                    <option value="">Todos os anos</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="eventos-filtro-tipo">Filtrar por Tipo de Evento</label>
+                  <select id="eventos-filtro-tipo">
+                    <option value="">Todos os tipos</option>
+                  </select>
+                </div>
+
+                <button
+                  type="button"
+                  id="eventos-limpar-filtros"
+                  class="button button--navy eventos-reset-btn"
+                >
+                  Limpar filtros
+                </button>
+              </div>
+            </div>
+
+            <!-- Grade dinâmica de cards dos eventos (populada via eventos.json) -->
+            <div
+              id="eventos-grid"
+              class="eventos-grid"
+              aria-live="polite"
+            ></div>
+          </div>
+
+          <!-- ============================================================
+               VISTA 2: SEÇÃO DETALHADA DO EVENTO (CARREGADA SOB DEMANDA)
+               Acesso direto via eventos.html#projetech, #olimptech, etc.
+               ============================================================ -->
+          <section
+            id="evento-detalhe-section"
+            class="evento-album-view icon-hidden"
+            aria-labelledby="evento-detalhe-titulo"
+            tabindex="-1"
+          >
+            <div class="evento-album-nav">
+              <a
+                href="eventos.html"
+                id="evento-voltar-btn"
+                class="button button--navy"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Voltar para todos os eventos
+              </a>
+              <span id="evento-detalhe-contador-album" class="evento-album-count-pill"></span>
+            </div>
+
+            <header class="evento-album-header">
+              <div class="evento-album-header__meta">
+                <span id="evento-detalhe-tipo" class="evento-badge"></span>
+                <span id="evento-detalhe-ano" class="evento-meta-item"></span>
+                <span id="evento-detalhe-data" class="evento-meta-item"></span>
+                <span id="evento-detalhe-local" class="evento-meta-item"></span>
+              </div>
+              <h2 id="evento-detalhe-titulo">PROJETECH</h2>
+              <p id="evento-detalhe-descricao" class="evento-album-desc"></p>
+            </header>
+
+            <!-- Grade de fotos do evento (renderizada sob demanda apenas ao abrir o evento) -->
+            <div
+              id="evento-fotos-grid"
+              class="evento-fotos-grid"
+              aria-live="polite"
+            ></div>
+          </section>
+        </section>
+      </main>
+
+      <!-- ============================================================
+           LIGHTBOX ACESSÍVEL (TECLADO, ESC, FOCO PRESO, SWIPE MOBILE)
+           ============================================================ -->
+      <div
+        id="eventos-lightbox"
+        class="eventos-lightbox icon-hidden"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="lightbox-title"
+        aria-describedby="lightbox-caption"
+        tabindex="-1"
+      >
+        <div class="eventos-lightbox__backdrop" data-lightbox-close="true"></div>
+        <div class="eventos-lightbox__dialog">
+          <header class="eventos-lightbox__topbar">
+            <div class="eventos-lightbox__title-wrap">
+              <h2 id="lightbox-title" class="eventos-lightbox__title">Foto do Evento</h2>
+              <span id="lightbox-counter" class="eventos-lightbox__counter" aria-live="polite">1 / 1</span>
+            </div>
+            <button
+              type="button"
+              id="lightbox-close"
+              class="eventos-lightbox__close-btn"
+              aria-label="Fechar galeria em tela cheia (Esc)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              <span>Fechar</span>
+            </button>
+          </header>
+
+          <div class="eventos-lightbox__stage" id="lightbox-touch-stage">
+            <button
+              type="button"
+              id="lightbox-prev"
+              class="eventos-lightbox__nav-btn eventos-lightbox__nav-btn--prev"
+              aria-label="Foto anterior (Seta para a esquerda)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+
+            <figure class="eventos-lightbox__figure">
+              <picture id="lightbox-picture">
+                <img
+                  id="lightbox-img"
+                  class="eventos-lightbox__img"
+                  src="logo-cta-amarela.png"
+                  alt=""
+                  width="1200"
+                  height="800"
+                />
+              </picture>
+              <figcaption id="lightbox-caption" class="eventos-lightbox__caption"></figcaption>
+            </figure>
+
+            <button
+              type="button"
+              id="lightbox-next"
+              class="eventos-lightbox__nav-btn eventos-lightbox__nav-btn--next"
+              aria-label="Próxima foto (Seta para a direita)"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="site-footer">
+        <div class="footer-main">
+          <div class="footer-brand-col">
+            <a class="brand" href="index.html" aria-label="CTA Escola Técnica — início">
+              <img
+                class="brand__logo"
+                src="logo-cta-branca.png"
+                alt="CTA — Escola Técnica"
+                width="174"
+                height="48"
+              />
+            </a>
+            <p>Formação profissional, conhecimento e novas possibilidades para o Rio de Janeiro.</p>
+          </div>
+          <div class="footer-links-col">
+            <span class="footer-title">EXPLORE</span>
+            <a href="nossos-cursos.html">Nossos Cursos</a>
+            <a href="bolsao.html">Bolsão do CTA</a>
+            <a href="secretaria.html">Secretaria Online</a>
+            <a href="eventos.html">Eventos</a>
+            <a href="sobre-o-cta.html">Sobre o CTA</a>
+            <a href="index.html#comunidade">Comunidade</a>
+            <a href="index.html#unidades">Unidades</a>
+            <a href="inscricao.html">
+              Faça sua inscrição
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            </a>
+          </div>
+          <div class="footer-links-col footer-contact-col">
+            <span class="footer-title">FALE COM A GENTE</span>
+            <a href="tel:+552134493572">(21) 3449-3572</a>
+            <a
+              href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20os%20eventos%20e%20cursos."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              WhatsApp: (21) 99436-8367
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            </a>
+            <a href="mailto:faleconosco@ctarj.org.br">
+              faleconosco@ctarj.org.br
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            </a>
+          </div>
+          <a class="footer-top" href="#inicio" aria-label="Voltar ao início">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </a>
+        </div>
+        <div class="footer-bottom">
+          <span>© <span id="current-year">2026</span> CTA – Escola Técnica. Centro de Tecnologia Aplicada.</span>
+          <span>RIO DE JANEIRO · RJ</span>
+        </div>
+      </footer>
+
+      <a
+        class="whatsapp-float"
+        href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20os%20eventos%20e%20cursos."
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Fale com o CTA pelo WhatsApp"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        <span>Fale com o CTA</span>
+      </a>
+    </div>
+
+    <!-- Fallback inline de eventos.json para funcionamento offline (file://) -->
+    <script id="eventos-data-fallback" type="application/json">
+      {
+        "eventos": [
+          {
+            "id": "projetech",
+            "titulo": "PROJETECH",
+            "tipo": "[PREENCHER: tipo/categoria do evento PROJETECH — ex.: Mostra Tecnológica]",
+            "ano": "[PREENCHER: ano do PROJETECH]",
+            "data": "[PREENCHER: data do PROJETECH]",
+            "local": "[PREENCHER: local/unidade do PROJETECH]",
+            "descricaoCurta": "[PREENCHER: descrição curta do PROJETECH]",
+            "descricaoCompleta": "[PREENCHER: descrição completa do PROJETECH, objetivos pedagógicos, cursos participantes e projetos apresentados pelos alunos.]",
+            "capa": {
+              "src": "hero-slide-2.jpg",
+              "webpSrcset": "",
+              "avifSrcset": "",
+              "width": 1200,
+              "height": 800,
+              "alt": "[PREENCHER: texto alternativo da foto de capa do PROJETECH]"
+            },
+            "fotos": [
+              {
+                "id": "projetech-01",
+                "thumb": "hero-slide-2.jpg",
+                "full": "hero-slide-2.jpg",
+                "webpSrcset": "",
+                "avifSrcset": "",
+                "sizes": "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+                "width": 1200,
+                "height": 800,
+                "legenda": "[PREENCHER: legenda da foto 1 do PROJETECH]",
+                "alt": "[PREENCHER: texto alternativo da foto 1 do PROJETECH]"
+              },
+              {
+                "id": "projetech-02",
+                "thumb": "hero-slide-1.jpg",
+                "full": "hero-slide-1.jpg",
+                "webpSrcset": "",
+                "avifSrcset": "",
+                "sizes": "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+                "width": 1200,
+                "height": 800,
+                "legenda": "[PREENCHER: legenda da foto 2 do PROJETECH]",
+                "alt": "[PREENCHER: texto alternativo da foto 2 do PROJETECH]"
+              },
+              {
+                "id": "projetech-03",
+                "thumb": "hero-slide-3.jpg",
+                "full": "hero-slide-3.jpg",
+                "webpSrcset": "",
+                "avifSrcset": "",
+                "sizes": "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+                "width": 1200,
+                "height": 800,
+                "legenda": "[PREENCHER: legenda da foto 3 do PROJETECH]",
+                "alt": "[PREENCHER: texto alternativo da foto 3 do PROJETECH]"
+              }
+            ]
+          },
+          {
+            "id": "olimptech",
+            "titulo": "OLIMPTECH",
+            "tipo": "[PREENCHER: tipo/categoria do evento OLIMPTECH — ex.: Olimpíada / Competição Acadêmica]",
+            "ano": "[PREENCHER: ano do OLIMPTECH]",
+            "data": "[PREENCHER: data do OLIMPTECH]",
+            "local": "[PREENCHER: local/unidade do OLIMPTECH]",
+            "descricaoCurta": "[PREENCHER: descrição curta do OLIMPTECH]",
+            "descricaoCompleta": "[PREENCHER: descrição completa do OLIMPTECH, desafios técnicos, integração entre turmas e premiações.]",
+            "capa": {
+              "src": "hero-slide-1.jpg",
+              "webpSrcset": "",
+              "avifSrcset": "",
+              "width": 1200,
+              "height": 800,
+              "alt": "[PREENCHER: texto alternativo da foto de capa do OLIMPTECH]"
+            },
+            "fotos": [
+              {
+                "id": "olimptech-01",
+                "thumb": "hero-slide-1.jpg",
+                "full": "hero-slide-1.jpg",
+                "webpSrcset": "",
+                "avifSrcset": "",
+                "sizes": "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+                "width": 1200,
+                "height": 800,
+                "legenda": "[PREENCHER: legenda da foto 1 do OLIMPTECH]",
+                "alt": "[PREENCHER: texto alternativo da foto 1 do OLIMPTECH]"
+              },
+              {
+                "id": "olimptech-02",
+                "thumb": "cta-ambiente.jpg",
+                "full": "cta-ambiente.jpg",
+                "webpSrcset": "",
+                "avifSrcset": "",
+                "sizes": "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+                "width": 1200,
+                "height": 800,
+                "legenda": "[PREENCHER: legenda da foto 2 do OLIMPTECH]",
+                "alt": "[PREENCHER: texto alternativo da foto 2 do OLIMPTECH]"
+              }
+            ]
+          },
+          {
+            "id": "cerimonia-do-jaleco",
+            "titulo": "CERIMÔNIA DO JALECO",
+            "tipo": "[PREENCHER: tipo/categoria do evento Cerimônia do Jaleco — ex.: Solenidade da Saúde]",
+            "ano": "[PREENCHER: ano da Cerimônia do Jaleco]",
+            "data": "[PREENCHER: data da Cerimônia do Jaleco]",
+            "local": "[PREENCHER: local/unidade da Cerimônia do Jaleco]",
+            "descricaoCurta": "[PREENCHER: descrição curta da Cerimônia do Jaleco]",
+            "descricaoCompleta": "[PREENCHER: descrição completa da Cerimônia do Jaleco, simbolismo ético e acolhimento dos novos estudantes de Enfermagem.]",
+            "capa": {
+              "src": "",
+              "webpSrcset": "",
+              "avifSrcset": "",
+              "width": 1200,
+              "height": 800,
+              "alt": "[PREENCHER: texto alternativo da foto de capa da Cerimônia do Jaleco]"
+            },
+            "fotos": []
+          }
+        ]
+      }
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
+

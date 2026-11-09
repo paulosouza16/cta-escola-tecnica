@@ -1,0 +1,125 @@
+{
+  "instrucoes": "Para adicionar um novo evento, coloque as fotos otimizadas em eventos/<slug>/ e adicione um novo objeto na lista 'eventos' abaixo, sem precisar editar HTML ou JS.",
+  "eventos": [
+    {
+      "id": "projetech",
+      "titulo": "PROJETECH",
+      "tipo": "[PREENCHER: tipo/categoria do evento PROJETECH — ex.: Mostra Tecnológica]",
+      "ano": "[PREENCHER: ano do PROJETECH]",
+      "data": "[PREENCHER: data do PROJETECH]",
+      "local": "[PREENCHER: local/unidade do PROJETECH]",
+      "descricaoCurta": "[PREENCHER: descrição curta do PROJETECH]",
+      "descricaoCompleta": "[PREENCHER: descrição completa do PROJETECH, objetivos pedagógicos, cursos participantes e projetos apresentados pelos alunos.]",
+      "capa": {
+        "src": "hero-slide-2.jpg",
+        "webpSrcset": "",
+        "avifSrcset": "",
+        "width": 1200,
+        "height": 800,
+        "alt": "[PREENCHER: texto alternativo da foto de capa do PROJETECH]"
+      },
+      "fotos": [
+        {
+          "id": "projetech-01",
+          "thumb": "hero-slide-2.jpg",
+          "full": "hero-slide-2.jpg",
+          "webpSrcset": "",
+          "avifSrcset": "",
+          "sizes": "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+          "width": 1200,
+          "height": 800,
+          "legenda": "[PREENCHER: legenda da foto 1 do PROJETECH]",
+          "alt": "[PREENCHER: texto alternativo da foto 1 do PROJETECH]"
+        },
+        {
+          "id": "projetech-02",
+          "thumb": "hero-slide-1.jpg",
+          "full": "hero-slide-1.jpg",
+          "webpSrcset": "",
+          "avifSrcset": "",
+          "sizes": "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+          "width": 1200,
+          "height": 800,
+          "legenda": "[PREENCHER: legenda da foto 2 do PROJETECH]",
+          "alt": "[PREENCHER: texto alternativo da foto 2 do PROJETECH]"
+        },
+        {
+          "id": "projetech-03",
+          "thumb": "hero-slide-3.jpg",
+          "full": "hero-slide-3.jpg",
+          "webpSrcset": "",
+          "avifSrcset": "",
+          "sizes": "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+          "width": 1200,
+          "height": 800,
+          "legenda": "[PREENCHER: legenda da foto 3 do PROJETECH]",
+          "alt": "[PREENCHER: texto alternativo da foto 3 do PROJETECH]"
+        }
+      ]
+    },
+    {
+      "id": "olimptech",
+      "titulo": "OLIMPTECH",
+      "tipo": "[PREENCHER: tipo/categoria do evento OLIMPTECH — ex.: Olimpíada / Competição Acadêmica]",
+      "ano": "[PREENCHER: ano do OLIMPTECH]",
+      "data": "[PREENCHER: data do OLIMPTECH]",
+      "local": "[PREENCHER: local/unidade do OLIMPTECH]",
+      "descricaoCurta": "[PREENCHER: descrição curta do OLIMPTECH]",
+      "descricaoCompleta": "[PREENCHER: descrição completa do OLIMPTECH, desafios técnicos, integração entre turmas e premiações.]",
+      "capa": {
+        "src": "hero-slide-1.jpg",
+        "webpSrcset": "",
+        "avifSrcset": "",
+        "width": 1200,
+        "height": 800,
+        "alt": "[PREENCHER: texto alternativo da foto de capa do OLIMPTECH]"
+      },
+      "fotos": [
+        {
+          "id": "olimptech-01",
+          "thumb": "hero-slide-1.jpg",
+          "full": "hero-slide-1.jpg",
+          "webpSrcset": "",
+          "avifSrcset": "",
+          "sizes": "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+          "width": 1200,
+          "height": 800,
+          "legenda": "[PREENCHER: legenda da foto 1 do OLIMPTECH]",
+          "alt": "[PREENCHER: texto alternativo da foto 1 do OLIMPTECH]"
+        },
+        {
+          "id": "olimptech-02",
+          "thumb": "cta-ambiente.jpg",
+          "full": "cta-ambiente.jpg",
+          "webpSrcset": "",
+          "avifSrcset": "",
+          "sizes": "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+          "width": 1200,
+          "height": 800,
+          "legenda": "[PREENCHER: legenda da foto 2 do OLIMPTECH]",
+          "alt": "[PREENCHER: texto alternativo da foto 2 do OLIMPTECH]"
+        }
+      ]
+    },
+    {
+      "id": "cerimonia-do-jaleco",
+      "titulo": "CERIMÔNIA DO JALECO",
+      "tipo": "[PREENCHER: tipo/categoria do evento Cerimônia do Jaleco — ex.: Solenidade da Saúde]",
+      "ano": "[PREENCHER: ano da Cerimônia do Jaleco]",
+      "data": "[PREENCHER: data da Cerimônia do Jaleco]",
+      "local": "[PREENCHER: local/unidade da Cerimônia do Jaleco]",
+      "descricaoCurta": "[PREENCHER: descrição curta da Cerimônia do Jaleco]",
+      "descricaoCompleta": "[PREENCHER: descrição completa da Cerimônia do Jaleco, simbolismo ético e acolhimento dos novos estudantes de Enfermagem.]",
+      "capa": {
+        "src": "",
+        "webpSrcset": "",
+        "avifSrcset": "",
+        "width": 1200,
+        "height": 800,
+        "alt": "[PREENCHER: texto alternativo da foto de capa da Cerimônia do Jaleco]"
+      },
+      "fotos": []
+    }
+  ]
+}
+

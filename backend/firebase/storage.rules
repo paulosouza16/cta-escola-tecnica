@@ -1,0 +1,18 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Armazenamento 100% PRIVADO (LGPD):
+    // - Nenhuma URL pública é permitida.
+    // - Upload é realizado exclusivamente pelo servidor (Cloud Function Admin SDK) após validar tipo, tamanho e renomear com UUID.
+    // - Acesso aos anexos ocorre apenas por usuários autenticados da secretaria via Signed URLs temporárias (15 minutos).
+    match /requerimentos/{ano}/{protocolo}/{fileName} {
+      allow read: if request.auth != null && request.auth.token.secretaria == true;
+      allow write: if false;
+    }
+
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
+

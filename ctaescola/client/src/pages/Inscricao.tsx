@@ -118,6 +118,9 @@ export default function Inscricao() {
 
           <nav id="mobile-navigation" className={`main-nav${menuOpen ? " main-nav--open" : ""}`} aria-label="Navegação principal">
             <a href="/nossos-cursos" onClick={() => setMenuOpen(false)}>Cursos</a>
+            <a href="/bolsao.html" onClick={() => setMenuOpen(false)}>Bolsão</a>
+            <a href="/secretaria.html" onClick={() => setMenuOpen(false)}>Secretaria</a>
+            <a href="/eventos.html" onClick={() => setMenuOpen(false)}>Eventos</a>
             <a href="/#trilhas" onClick={() => setMenuOpen(false)}>Trilhas</a>
             <a href="/#comunidade" onClick={() => setMenuOpen(false)}>Comunidade</a>
             <a href="/#unidades" onClick={() => setMenuOpen(false)}>Unidades</a>
@@ -417,6 +420,9 @@ export default function Inscricao() {
           <div className="footer-links-col">
             <span className="footer-title">EXPLORE</span>
             <a href="/nossos-cursos">Nossos Cursos</a>
+            <a href="/bolsao.html">Bolsão do CTA</a>
+            <a href="/secretaria.html">Secretaria Online</a>
+            <a href="/eventos.html">Eventos</a>
             <a href="/sobre-o-cta">Sobre o CTA</a>
             <a href="/#comunidade">Comunidade</a>
             <a href="/#unidades">Unidades</a>

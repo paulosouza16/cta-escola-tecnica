@@ -82,6 +82,9 @@ const heroSlides = [
 
 const navItems = [
   { label: "Cursos", href: "#cursos" },
+  { label: "Bolsão", href: "/bolsao.html" },
+  { label: "Secretaria", href: "/secretaria.html" },
+  { label: "Eventos", href: "/eventos.html" },
   { label: "Trilhas", href: "#trilhas" },
   { label: "Comunidade", href: "#comunidade" },
   { label: "Unidades", href: "#unidades" },
@@ -743,6 +746,78 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="eventos-home-section section-pad" id="eventos" aria-labelledby="eventos-home-title">
+          <div className="eventos-home-head">
+            <div>
+              <Eyebrow>GALERIA &amp; VIVÊNCIA ACADÊMICA</Eyebrow>
+              <h2 id="eventos-home-title">Nossos Eventos.<br /><span>Conhecimento em movimento.</span></h2>
+            </div>
+            <div className="eventos-home-head__aside">
+              <p>Mostras tecnológicas, olimpíadas estudantis e solenidades que conectam nossos estudantes à prática profissional nas unidades Bangu e Campo Grande.</p>
+              <a className="button button--gold" href="/eventos.html">
+                Ver todos os eventos <ArrowRight size={16} />
+              </a>
+            </div>
+          </div>
+
+          <div className="eventos-home-grid">
+            <article className="life-card evento-card">
+              <a href="/eventos.html#projetech" className="evento-card__media-link">
+                <div className="life-card__media">
+                  <img src="/hero-slide-2.jpg" alt="[PREENCHER: texto alternativo da foto de capa do PROJETECH]" width="1200" height="800" loading="lazy" />
+                  <span className="life-card__tag">[PREENCHER: ano do PROJETECH]</span>
+                </div>
+              </a>
+              <div className="life-card__body">
+                <span className="life-card__meta">[PREENCHER: tipo/categoria do evento PROJETECH — ex.: Mostra Tecnológica]</span>
+                <h3>PROJETECH</h3>
+                <p>[PREENCHER: descrição curta do PROJETECH]</p>
+                <a className="evento-card__cta" href="/eventos.html#projetech">
+                  Ver álbum de fotos <ArrowRight size={15} />
+                </a>
+              </div>
+            </article>
+
+            <article className="life-card evento-card">
+              <a href="/eventos.html#olimptech" className="evento-card__media-link">
+                <div className="life-card__media">
+                  <img src="/hero-slide-1.jpg" alt="[PREENCHER: texto alternativo da foto de capa do OLIMPTECH]" width="1200" height="800" loading="lazy" />
+                  <span className="life-card__tag">[PREENCHER: ano do OLIMPTECH]</span>
+                </div>
+              </a>
+              <div className="life-card__body">
+                <span className="life-card__meta">[PREENCHER: tipo/categoria do evento OLIMPTECH — ex.: Olimpíada / Competição Acadêmica]</span>
+                <h3>OLIMPTECH</h3>
+                <p>[PREENCHER: descrição curta do OLIMPTECH]</p>
+                <a className="evento-card__cta" href="/eventos.html#olimptech">
+                  Ver álbum de fotos <ArrowRight size={15} />
+                </a>
+              </div>
+            </article>
+
+            <article className="life-card evento-card">
+              <a href="/eventos.html#cerimonia-do-jaleco" className="evento-card__media-link">
+                <div className="life-card__media evento-card__media--placeholder">
+                  <div className="evento-placeholder-cover">
+                    <span className="evento-placeholder-cover__badge">Em breve</span>
+                    <strong>CERIMÔNIA DO JALECO</strong>
+                    <span>Fotos em organização</span>
+                  </div>
+                  <span className="life-card__tag">[PREENCHER: ano da Cerimônia do Jaleco]</span>
+                </div>
+              </a>
+              <div className="life-card__body">
+                <span className="life-card__meta">[PREENCHER: tipo/categoria do evento Cerimônia do Jaleco — ex.: Solenidade da Saúde]</span>
+                <h3>CERIMÔNIA DO JALECO</h3>
+                <p>[PREENCHER: descrição curta da Cerimônia do Jaleco]</p>
+                <a className="evento-card__cta" href="/eventos.html#cerimonia-do-jaleco">
+                  Ver detalhes do evento <ArrowRight size={15} />
+                </a>
+              </div>
+            </article>
+          </div>
+        </section>
+
         <section className="locations-section" id="unidades" aria-labelledby="locations-title">
           <div className="locations-top">
             <div>
@@ -881,6 +956,9 @@ export default function Home() {
           <div className="footer-links-col">
             <span className="footer-title">EXPLORE</span>
             <a href="/nossos-cursos">Nossos Cursos</a>
+            <a href="/bolsao.html">Bolsão do CTA</a>
+            <a href="/secretaria.html">Secretaria Online</a>
+            <a href="/eventos.html">Eventos</a>
             <a href="/sobre-o-cta">Sobre o CTA</a>
             <a href="#comunidade">Comunidade</a>
             <a href="#unidades">Unidades</a>

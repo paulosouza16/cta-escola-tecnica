@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Inscrição online para o Bolsão do CTA Escola Técnica no Rio de Janeiro. Concorra a bolsas de estudo nas unidades Bangu e Campo Grande."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Bolsão do CTA — Inscrição Online | CTA Escola Técnica" />
+    <meta
+      property="og:description"
+      content="Participe do Bolsão do CTA Escola Técnica e concorra a bolsas para os cursos técnicos em Bangu e Campo Grande."
+    />
+    <meta property="og:image" content="logo-cta-amarela.png" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Bolsão do CTA — Inscrição Online | CTA Escola Técnica</title>
+  </head>
+  <body>
+    <div class="site-shell" id="inicio">
+      <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+      <header class="site-header">
+        <div class="header-inner">
+          <a class="brand" href="index.html" aria-label="CTA Escola Técnica — início">
+            <img
+              class="brand__logo"
+              src="logo-cta-amarela.png"
+              alt="CTA — Escola Técnica"
+              width="174"
+              height="48"
+            />
+          </a>
+
+          <nav id="mobile-navigation" class="main-nav" aria-label="Navegação principal">
+            <a href="nossos-cursos.html">Cursos</a>
+            <a href="bolsao.html" class="nav-link--active" aria-current="page">Bolsão</a>
+            <a href="secretaria.html">Secretaria</a>
+            <a href="eventos.html">Eventos</a>
+            <a href="index.html#trilhas">Trilhas</a>
+            <a href="index.html#comunidade">Comunidade</a>
+            <a href="index.html#unidades">Unidades</a>
+            <a href="index.html#contato">Contato</a>
+            <a class="mobile-nav-apply" href="inscricao.html">
+              Inscreva-se
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            </a>
+          </nav>
+
+          <a class="header-cta" href="#formulario-bolsao">
+            Inscrever no Bolsão
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </a>
+
+          <button
+            id="menu-toggle"
+            class="menu-toggle"
+            type="button"
+            aria-label="Abrir menu"
+            aria-expanded="false"
+            aria-controls="mobile-navigation"
+          >
+            <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            <svg id="icon-close" class="icon-hidden" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main id="conteudo">
+        <section class="enroll-hero" aria-labelledby="bolsao-title">
+          <div class="enroll-hero__inner">
+            <div class="enroll-hero__copy">
+              <p class="eyebrow eyebrow--light">
+                <span></span>PROCESSO SELETIVO DE BOLSAS · [PREENCHER: edição/ano do Bolsão]
+              </p>
+              <h1 id="bolsao-title">Bolsão do <em>CTA</em></h1>
+              <p class="enroll-hero__sub">
+                [PREENCHER: descrição oficial do Bolsão do CTA, público-alvo e objetivos da avaliação.]
+              </p>
+            </div>
+            <nav class="enroll-breadcrumb" aria-label="Localização da página">
+              <a href="index.html">Home</a>
+              <span>&gt;</span>
+              <span class="current">Bolsão do CTA</span>
+            </nav>
+          </div>
+        </section>
+
+        <section class="enroll-section">
+          <!-- Apresentação do Bolsão: Datas, Percentuais e Regulamento -->
+          <section class="bolsao-overview" aria-labelledby="bolsao-info-heading">
+            <div class="bolsao-overview__main">
+              <p class="eyebrow"><span></span>INFORMAÇÕES OFICIAIS DO PROCESSO</p>
+              <h2 id="bolsao-info-heading">Como funciona o Bolsão do CTA</h2>
+              <p class="bolsao-overview__desc">
+                [PREENCHER: texto explicativo detalhado sobre o funcionamento da prova, disciplinas avaliadas, critérios de classificação e aplicação dos descontos nas mensalidades.]
+              </p>
+
+              <div class="bolsao-meta-grid">
+                <div class="bolsao-meta-card">
+                  <span class="bolsao-meta-card__label">PERÍODO DE INSCRIÇÕES</span>
+                  <strong>[PREENCHER: período de inscrições]</strong>
+                  <span>Inscrições online gratuitas ou conforme edital</span>
+                </div>
+                <div class="bolsao-meta-card">
+                  <span class="bolsao-meta-card__label">DATA E HORÁRIO DA PROVA</span>
+                  <strong>[PREENCHER: data da prova] · [PREENCHER: horário da prova]</strong>
+                  <span>Local/formato: [PREENCHER: local ou formato da prova]</span>
+                </div>
+                <div class="bolsao-meta-card">
+                  <span class="bolsao-meta-card__label">PERCENTUAIS DE BOLSA</span>
+                  <strong>[PREENCHER: percentuais de bolsa]</strong>
+                  <span>[PREENCHER: faixa de descontos por pontuação]</span>
+                </div>
+                <div class="bolsao-meta-card">
+                  <span class="bolsao-meta-card__label">RESULTADO E MATRÍCULA</span>
+                  <strong>[PREENCHER: data de divulgação do resultado]</strong>
+                  <span>Prazo de matrícula: [PREENCHER: prazo para matrícula dos aprovados]</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bolsao-overview__regulamento">
+              <span class="bolsao-Overview-tag">EDITAL &amp; REGULAMENTO OFICIAL</span>
+              <h3>Regulamento do Bolsão</h3>
+              <p>
+                [PREENCHER: resumo das regras principais do regulamento, documentos exigidos no dia da prova e condições de concessão da bolsa.]
+              </p>
+              <ul class="bolsao-rules-list">
+                <li>
+                  <strong>Unidade Bangu:</strong> cursos técnicos em Eletrotécnica, Enfermagem e Informática.
+                </li>
+                <li>
+                  <strong>Unidade Campo Grande:</strong> cursos técnicos em Eletrotécnica e Informática.
+                </li>
+                <li>
+                  <strong>Edital completo:</strong> consulte todas as regras no documento PDF oficial abaixo.
+                </li>
+              </ul>
+              <a
+                class="button button--gold bolsao-pdf-btn"
+                href="[PREENCHER: URL ou caminho do arquivo PDF do regulamento]"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" x2="12" y1="18" y2="12"/><polyline points="9 15 12 18 15 15"/></svg>
+                Baixar Regulamento em PDF ([PREENCHER: arquivo do regulamento])
+              </a>
+            </div>
+          </section>
+
+          <div class="enroll-grid" id="formulario-bolsao">
+            <div class="enroll-card">
+              <div class="enroll-card__head">
+                <h2>Inscrição Online — Bolsão do CTA</h2>
+                <p>
+                  Complete as 4 etapas rápidas abaixo. Campos marcados com <span class="required-legend">*</span> são obrigatórios.
+                </p>
+              </div>
+
+              <!-- Indicador de etapas (Wizard Stepper) -->
+              <nav aria-label="Progresso do formulário do Bolsão" class="bolsao-stepper-wrap" id="bolsao-stepper-nav">
+                <ol class="bolsao-stepper">
+                  <li class="bolsao-step-indicator bolsao-step-indicator--active" data-step-indicator="1" aria-current="step">
+                    <span class="bolsao-step-indicator__num">1</span>
+                    <span class="bolsao-step-indicator__label">Dados Pessoais</span>
+                  </li>
+                  <li class="bolsao-step-indicator" data-step-indicator="2">
+                    <span class="bolsao-step-indicator__num">2</span>
+                    <span class="bolsao-step-indicator__label">Responsável</span>
+                  </li>
+                  <li class="bolsao-step-indicator" data-step-indicator="3">
+                    <span class="bolsao-step-indicator__num">3</span>
+                    <span class="bolsao-step-indicator__label">Unidade e Curso</span>
+                  </li>
+                  <li class="bolsao-step-indicator" data-step-indicator="4">
+                    <span class="bolsao-step-indicator__num">4</span>
+                    <span class="bolsao-step-indicator__label">Revisão e Envio</span>
+                  </li>
+                </ol>
+              </nav>
+
+              <!-- Tela de Confirmação (exibida após envio com sucesso) -->
+              <div
+                id="bolsao-success"
+                class="enroll-success bolsao-confirmation icon-hidden"
+                role="region"
+                aria-labelledby="bolsao-success-heading"
+                aria-live="polite"
+                tabindex="-1"
+              >
+                <span class="enroll-success__badge">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                  INSCRIÇÃO CONFIRMADA NO BOLSÃO
+                </span>
+                <h3 id="bolsao-success-heading">Sua inscrição foi registrada com sucesso!</h3>
+                <p>
+                  Guarde o seu número de inscrição abaixo. Enviamos a confirmação para o e-mail informado e notificamos a secretaria do CTA (<strong>[PREENCHER: e-mail da secretaria]</strong>).
+                </p>
+
+                <div class="bolsao-protocol-box" role="status">
+                  <span class="bolsao-protocol-box__label">NÚMERO DE INSCRIÇÃO ÚNICO</span>
+                  <strong id="bolsao-protocol-number" class="bolsao-protocol-box__code">—</strong>
+                  <span id="bolsao-protocol-meta" class="bolsao-protocol-box__meta"></span>
+                </div>
+
+                <div id="bolsao-confirmation-summary" class="enroll-summary"></div>
+
+                <div class="enroll-success__actions">
+                  <button type="button" id="bolsao-print-btn" class="button button--navy">
+                    Imprimir / Salvar Comprovante
+                  </button>
+                  <a
+                    id="bolsao-whatsapp-confirm"
+                    class="button button--gold"
+                    href="https://wa.me/5521994368367"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                    Receber atendimento no WhatsApp
+                  </a>
+                  <button type="button" id="bolsao-new-btn" class="button button--ghost-navy">
+                    Nova inscrição (outro CPF)
+                  </button>
+                </div>
+              </div>
+
+              <!-- Formulário Multi-etapas -->
+              <form
+                id="bolsao-form"
+                class="enroll-form"
+                novalidate
+                data-edicao="[PREENCHER: código da edição — ex.: BOLSAO-CTA-2026]"
+                data-api-url="[PREENCHER: URL do endpoint de back-end do Bolsão]"
+                data-secretaria-email="[PREENCHER: e-mail da secretaria]"
+              >
+                <!-- Honeypot Anti-spam (oculto para usuários reais e leitores de tela) -->
+                <div class="bolsao-hp-wrap" aria-hidden="true">
+                  <label for="bolsao-website-hp">Não preencha este campo</label>
+                  <input
+                    type="text"
+                    id="bolsao-website-hp"
+                    name="website_url"
+                    tabindex="-1"
+                    autocomplete="off"
+                  />
+                </div>
+
+                <!-- ETAPA 1: DADOS PESSOAIS -->
+                <fieldset class="bolsao-step-pane" id="bolsao-step-1" data-step="1">
+                  <legend class="bolsao-step-legend">Etapa 1 de 4 — Dados pessoais do candidato</legend>
+
+                  <div class="form-field">
+                    <label class="form-label" for="bolsao-nome">
+                      Nome completo <span class="req">*</span>
+                    </label>
+                    <input
+                      class="form-input"
+                      type="text"
+                      id="bolsao-nome"
+                      name="nome"
+                      placeholder="Digite seu nome completo"
+                      required
+                      autocomplete="name"
+                      aria-describedby="error-bolsao-nome"
+                    />
+                    <span class="form-error icon-hidden" id="error-bolsao-nome" role="alert">
+                      Informe seu nome e sobrenome completos.
+                    </span>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label class="form-label" for="bolsao-nascimento">
+                        Data de nascimento <span class="req">*</span>
+                      </label>
+                      <input
+                        class="form-input"
+                        type="date"
+                        id="bolsao-nascimento"
+                        name="dataNascimento"
+                        required
+                        autocomplete="bday"
+                        aria-describedby="hint-bolsao-nascimento error-bolsao-nascimento"
+                      />
+                      <span class="form-hint" id="hint-bolsao-nascimento">
+                        Usada para verificar se é necessário informar responsável legal.
+                      </span>
+                      <span class="form-error icon-hidden" id="error-bolsao-nascimento" role="alert">
+                        Informe uma data de nascimento válida.
+                      </span>
+                    </div>
+
+                    <div class="form-field">
+                      <label class="form-label" for="bolsao-cpf">
+                        CPF do candidato <span class="req">*</span>
+                      </label>
+                      <input
+                        class="form-input"
+                        type="text"
+                        inputmode="numeric"
+                        id="bolsao-cpf"
+                        name="cpf"
+                        placeholder="000.000.000-00"
+                        maxlength="14"
+                        required
+                        aria-describedby="hint-bolsao-cpf error-bolsao-cpf"
+                      />
+                      <span class="form-hint" id="hint-bolsao-cpf">Apenas 1 inscrição por CPF nesta edição.</span>
+                      <span class="form-error icon-hidden" id="error-bolsao-cpf" role="alert">
+                        Informe um CPF válido (11 dígitos).
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label class="form-label" for="bolsao-email">
+                        E-mail <span class="req">*</span>
+                      </label>
+                      <input
+                        class="form-input"
+                        type="email"
+                        id="bolsao-email"
+                        name="email"
+                        placeholder="seuemail@exemplo.com"
+                        required
+                        autocomplete="email"
+                        aria-describedby="hint-bolsao-email error-bolsao-email"
+                      />
+                      <span class="form-hint" id="hint-bolsao-email">
+                        Você receberá o comprovante de inscrição neste e-mail.
+                      </span>
+                      <span class="form-error icon-hidden" id="error-bolsao-email" role="alert">
+                        Informe um endereço de e-mail válido.
+                      </span>
+                    </div>
+
+                    <div class="form-field">
+                      <label class="form-label" for="bolsao-whatsapp">
+                        WhatsApp <span class="req">*</span>
+                      </label>
+                      <input
+                        class="form-input"
+                        type="tel"
+                        inputmode="tel"
+                        id="bolsao-whatsapp"
+                        name="whatsapp"
+                        placeholder="(21) 99999-9999"
+                        maxlength="15"
+                        required
+                        autocomplete="tel"
+                        aria-describedby="error-bolsao-whatsapp"
+                      />
+                      <span class="form-error icon-hidden" id="error-bolsao-whatsapp" role="alert">
+                        Informe um número de WhatsApp válido com DDD (10 ou 11 dígitos).
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="bolsao-step-actions">
+                    <span></span>
+                    <button type="button" class="button button--gold" data-next-step="2">
+                      Continuar para Etapa 2
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </button>
+                  </div>
+                </fieldset>
+
+                <!-- ETAPA 2: DADOS DO RESPONSÁVEL -->
+                <fieldset class="bolsao-step-pane icon-hidden" id="bolsao-step-2" data-step="2">
+                  <legend class="bolsao-step-legend">Etapa 2 de 4 — Dados do responsável legal</legend>
+
+                  <div id="bolsao-age-banner" class="bolsao-notice" role="status" aria-live="polite">
+                    Preencha os dados do responsável legal (obrigatório para candidatos menores de 18 anos).
+                  </div>
+
+                  <div class="form-field">
+                    <label class="form-label" for="bolsao-resp-nome">
+                      Nome completo do responsável <span class="req" id="req-resp-nome">*</span>
+                    </label>
+                    <input
+                      class="form-input"
+                      type="text"
+                      id="bolsao-resp-nome"
+                      name="responsavelNome"
+                      placeholder="Nome completo da mãe, pai ou responsável legal"
+                      aria-describedby="error-bolsao-resp-nome"
+                    />
+                    <span class="form-error icon-hidden" id="error-bolsao-resp-nome" role="alert">
+                      Para candidatos menores de 18 anos, informe o nome completo do responsável.
+                    </span>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label class="form-label" for="bolsao-resp-cpf">
+                        CPF do responsável <span class="req" id="req-resp-cpf">*</span>
+                      </label>
+                      <input
+                        class="form-input"
+                        type="text"
+                        inputmode="numeric"
+                        id="bolsao-resp-cpf"
+                        name="responsavelCpf"
+                        placeholder="000.000.000-00"
+                        maxlength="14"
+                        aria-describedby="error-bolsao-resp-cpf"
+                      />
+                      <span class="form-error icon-hidden" id="error-bolsao-resp-cpf" role="alert">
+                        Informe um CPF válido para o responsável (diferente do CPF do candidato).
+                      </span>
+                    </div>
+
+                    <div class="form-field">
+                      <label class="form-label" for="bolsao-resp-whatsapp">
+                        WhatsApp do responsável <span class="req" id="req-resp-whatsapp">*</span>
+                      </label>
+                      <input
+                        class="form-input"
+                        type="tel"
+                        inputmode="tel"
+                        id="bolsao-resp-whatsapp"
+                        name="responsavelWhatsapp"
+                        placeholder="(21) 99999-9999"
+                        maxlength="15"
+                        aria-describedby="error-bolsao-resp-whatsapp"
+                      />
+                      <span class="form-error icon-hidden" id="error-bolsao-resp-whatsapp" role="alert">
+                        Informe um WhatsApp válido com DDD para o responsável.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="bolsao-step-actions">
+                    <button type="button" class="button button--ghost-navy" data-prev-step="1">
+                      Voltar à Etapa 1
+                    </button>
+                    <button type="button" class="button button--gold" data-next-step="3">
+                      Continuar para Etapa 3
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </button>
+                  </div>
+                </fieldset>
+
+                <!-- ETAPA 3: UNIDADE, CURSO E ESCOLARIDADE -->
+                <fieldset class="bolsao-step-pane icon-hidden" id="bolsao-step-3" data-step="3">
+                  <legend class="bolsao-step-legend">Etapa 3 de 4 — Escolha da unidade, curso e escolaridade</legend>
+
+                  <div class="bolsao-unit-rule-hint">
+                    <strong>Disponibilidade por unidade:</strong>
+                    <span>
+                      <strong>Bangu:</strong> Eletrotécnica, Enfermagem e Informática ·
+                      <strong>Campo Grande:</strong> somente Eletrotécnica e Informática.
+                    </span>
+                  </div>
+
+                  <div
+                    id="bolsao-unit-course-warning"
+                    class="bolsao-alert bolsao-alert--warning icon-hidden"
+                    role="alert"
+                    aria-live="assertive"
+                  ></div>
+
+                  <div class="form-row">
+                    <div class="form-field">
+                      <label class="form-label" for="bolsao-unidade">
+                        Unidade de interesse <span class="req">*</span>
+                      </label>
+                      <select
+                        class="form-select"
+                        id="bolsao-unidade"
+                        name="unidade"
+                        required
+                        aria-describedby="error-bolsao-unidade"
+                      >
+                        <option value="">Selecione a unidade</option>
+                        <option value="Bangu">Bangu (Eletrotécnica, Enfermagem e Informática)</option>
+                        <option value="Campo Grande">Campo Grande (Eletrotécnica e Informática)</option>
+                      </select>
+                      <span class="form-error icon-hidden" id="error-bolsao-unidade" role="alert">
+                        Selecione a unidade desejada (Bangu ou Campo Grande).
+                      </span>
+                    </div>
+
+                    <div class="form-field">
+                      <label class="form-label" for="bolsao-curso">
+                        Curso técnico pretendido <span class="req">*</span>
+                      </label>
+                      <select
+                        class="form-select"
+                        id="bolsao-curso"
+                        name="curso"
+                        required
+                        aria-describedby="hint-bolsao-curso error-bolsao-curso"
+                      >
+                        <option value="">Selecione o curso</option>
+                        <option value="Eletrotécnica">Técnico em Eletrotécnica</option>
+                        <option value="Enfermagem">Técnico em Enfermagem</option>
+                        <option value="Informática">Técnico em Informática</option>
+                      </select>
+                      <span class="form-hint" id="hint-bolsao-curso">
+                        As opções exibidas seguem os cursos disponíveis na unidade escolhida.
+                      </span>
+                      <span class="form-error icon-hidden" id="error-bolsao-curso" role="alert">
+                        Selecione um curso válido disponível para a unidade escolhida.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="form-field">
+                    <label class="form-label" for="bolsao-escolaridade">
+                      Escolaridade atual <span class="req">*</span>
+                    </label>
+                    <select
+                      class="form-select"
+                      id="bolsao-escolaridade"
+                      name="escolaridade"
+                      required
+                      aria-describedby="error-bolsao-escolaridade"
+                    >
+                      <option value="">Selecione sua escolaridade atual</option>
+                      <option value="Concluindo o 9º ano do Ensino Fundamental">Concluindo o 9º ano do Ensino Fundamental</option>
+                      <option value="Ensino Fundamental concluído">Ensino Fundamental concluído</option>
+                      <option value="Cursando o 1º ano do Ensino Médio">Cursando o 1º ano do Ensino Médio</option>
+                      <option value="Cursando o 2º ano do Ensino Médio">Cursando o 2º ano do Ensino Médio</option>
+                      <option value="Cursando o 3º ano do Ensino Médio">Cursando o 3º ano do Ensino Médio</option>
+                      <option value="Ensino Médio concluído (Pós-Médio)">Ensino Médio concluído (Pós-Médio)</option>
+                      <option value="Educação de Jovens e Adultos (EJA)">Educação de Jovens e Adultos (EJA)</option>
+                    </select>
+                    <span class="form-error icon-hidden" id="error-bolsao-escolaridade" role="alert">
+                      Informe sua escolaridade atual.
+                    </span>
+                  </div>
+
+                  <div class="bolsao-step-actions">
+                    <button type="button" class="button button--ghost-navy" data-prev-step="2">
+                      Voltar à Etapa 2
+                    </button>
+                    <button type="button" class="button button--gold" data-next-step="4">
+                      Revisar dados (Etapa 4)
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </button>
+                  </div>
+                </fieldset>
+
+                <!-- ETAPA 4: REVISÃO + LGPD + ENVIO -->
+                <fieldset class="bolsao-step-pane icon-hidden" id="bolsao-step-4" data-step="4">
+                  <legend class="bolsao-step-legend">Etapa 4 de 4 — Revisão dos dados e confirmação</legend>
+
+                  <div class="bolsao-review-box" id="bolsao-review-box" aria-live="polite">
+                    <!-- Preenchido dinamicamente ao entrar na Etapa 4 -->
+                  </div>
+
+                  <div class="bolsao-lgpd-box">
+                    <label class="bolsao-checkbox-label" for="bolsao-lgpd">
+                      <input
+                        type="checkbox"
+                        id="bolsao-lgpd"
+                        name="consentimentoLgpd"
+                        required
+                        aria-describedby="error-bolsao-lgpd"
+                      />
+                      <span>
+                        Declaro que li o regulamento do Bolsão e autorizo o tratamento dos meus dados pessoais pelo <strong>CTA – Escola Técnica</strong> para fins de inscrição, aplicação da prova e contato institucional, nos termos da Lei Geral de Proteção de Dados (Lei nº 13.709/2018) e da
+                        <a
+                          href="[PREENCHER: URL da Política de Privacidade]"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="bolsao-inline-link"
+                        >
+                          Política de Privacidade ([PREENCHER: link da Política de Privacidade])
+                        </a>.
+                        <span class="req">*</span>
+                      </span>
+                    </label>
+                    <span class="form-error icon-hidden" id="error-bolsao-lgpd" role="alert">
+                      Você precisa aceitar o termo de consentimento LGPD para concluir a inscrição.
+                    </span>
+                  </div>
+
+                  <div
+                    id="bolsao-submit-error"
+                    class="bolsao-alert bolsao-alert--error icon-hidden"
+                    role="alert"
+                    aria-live="assertive"
+                  ></div>
+
+                  <div class="bolsao-step-actions">
+                    <button type="button" class="button button--ghost-navy" data-prev-step="3">
+                      Voltar e corrigir dados
+                    </button>
+                    <button type="submit" id="bolsao-submit-btn" class="button button--gold enroll-submit-btn">
+                      Confirmar Inscrição no Bolsão
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    </button>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+
+            <aside class="enroll-aside" aria-label="Informações das unidades e suporte do Bolsão">
+              <div class="enroll-aside-card">
+                <span class="enroll-aside-card__tag">UNIDADES E CURSOS DO BOLSÃO</span>
+                <h3>Bangu &amp; Campo Grande</h3>
+                <p>
+                  <strong>Unidade Bangu:</strong> Campus da Universidade Cândido Mendes.<br />
+                  <em>Cursos: Eletrotécnica, Enfermagem e Informática.</em><br /><br />
+                  <strong>Unidade Campo Grande:</strong> Rua Cariús, 223.<br />
+                  <em>Cursos: somente Eletrotécnica e Informática.</em>
+                </p>
+                <div class="enroll-contact-list">
+                  <a href="tel:+552134493572">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    (21) 3449-3572
+                  </a>
+                  <a
+                    href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Tenho%20uma%20d%C3%BAvida%20sobre%20o%20Bols%C3%A3o."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                    WhatsApp: (21) 99436-8367
+                  </a>
+                  <a href="mailto:faleconosco@ctarj.org.br">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    faleconosco@ctarj.org.br
+                  </a>
+                </div>
+              </div>
+
+              <div class="enroll-highlights">
+                <h4>Atalhos de Inscrição por Unidade</h4>
+                <ul>
+                  <li>
+                    <span class="check-badge">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    </span>
+                    <span>
+                      <strong>Bangu:</strong>
+                      <a class="bolsao-inline-link" href="bolsao.html?unidade=Bangu&amp;curso=Eletrot%C3%A9cnica">Eletrotécnica</a> ·
+                      <a class="bolsao-inline-link" href="bolsao.html?unidade=Bangu&amp;curso=Enfermagem">Enfermagem</a> ·
+                      <a class="bolsao-inline-link" href="bolsao.html?unidade=Bangu&amp;curso=Inform%C3%A1tica">Informática</a>
+                    </span>
+                  </li>
+                  <li>
+                    <span class="check-badge">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    </span>
+                    <span>
+                      <strong>Campo Grande:</strong>
+                      <a class="bolsao-inline-link" href="bolsao.html?unidade=Campo%20Grande&amp;curso=Eletrot%C3%A9cnica">Eletrotécnica</a> ·
+                      <a class="bolsao-inline-link" href="bolsao.html?unidade=Campo%20Grande&amp;curso=Inform%C3%A1tica">Informática</a>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-main">
+          <div class="footer-brand-col">
+            <a class="brand" href="index.html" aria-label="CTA Escola Técnica — início">
+              <img
+                class="brand__logo"
+                src="logo-cta-branca.png"
+                alt="CTA — Escola Técnica"
+                width="174"
+                height="48"
+              />
+            </a>
+            <p>Formação profissional, conhecimento e novas possibilidades para o Rio de Janeiro.</p>
+          </div>
+          <div class="footer-links-col">
+            <span class="footer-title">EXPLORE</span>
+            <a href="nossos-cursos.html">Nossos Cursos</a>
+            <a href="bolsao.html">Bolsão do CTA</a>
+            <a href="secretaria.html">Secretaria Online</a>
+            <a href="eventos.html">Eventos</a>
+            <a href="sobre-o-cta.html">Sobre o CTA</a>
+            <a href="index.html#comunidade">Comunidade</a>
+            <a href="index.html#unidades">Unidades</a>
+            <a href="inscricao.html">
+              Faça sua inscrição
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            </a>
+          </div>
+          <div class="footer-links-col footer-contact-col">
+            <span class="footer-title">FALE COM A GENTE</span>
+            <a href="tel:+552134493572">(21) 3449-3572</a>
+            <a
+              href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20o%20Bols%C3%A3o."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              WhatsApp: (21) 99436-8367
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            </a>
+            <a href="mailto:faleconosco@ctarj.org.br">
+              faleconosco@ctarj.org.br
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+            </a>
+          </div>
+          <a class="footer-top" href="#inicio" aria-label="Voltar ao início">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+          </a>
+        </div>
+        <div class="footer-bottom">
+          <span>© <span id="current-year">2026</span> CTA – Escola Técnica. Centro de Tecnologia Aplicada.</span>
+          <span>RIO DE JANEIRO · RJ</span>
+        </div>
+      </footer>
+
+      <a
+        class="whatsapp-float"
+        href="https://wa.me/5521994368367?text=Ol%C3%A1%2C%20CTA!%20Gostaria%20de%20saber%20mais%20sobre%20o%20Bols%C3%A3o."
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Fale com o CTA pelo WhatsApp"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+        <span>Fale com o CTA</span>
+      </a>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

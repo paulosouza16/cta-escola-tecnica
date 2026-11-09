@@ -42,6 +42,15 @@ function PageHeader({ enrollHref = "/inscricao" }: { enrollHref?: string }) {
           <a href="/nossos-cursos" className="nav-link--active" onClick={() => setMenuOpen(false)}>
             Cursos
           </a>
+          <a href="/bolsao.html" onClick={() => setMenuOpen(false)}>
+            Bolsão
+          </a>
+          <a href="/secretaria.html" onClick={() => setMenuOpen(false)}>
+            Secretaria
+          </a>
+          <a href="/eventos.html" onClick={() => setMenuOpen(false)}>
+            Eventos
+          </a>
           <a href="/#trilhas" onClick={() => setMenuOpen(false)}>
             Trilhas
           </a>
@@ -99,6 +108,9 @@ function PageFooter({ whatsappHref = WHATSAPP }: { whatsappHref?: string }) {
           <div className="footer-links-col">
             <span className="footer-title">EXPLORE</span>
             <a href="/nossos-cursos">Nossos Cursos</a>
+            <a href="/bolsao.html">Bolsão do CTA</a>
+            <a href="/secretaria.html">Secretaria Online</a>
+            <a href="/eventos.html">Eventos</a>
             <a href="/sobre-o-cta">Sobre o CTA</a>
             <a href="/#comunidade">Comunidade</a>
             <a href="/#unidades">Unidades</a>
