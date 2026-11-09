@@ -3303,7 +3303,106 @@ textarea:focus-visible {
   .eventos-lightbox__nav-btn--prev {
     left: 12px;
   }
-  .eventos-lightbox__nav-btn--next {
-    right: 12px;
+/* ==========================================================================
+   Menu Dropdown: Login (Área do Aluno / Área da Coordenação)
+   ========================================================================== */
+.nav-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.nav-dropdown__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  color: #d6deeb;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color .2s ease;
+}
+.nav-dropdown__toggle:hover,
+.nav-dropdown:hover .nav-dropdown__toggle,
+.nav-dropdown:focus-within .nav-dropdown__toggle {
+  color: var(--gold);
+}
+.nav-dropdown__toggle svg {
+  transition: transform .2s ease;
+}
+.nav-dropdown:hover .nav-dropdown__toggle svg,
+.nav-dropdown:focus-within .nav-dropdown__toggle svg {
+  transform: rotate(180deg);
+}
+.nav-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  min-width: 230px;
+  background: #0f1d36;
+  border: 1px solid rgba(255, 216, 0, .28);
+  border-radius: 6px;
+  padding: 8px 0;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .35);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(6px);
+  transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+  z-index: 100;
+}
+.nav-dropdown:hover .nav-dropdown__menu,
+.nav-dropdown:focus-within .nav-dropdown__menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-dropdown__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  color: #e5ecf6;
+  font-size: 13px;
+  font-weight: 600;
+  transition: background .18s ease, color .18s ease;
+}
+.nav-dropdown__item:hover,
+.nav-dropdown__item:focus-visible {
+  background: rgba(255, 216, 0, .14);
+  color: var(--gold);
+}
+.nav-dropdown__item svg {
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+  .nav-dropdown {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .nav-dropdown__toggle {
+    width: 100%;
+    justify-content: space-between;
+    padding: 10px 0;
+  }
+  .nav-dropdown__menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    background: rgba(255, 255, 255, .05);
+    width: 100%;
+    margin-top: 4px;
+    padding: 4px 0;
   }
 }
+

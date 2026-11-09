@@ -19,12 +19,14 @@ window.CTA_SECRETARIA_CONFIG = {
     gerarLinkAnexo: "[PREENCHER: URL da Cloud Function gerarLinkTemporarioAnexo no Firebase]"
   },
 
-  // Configuração pública do Firebase Web SDK (usada apenas no Painel da Secretaria para login)
+  // Configuração pública do Firebase Web SDK (usada no Painel e nos serviços da Secretaria)
   firebaseClientConfig: {
-    apiKey: "[PREENCHER: FIREBASE_WEB_API_KEY]",
-    authDomain: "[PREENCHER: FIREBASE_PROJECT_ID.firebaseapp.com]",
-    projectId: "[PREENCHER: FIREBASE_PROJECT_ID]",
-    storageBucket: "[PREENCHER: FIREBASE_PROJECT_ID.firebasestorage.app]"
+    apiKey: "AIzaSyD6cNGS3c-lDiAFtVeYs7o6Qh28K1JGcpQ",
+    authDomain: "cta-escola-tecnica-rj.firebaseapp.com",
+    projectId: "cta-escola-tecnica-rj",
+    storageBucket: "cta-escola-tecnica-rj.firebasestorage.app",
+    messagingSenderId: "821562950822",
+    appId: "1:821562950822:web:cd79c331419e4eca356067"
   },
 
   // Textos e parâmetros institucionais com placeholders visíveis (Regra 1)

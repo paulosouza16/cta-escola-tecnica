@@ -45,6 +45,22 @@
             <a href="index.html#comunidade">Comunidade</a>
             <a href="index.html#unidades">Unidades</a>
             <a href="index.html#contato">Contato</a>
+            <div class="nav-dropdown">
+              <button type="button" class="nav-dropdown__toggle" aria-expanded="false" aria-haspopup="true">
+                Login
+                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div class="nav-dropdown__menu" role="menu">
+                <a class="nav-dropdown__item" href="secretaria.html?view=aluno#login" role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  Área do Aluno
+                </a>
+                <a class="nav-dropdown__item" href="painel-secretaria.html" role="menuitem">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  Área da Coordenação
+                </a>
+              </div>
+            </div>
             <a class="mobile-nav-apply" href="inscricao.html">
               Inscreva-se
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
@@ -274,48 +290,25 @@
                     </span>
                   </div>
 
-                  <div class="form-row">
-                    <div class="form-field">
-                      <label class="form-label" for="bolsao-nascimento">
-                        Data de nascimento <span class="req">*</span>
-                      </label>
-                      <input
-                        class="form-input"
-                        type="date"
-                        id="bolsao-nascimento"
-                        name="dataNascimento"
-                        required
-                        autocomplete="bday"
-                        aria-describedby="hint-bolsao-nascimento error-bolsao-nascimento"
-                      />
-                      <span class="form-hint" id="hint-bolsao-nascimento">
-                        Usada para verificar se é necessário informar responsável legal.
-                      </span>
-                      <span class="form-error icon-hidden" id="error-bolsao-nascimento" role="alert">
-                        Informe uma data de nascimento válida.
-                      </span>
-                    </div>
-
-                    <div class="form-field">
-                      <label class="form-label" for="bolsao-cpf">
-                        CPF do candidato <span class="req">*</span>
-                      </label>
-                      <input
-                        class="form-input"
-                        type="text"
-                        inputmode="numeric"
-                        id="bolsao-cpf"
-                        name="cpf"
-                        placeholder="000.000.000-00"
-                        maxlength="14"
-                        required
-                        aria-describedby="hint-bolsao-cpf error-bolsao-cpf"
-                      />
-                      <span class="form-hint" id="hint-bolsao-cpf">Apenas 1 inscrição por CPF nesta edição.</span>
-                      <span class="form-error icon-hidden" id="error-bolsao-cpf" role="alert">
-                        Informe um CPF válido (11 dígitos).
-                      </span>
-                    </div>
+                  <div class="form-field">
+                    <label class="form-label" for="bolsao-nascimento">
+                      Data de nascimento <span class="req">*</span>
+                    </label>
+                    <input
+                      class="form-input"
+                      type="date"
+                      id="bolsao-nascimento"
+                      name="dataNascimento"
+                      required
+                      autocomplete="bday"
+                      aria-describedby="hint-bolsao-nascimento error-bolsao-nascimento"
+                    />
+                    <span class="form-hint" id="hint-bolsao-nascimento">
+                      Usada para verificar se é necessário informar responsável legal.
+                    </span>
+                    <span class="form-error icon-hidden" id="error-bolsao-nascimento" role="alert">
+                      Informe uma data de nascimento válida.
+                    </span>
                   </div>
 
                   <div class="form-row">
@@ -397,44 +390,23 @@
                     </span>
                   </div>
 
-                  <div class="form-row">
-                    <div class="form-field">
-                      <label class="form-label" for="bolsao-resp-cpf">
-                        CPF do responsável <span class="req" id="req-resp-cpf">*</span>
-                      </label>
-                      <input
-                        class="form-input"
-                        type="text"
-                        inputmode="numeric"
-                        id="bolsao-resp-cpf"
-                        name="responsavelCpf"
-                        placeholder="000.000.000-00"
-                        maxlength="14"
-                        aria-describedby="error-bolsao-resp-cpf"
-                      />
-                      <span class="form-error icon-hidden" id="error-bolsao-resp-cpf" role="alert">
-                        Informe um CPF válido para o responsável (diferente do CPF do candidato).
-                      </span>
-                    </div>
-
-                    <div class="form-field">
-                      <label class="form-label" for="bolsao-resp-whatsapp">
-                        WhatsApp do responsável <span class="req" id="req-resp-whatsapp">*</span>
-                      </label>
-                      <input
-                        class="form-input"
-                        type="tel"
-                        inputmode="tel"
-                        id="bolsao-resp-whatsapp"
-                        name="responsavelWhatsapp"
-                        placeholder="(21) 99999-9999"
-                        maxlength="15"
-                        aria-describedby="error-bolsao-resp-whatsapp"
-                      />
-                      <span class="form-error icon-hidden" id="error-bolsao-resp-whatsapp" role="alert">
-                        Informe um WhatsApp válido com DDD para o responsável.
-                      </span>
-                    </div>
+                  <div class="form-field">
+                    <label class="form-label" for="bolsao-resp-whatsapp">
+                      WhatsApp do responsável <span class="req" id="req-resp-whatsapp">*</span>
+                    </label>
+                    <input
+                      class="form-input"
+                      type="tel"
+                      inputmode="tel"
+                      id="bolsao-resp-whatsapp"
+                      name="responsavelWhatsapp"
+                      placeholder="(21) 99999-9999"
+                      maxlength="15"
+                      aria-describedby="error-bolsao-resp-whatsapp"
+                    />
+                    <span class="form-error icon-hidden" id="error-bolsao-resp-whatsapp" role="alert">
+                      Informe um WhatsApp válido com DDD para o responsável.
+                    </span>
                   </div>
 
                   <div class="bolsao-step-actions">
@@ -731,6 +703,7 @@
       </a>
     </div>
 
-    <script src="script.js"></script>
+    <script src="secretaria-config.js?v=20261109"></script>
+    <script src="script.js?v=20261109"></script>
   </body>
 </html>

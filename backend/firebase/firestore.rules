@@ -1,30 +1,305 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Função auxiliar: verifica se o usuário autenticado pertence à secretaria do CTA
-    function isSecretaria() {
-      return request.auth != null && request.auth.token.secretaria == true;
+
+    // ===============================================================
+    // Assumed Data Model & Architecture
+    // ===============================================================
+    //
+    // 1. Coleção: contadores_protocolo
+    //    Document ID: {ano} (ex: 2026)
+    //    Acesso: Exclusivo via Cloud Functions / Admin SDK (allow read, write: if false)
+    //
+    // 2. Coleção: rate_limits
+    //    Document ID: {key} (hash de IP / endpoint)
+    //    Acesso: Exclusivo via Cloud Functions / Admin SDK (allow read, write: if false)
+    //
+    // 3. Coleção: inscricoes_bolsao
+    //    Document ID: {inscricaoId} (ex: CTA_BOL_2026_123456)
+    //    Campos obrigatórios:
+    //      - nome: string (3 a 120 caracteres)
+    //      - dataNascimento: string (8 a 15 caracteres)
+    //      - email: string (formato de e-mail válido, max 120)
+    //      - whatsapp: string (8 a 25 caracteres)
+    //      - unidade: string ('Bangu' ou 'Campo Grande')
+    //      - curso: string ('Eletrotécnica', 'Enfermagem', 'Informática' respeitando regra da unidade)
+    //      - consentimentoLgpd: bool (deve ser true)
+    //      - timestamp / enviadoEm / criadoEm: timestamp ou string ISO
+    //    Campos opcionais:
+    //      - protocolo, responsavelNome, responsavelWhatsapp, escolaridade, edicaoBolsao, status
+    //    Leitura/Listagem: Usuários autenticados da secretaria ou autenticados
+    //    Criação: Pública / Web Client validada rigorosamente
+    //    Atualização / Exclusão: Apenas secretaria autenticada
+    //
+    // 4. Coleção: usuarios_alunos
+    //    Document ID: {alunoId} (ex: aluno_hash ou uid do Firebase Auth)
+    //    Campos obrigatórios:
+    //      - nome: string (3 a 120 caracteres)
+    //      - email: string (formato válido, max 120)
+    //      - cpfMasked ou cpfHash: string (dados anonimizados / mascarados)
+    //      - unidade: string ('Bangu' ou 'Campo Grande')
+    //      - curso: string (conforme grade da unidade)
+    //    Campos opcionais:
+    //      - cpfFormatted, uid, userId, whatsapp, telefone, passHash, consentimentoLgpd,
+    //        cadastradoEm, criadoEm, atualizadoEm, status
+    //    Leitura: Próprio aluno (dono) ou secretaria
+    //    Criação: Aluno no portal (autenticado, anônimo ou web client) com validação
+    //    Atualização: Próprio aluno ou secretaria com campos sensíveis imutáveis
+    //    Exclusão: Apenas secretaria
+    //
+    // 5. Coleção: requerimentos (e requerimentos_secretaria)
+    //    Document ID: {protocolo} (ex: CTA-2026-000001)
+    //    Campos obrigatórios:
+    //      - protocolo: string (5 a 50 caracteres)
+    //      - nome: string (3 a 120 caracteres)
+    //      - email: string (formato válido)
+    //      - unidade: string ('Bangu' ou 'Campo Grande')
+    //      - curso: string (conforme grade da unidade)
+    //      - tipoRequerimento: string ('Histórico escolar', 'Certificado', 'Diploma', 'Declaração', 'Outros')
+    //      - status: string ('Recebido', 'Em análise', 'Pendente de documentos', 'Concluído')
+    //    Campos opcionais:
+    //      - cpfMasked, cpfHash, rg, rgInformado, sexo, anoConclusao, outrosDescricao,
+    //        observacaoSecretaria, anexos, lgpdConsent, consentimentoLgpd, criadoEm, atualizadoEm, uid, userId
+    //    Leitura: Próprio aluno ou secretaria
+    //    Criação: Validação estrita de tipos e regra da unidade; status inicial deve ser 'Recebido'
+    //    Atualização de status: Exclusiva da secretaria autenticada
+    //    Exclusão: Exclusiva da secretaria autenticada
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
     }
 
-    // Contadores sequenciais de protocolo (CTA-AAAA-000001): acesso exclusivo via Cloud Functions (Admin SDK)
+    // Verifica se o usuário autenticado pertence à equipe da secretaria do CTA
+    // Aceita claim personalizada 'secretaria == true' ou e-mail corporativo institucional
+    function isSecretaria() {
+      return request.auth != null && (
+        request.auth.token.secretaria == true ||
+        (request.auth.token.email is string && (
+          request.auth.token.email == 'secretaria@ctarj.org.br' ||
+          request.auth.token.email.matches('.*@ctarj\\.org\\.br$')
+        ))
+      );
+    }
+
+    // Validação de formato de e-mail seguro
+    function isValidEmail(email) {
+      return email is string &&
+        email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+    }
+
+    // Valida campo de string opcional respeitando limites de tamanho
+    function isValidOptionalString(data, field, minLen, maxLen) {
+      return !(field in data) ||
+        (data[field] is string && data[field].size() >= minLen && data[field].size() <= maxLen);
+    }
+
+    // Proteção contra alteração de campos imutáveis em updates
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // Regra de negócio crítica do CTA: Unidade vs Curso
+    // - Bangu: Eletrotécnica, Enfermagem, Informática
+    // - Campo Grande: SOMENTE Eletrotécnica e Informática
+    function isValidCursoPorUnidade(unidade, curso) {
+      return (unidade == 'Bangu' && curso in ['Eletrotécnica', 'Enfermagem', 'Informática']) ||
+             (unidade == 'Campo Grande' && curso in ['Eletrotécnica', 'Informática']);
+    }
+
+    // Verifica se o usuário autenticado é o próprio aluno proprietário do registro
+    function isAlunoOwner(alunoId, docData) {
+      return request.auth != null && (
+        request.auth.uid == alunoId ||
+        ('uid' in docData && docData.uid == request.auth.uid) ||
+        ('userId' in docData && docData.userId == request.auth.uid) ||
+        (request.auth.token.email is string && 'email' in docData && docData.email == request.auth.token.email)
+      );
+    }
+
+    // Verifica se o usuário autenticado é o requerente do documento
+    function isRequerimentoOwner(docData) {
+      return request.auth != null && (
+        (request.auth.token.email is string && 'email' in docData && docData.email == request.auth.token.email) ||
+        ('uid' in docData && docData.uid == request.auth.uid) ||
+        ('userId' in docData && docData.userId == request.auth.uid)
+      );
+    }
+
+    // ===============================================================
+    // Domain Validators (Validator Function Pattern)
+    // ===============================================================
+
+    function isValidInscricaoBolsao(data) {
+      let allowedKeys = [
+        'protocolo', 'nome', 'dataNascimento', 'email', 'whatsapp',
+        'responsavelNome', 'responsavelWhatsapp', 'unidade', 'curso',
+        'escolaridade', 'edicaoBolsao', 'enviadoEm', 'timestamp', 'criadoEm',
+        'consentimentoLgpd', 'status'
+      ];
+      return data.keys().hasOnly(allowedKeys) &&
+        data.keys().hasAll(['nome', 'dataNascimento', 'email', 'whatsapp', 'unidade', 'curso', 'consentimentoLgpd']) &&
+        ('timestamp' in data || 'enviadoEm' in data || 'criadoEm' in data) &&
+        data.nome is string && data.nome.size() >= 3 && data.nome.size() <= 120 &&
+        data.dataNascimento is string && data.dataNascimento.size() >= 8 && data.dataNascimento.size() <= 15 &&
+        isValidEmail(data.email) && data.email.size() <= 120 &&
+        data.whatsapp is string && data.whatsapp.size() >= 8 && data.whatsapp.size() <= 25 &&
+        data.consentimentoLgpd == true &&
+        isValidCursoPorUnidade(data.unidade, data.curso) &&
+        isValidOptionalString(data, 'protocolo', 1, 50) &&
+        isValidOptionalString(data, 'responsavelNome', 0, 120) &&
+        isValidOptionalString(data, 'responsavelWhatsapp', 0, 25) &&
+        isValidOptionalString(data, 'escolaridade', 0, 60) &&
+        isValidOptionalString(data, 'edicaoBolsao', 0, 60) &&
+        isValidOptionalString(data, 'status', 0, 40) &&
+        (!('timestamp' in data) || data.timestamp is timestamp || (data.timestamp is string && data.timestamp.size() <= 50)) &&
+        (!('enviadoEm' in data) || data.enviadoEm is timestamp || (data.enviadoEm is string && data.enviadoEm.size() <= 50)) &&
+        (!('criadoEm' in data) || data.criadoEm is timestamp || (data.criadoEm is string && data.criadoEm.size() <= 50));
+    }
+
+    function isValidAluno(data) {
+      let allowedKeys = [
+        'nome', 'email', 'cpfMasked', 'cpfHash', 'cpfFormatted', 'unidade', 'curso',
+        'cadastradoEm', 'criadoEm', 'atualizadoEm', 'uid', 'userId', 'whatsapp',
+        'telefone', 'status', 'consentimentoLgpd', 'passHash'
+      ];
+      return data.keys().hasOnly(allowedKeys) &&
+        data.keys().hasAll(['nome', 'email', 'unidade', 'curso']) &&
+        ('cpfMasked' in data || 'cpfHash' in data) &&
+        data.nome is string && data.nome.size() >= 3 && data.nome.size() <= 120 &&
+        isValidEmail(data.email) && data.email.size() <= 120 &&
+        isValidCursoPorUnidade(data.unidade, data.curso) &&
+        isValidOptionalString(data, 'cpfMasked', 5, 30) &&
+        isValidOptionalString(data, 'cpfHash', 10, 128) &&
+        isValidOptionalString(data, 'cpfFormatted', 5, 30) &&
+        isValidOptionalString(data, 'uid', 1, 128) &&
+        isValidOptionalString(data, 'userId', 1, 128) &&
+        isValidOptionalString(data, 'whatsapp', 0, 25) &&
+        isValidOptionalString(data, 'telefone', 0, 25) &&
+        isValidOptionalString(data, 'status', 0, 30) &&
+        isValidOptionalString(data, 'passHash', 0, 128) &&
+        (!('consentimentoLgpd' in data) || data.consentimentoLgpd is bool) &&
+        (!('cadastradoEm' in data) || data.cadastradoEm is timestamp || (data.cadastradoEm is string && data.cadastradoEm.size() <= 50)) &&
+        (!('criadoEm' in data) || data.criadoEm is timestamp || (data.criadoEm is string && data.criadoEm.size() <= 50)) &&
+        (!('atualizadoEm' in data) || data.atualizadoEm is timestamp || (data.atualizadoEm is string && data.atualizadoEm.size() <= 50));
+    }
+
+    function isValidRequerimento(data) {
+      let allowedKeys = [
+        'protocolo', 'nome', 'email', 'cpfMasked', 'cpfHash', 'rgInformado', 'rg',
+        'sexo', 'unidade', 'curso', 'anoConclusao', 'tipoRequerimento', 'outrosDescricao',
+        'status', 'observacaoSecretaria', 'anexos', 'lgpdConsent', 'consentimentoLgpd',
+        'criadoEm', 'atualizadoEm', 'uid', 'userId'
+      ];
+      let tiposValidos = ['Histórico escolar', 'Certificado', 'Diploma', 'Declaração', 'Outros'];
+      let statusValidos = ['Recebido', 'Em análise', 'Pendente de documentos', 'Concluído'];
+
+      return data.keys().hasOnly(allowedKeys) &&
+        data.keys().hasAll(['protocolo', 'nome', 'email', 'unidade', 'curso', 'tipoRequerimento', 'status']) &&
+        data.protocolo is string && data.protocolo.size() >= 5 && data.protocolo.size() <= 50 &&
+        data.nome is string && data.nome.size() >= 3 && data.nome.size() <= 120 &&
+        isValidEmail(data.email) && data.email.size() <= 120 &&
+        isValidCursoPorUnidade(data.unidade, data.curso) &&
+        data.tipoRequerimento in tiposValidos &&
+        data.status in statusValidos &&
+        (data.tipoRequerimento != 'Outros' || (data.outrosDescricao is string && data.outrosDescricao.size() >= 3 && data.outrosDescricao.size() <= 200)) &&
+        (!('lgpdConsent' in data) || data.lgpdConsent == true) &&
+        (!('consentimentoLgpd' in data) || data.consentimentoLgpd == true) &&
+        (!('anoConclusao' in data) || data.anoConclusao is int || data.anoConclusao is number || (data.anoConclusao is string && data.anoConclusao.size() <= 10)) &&
+        isValidOptionalString(data, 'cpfMasked', 5, 30) &&
+        isValidOptionalString(data, 'cpfHash', 10, 128) &&
+        isValidOptionalString(data, 'rg', 0, 30) &&
+        isValidOptionalString(data, 'sexo', 0, 20) &&
+        isValidOptionalString(data, 'outrosDescricao', 0, 200) &&
+        isValidOptionalString(data, 'observacaoSecretaria', 0, 500) &&
+        isValidOptionalString(data, 'uid', 1, 128) &&
+        isValidOptionalString(data, 'userId', 1, 128) &&
+        (!('rgInformado' in data) || data.rgInformado is bool) &&
+        (!('anexos' in data) || (data.anexos is list && data.anexos.size() <= 10)) &&
+        (!('criadoEm' in data) || data.criadoEm is timestamp || (data.criadoEm is string && data.criadoEm.size() <= 50)) &&
+        (!('atualizadoEm' in data) || data.atualizadoEm is timestamp || (data.atualizadoEm is string && data.atualizadoEm.size() <= 50));
+    }
+
+    // ===============================================================
+    // Rules Definition
+    // ===============================================================
+
+    // 1. Contadores sequenciais de protocolo (CTA-AAAA-000001): acesso exclusivo via Cloud Functions (Admin SDK)
     match /contadores_protocolo/{ano} {
       allow read, write: if false;
     }
 
-    // Controle de rate-limit por IP/hash: acesso exclusivo via Cloud Functions (Admin SDK)
+    // 2. Controle de rate-limit por IP/hash: acesso exclusivo via Cloud Functions (Admin SDK)
     match /rate_limits/{key} {
       allow read, write: if false;
     }
 
-    // Requerimentos de documentação (LGPD):
-    // - Criação e consulta pública ocorrem exclusivamente via Cloud Functions (Admin SDK)
-    // - Leitura e atualização de status no painel permitidas apenas para secretaria autenticada
-    match /requerimentos/{protocolo} {
-      allow read: if isSecretaria();
+    // 3. Inscrições no Bolsão do CTA
+    // - Criação pública / web client com validação de campos obrigatórios e integridade da unidade x curso
+    // - Leitura/listagem restrita à secretaria ou usuários autenticados
+    // - Atualização e exclusão bloqueadas para não autorizados (permitidas somente à secretaria)
+    match /inscricoes_bolsao/{inscricaoId} {
+      allow read: if isSecretaria() || request.auth != null;
+      allow create: if isValidInscricaoBolsao(request.resource.data);
       allow update: if isSecretaria()
-        && request.resource.data.status in ['Recebido', 'Em análise', 'Pendente de documentos', 'Concluído'];
-      allow create, delete: if false;
+        && isValidInscricaoBolsao(request.resource.data)
+        && (!('protocolo' in resource.data) || !('protocolo' in request.resource.data) || request.resource.data.protocolo == resource.data.protocolo);
+      allow delete: if isSecretaria();
+    }
+
+    // 4. Usuários Alunos (Portal do Aluno)
+    // - Criação permitida para novos alunos (anônimo, autenticado ou web client) com validação de dados
+    // - Leitura permitida para o próprio aluno ou administradores da secretaria
+    // - Atualização permitida para o próprio aluno ou secretaria, protegendo CPF e datas de criação
+    // - Exclusão exclusiva da secretaria
+    match /usuarios_alunos/{alunoId} {
+      allow read: if isSecretaria() || isAlunoOwner(alunoId, resource.data);
+      allow create: if isValidAluno(request.resource.data) && (
+        request.auth == null ||
+        isSecretaria() ||
+        request.auth.uid == alunoId ||
+        !('uid' in request.resource.data) ||
+        request.resource.data.uid == request.auth.uid
+      );
+      allow update: if isValidAluno(request.resource.data)
+        && (isSecretaria() || isAlunoOwner(alunoId, resource.data))
+        && areImmutableFieldsUnchanged(['cpfMasked', 'cpfHash', 'cadastradoEm', 'criadoEm']);
+      allow delete: if isSecretaria();
+    }
+
+    // 5. Requerimentos de Documentação da Secretaria
+    // - Leitura permitida para o aluno requerente ou secretaria
+    // - Criação com validação estrita (protocolo, tipo de requerimento, unidade x curso); status inicial 'Recebido'
+    // - Atualização de status permitida apenas para a secretaria autenticada
+    // - Exclusão permitida apenas para a secretaria autenticada
+    match /requerimentos/{protocolo} {
+      allow read: if isSecretaria() || isRequerimentoOwner(resource.data);
+      allow create: if isValidRequerimento(request.resource.data) && (
+        request.resource.data.status == 'Recebido' || isSecretaria()
+      );
+      allow update: if isSecretaria()
+        && isValidRequerimento(request.resource.data)
+        && request.resource.data.status in ['Recebido', 'Em análise', 'Pendente de documentos', 'Concluído']
+        && areImmutableFieldsUnchanged(['protocolo', 'cpfHash', 'criadoEm']);
+      allow delete: if isSecretaria();
+    }
+
+    // Alias / coleção equivalente para requerimentos_secretaria
+    match /requerimentos_secretaria/{protocolo} {
+      allow read: if isSecretaria() || isRequerimentoOwner(resource.data);
+      allow create: if isValidRequerimento(request.resource.data) && (
+        request.resource.data.status == 'Recebido' || isSecretaria()
+      );
+      allow update: if isSecretaria()
+        && isValidRequerimento(request.resource.data)
+        && request.resource.data.status in ['Recebido', 'Em análise', 'Pendente de documentos', 'Concluído']
+        && areImmutableFieldsUnchanged(['protocolo', 'cpfHash', 'criadoEm']);
+      allow delete: if isSecretaria();
     }
   }
 }
-

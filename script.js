@@ -672,15 +672,6 @@ document.addEventListener("DOMContentLoaded", () => {
       setFieldError(nascimentoInput, "error-bolsao-nascimento", !validAge);
       if (!validAge) ok = false;
 
-      const cpfValid = isValidCPF(cpfInput ? cpfInput.value : "");
-      setFieldError(
-        cpfInput,
-        "error-bolsao-cpf",
-        !cpfValid,
-        "Informe um CPF válido (11 dígitos verificados)."
-      );
-      if (!cpfValid) ok = false;
-
       const emailVal = emailInput ? emailInput.value.trim() : "";
       const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal);
       setFieldError(emailInput, "error-bolsao-email", !emailValid);
@@ -703,29 +694,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const candidateCpfDigits = onlyDigits(cpfInput ? cpfInput.value : "");
       const respCpfDigits = onlyDigits(respCpf);
 
-      if (under18 || respNome || respCpf || respPhone) {
+      if (under18 || respNome || respPhone) {
         const validRespNome = respNome.split(/\s+/).length >= 2 && respNome.length >= 5;
         setFieldError(respNomeInput, "error-bolsao-resp-nome", !validRespNome);
         if (!validRespNome) ok = false;
-
-        const sameAsCandidate = respCpfDigits && respCpfDigits === candidateCpfDigits;
-        const validRespCpf = isValidCPF(respCpf) && !sameAsCandidate;
-        setFieldError(
-          respCpfInput,
-          "error-bolsao-resp-cpf",
-          !validRespCpf,
-          sameAsCandidate
-            ? "O CPF do responsável deve ser diferente do CPF do candidato."
-            : "Informe um CPF válido para o responsável."
-        );
-        if (!validRespCpf) ok = false;
 
         const validRespPhone = respPhone.length >= 10 && respPhone.length <= 11;
         setFieldError(respWhatsappInput, "error-bolsao-resp-whatsapp", !validRespPhone);
         if (!validRespPhone) ok = false;
       } else {
         setFieldError(respNomeInput, "error-bolsao-resp-nome", false);
-        setFieldError(respCpfInput, "error-bolsao-resp-cpf", false);
         setFieldError(respWhatsappInput, "error-bolsao-resp-whatsapp", false);
       }
     }
@@ -802,7 +780,6 @@ document.addEventListener("DOMContentLoaded", () => {
             respNome
               ? `
             <div><strong>Nome:</strong> ${escapeHTML(respNomeInput?.value)}</div>
-            <div><strong>CPF:</strong> ${escapeHTML(respCpfInput?.value)}</div>
             <div><strong>WhatsApp:</strong> ${escapeHTML(respWhatsappInput?.value)}</div>
           `
               : `<div>Não informado (candidato maior de 18 anos).</div>`
@@ -926,8 +903,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const edicaoBolsao =
       bolsaoForm.getAttribute("data-edicao") || "[PREENCHER: código da edição — ex.: BOLSAO-CTA-2026]";
     const apiUrl = (bolsaoForm.getAttribute("data-api-url") || "").trim();
-    const cpfClean = onlyDigits(cpfInput.value);
-    const dedupeKey = `${edicaoBolsao}::${cpfClean}`;
+    const emailClean = (emailInput ? emailInput.value.trim() : "").toLowerCase();
+    const dedupeKey = `${edicaoBolsao}::${emailClean}`;
 
     const payload = {
       edicaoBolsao,
@@ -935,13 +912,10 @@ document.addEventListener("DOMContentLoaded", () => {
       dataNascimento: nascimentoInput.value,
       idade: calculateAge(nascimentoInput.value),
       menorDeIdade: isCandidateUnder18(),
-      cpf: cpfInput.value.trim(),
-      cpfNumeros: cpfClean,
-      email: emailInput.value.trim(),
+      email: emailClean,
       whatsapp: whatsappInput.value.trim(),
       responsavel: {
         nome: respNomeInput ? respNomeInput.value.trim() : "",
-        cpf: respCpfInput ? respCpfInput.value.trim() : "",
         whatsapp: respWhatsappInput ? respWhatsappInput.value.trim() : "",
       },
       unidade: unidadeSelect.value,
@@ -952,16 +926,16 @@ document.addEventListener("DOMContentLoaded", () => {
       enviadoEm: new Date().toISOString(),
     };
 
-    // Verificação local imediata de inscrição duplicada (mesmo CPF + mesmo Bolsão)
+    // Verificação de inscrição duplicada (mesmo e-mail + mesma edição do Bolsão)
     const localReg = getLocalDuplicateRegistry();
     if (localReg[dedupeKey]) {
       const prev = localReg[dedupeKey];
       if (submitErrorBox) {
-        submitErrorBox.textContent = `Já existe uma inscrição registrada para o CPF ${payload.cpf} nesta edição do Bolsão (Protocolo: ${prev.protocolo}). Não são permitidas inscrições duplicadas.`;
+        submitErrorBox.textContent = `Já existe uma inscrição registrada para o e-mail ${payload.email} nesta edição do Bolsão (Protocolo: ${prev.protocolo}). Não são permitidas inscrições duplicadas.`;
         submitErrorBox.classList.remove("icon-hidden");
       }
-      trackGA4("form_submit_error", { reason: "duplicate_cpf", unidade: payload.unidade, curso: payload.curso });
-      trackGA4("bolsao_form_submit_error", { reason: "duplicate_cpf", unidade: payload.unidade, curso: payload.curso });
+      trackGA4("form_submit_error", { reason: "duplicate_email", unidade: payload.unidade, curso: payload.curso });
+      trackGA4("bolsao_form_submit_error", { reason: "duplicate_email", unidade: payload.unidade, curso: payload.curso });
       return;
     }
 
@@ -991,9 +965,41 @@ document.addEventListener("DOMContentLoaded", () => {
         if (data.protocolo) protocolo = data.protocolo;
       }
 
+      // Envia diretamente para a coleção do Firebase Firestore (cta-escola-tecnica-rj)
+      try {
+        const firestoreConfig = window.CTA_SECRETARIA_CONFIG?.firebaseClientConfig;
+        if (firestoreConfig?.projectId && firestoreConfig?.apiKey && !firestoreConfig.apiKey.startsWith("[PREENCHER")) {
+          const docId = protocolo.replace(/[^a-zA-Z0-9_-]/g, "_");
+          const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${firestoreConfig.projectId}/databases/(default)/documents/inscricoes_bolsao/${docId}?key=${firestoreConfig.apiKey}`;
+          await fetch(firestoreUrl, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fields: {
+                protocolo: { stringValue: protocolo },
+                nome: { stringValue: payload.nome },
+                dataNascimento: { stringValue: payload.dataNascimento },
+                email: { stringValue: payload.email },
+                whatsapp: { stringValue: payload.whatsapp },
+                responsavelNome: { stringValue: payload.responsavel.nome || "" },
+                responsavelWhatsapp: { stringValue: payload.responsavel.whatsapp || "" },
+                unidade: { stringValue: payload.unidade },
+                curso: { stringValue: payload.curso },
+                escolaridade: { stringValue: payload.escolaridade },
+                edicaoBolsao: { stringValue: payload.edicaoBolsao },
+                enviadoEm: { stringValue: payload.enviadoEm },
+                consentimentoLgpd: { booleanValue: true }
+              }
+            })
+          });
+        }
+      } catch (fErr) {
+        console.warn("Firestore Bolsao auto-sync notice:", fErr);
+      }
+
       saveLocalDuplicateRegistry(dedupeKey, {
         protocolo,
-        cpf: payload.cpf,
+        email: payload.email,
         unidade: payload.unidade,
         curso: payload.curso,
         createdAt: payload.enviadoEm,
@@ -1007,12 +1013,12 @@ document.addEventListener("DOMContentLoaded", () => {
       if (confirmationSummaryEl) {
         confirmationSummaryEl.innerHTML = `
           <div><strong>Número de inscrição:</strong> ${escapeHTML(protocolo)}</div>
-          <div><strong>Candidato(a):</strong> ${escapeHTML(payload.nome)} (CPF: ${escapeHTML(payload.cpf)})</div>
+          <div><strong>Candidato(a):</strong> ${escapeHTML(payload.nome)}</div>
           <div><strong>E-mail de confirmação:</strong> ${escapeHTML(payload.email)}</div>
           <div><strong>WhatsApp:</strong> ${escapeHTML(payload.whatsapp)}</div>
           ${
             payload.responsavel.nome
-              ? `<div><strong>Responsável legal:</strong> ${escapeHTML(payload.responsavel.nome)} (CPF: ${escapeHTML(payload.responsavel.cpf)})</div>`
+              ? `<div><strong>Responsável legal:</strong> ${escapeHTML(payload.responsavel.nome)}</div>`
               : ""
           }
           <div><strong>Unidade escolhida:</strong> ${escapeHTML(payload.unidade)}</div>
@@ -1632,6 +1638,32 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       alunos.push(studentObj);
       saveLocalAlunos(alunos);
+
+      // Sincroniza o cadastro do aluno no Firebase Firestore (cta-escola-tecnica-rj)
+      try {
+        const firestoreConfig = window.CTA_SECRETARIA_CONFIG?.firebaseClientConfig;
+        if (firestoreConfig?.projectId && firestoreConfig?.apiKey && !firestoreConfig.apiKey.startsWith("[PREENCHER")) {
+          const docId = `aluno_${cpfHash.slice(0, 16)}`;
+          const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${firestoreConfig.projectId}/databases/(default)/documents/usuarios_alunos/${docId}?key=${firestoreConfig.apiKey}`;
+          fetch(firestoreUrl, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fields: {
+                nome: { stringValue: nomeVal },
+                email: { stringValue: emailVal },
+                cpfMasked: { stringValue: studentObj.cpfMasked },
+                unidade: { stringValue: unVal },
+                curso: { stringValue: curVal },
+                cadastradoEm: { stringValue: new Date().toISOString() }
+              }
+            })
+          }).catch((err) => console.warn("Firestore sync aluno:", err));
+        }
+      } catch (_fErr) {
+        // ignore
+      }
+
       setLoggedStudent(studentObj);
       applyStudentSessionUI();
     });
@@ -2370,6 +2402,37 @@ document.addEventListener("DOMContentLoaded", () => {
         const existingReqs = getLocalSecretariaReqs();
         existingReqs.unshift(reqRecord);
         saveLocalSecretariaReqs(existingReqs);
+
+        // Sincroniza o requerimento diretamente no Firebase Firestore (cta-escola-tecnica-rj)
+        try {
+          const firestoreConfig = window.CTA_SECRETARIA_CONFIG?.firebaseClientConfig;
+          if (firestoreConfig?.projectId && firestoreConfig?.apiKey && !firestoreConfig.apiKey.startsWith("[PREENCHER")) {
+            const docId = protocoloGerado.replace(/[^a-zA-Z0-9_-]/g, "_");
+            const firestoreUrl = `https://firestore.googleapis.com/v1/projects/${firestoreConfig.projectId}/databases/(default)/documents/requerimentos/${docId}?key=${firestoreConfig.apiKey}`;
+            fetch(firestoreUrl, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                fields: {
+                  protocolo: { stringValue: protocoloGerado },
+                  nome: { stringValue: nomeVal },
+                  email: { stringValue: emailVal },
+                  cpfMasked: { stringValue: reqRecord.cpfMasked },
+                  unidade: { stringValue: unidadeVal },
+                  curso: { stringValue: cursoVal },
+                  anoConclusao: { integerValue: String(anoVal) },
+                  tipoRequerimento: { stringValue: tipoReqVal },
+                  outrosDescricao: { stringValue: outrosDescVal || "" },
+                  status: { stringValue: "Recebido" },
+                  criadoEm: { stringValue: dataRegistroISO },
+                  observacaoSecretaria: { stringValue: reqRecord.observacaoSecretaria }
+                }
+              })
+            }).catch((err) => console.warn("Firestore sync requerimento:", err));
+          }
+        } catch (_fErr) {
+          // ignore
+        }
 
         lastGeneratedProtocol = protocoloGerado;
         lastSubmittedCpfFormatted = cpfVal;
