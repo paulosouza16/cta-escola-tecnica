@@ -487,11 +487,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function calculateAge(dateStr) {
     if (!dateStr) return null;
-    const parts = dateStr.split("-");
-    if (parts.length !== 3) return null;
-    const year = Number(parts[0]);
-    const month = Number(parts[1]) - 1;
-    const day = Number(parts[2]);
+    let year, month, day;
+    if (dateStr.includes("/")) {
+      const parts = dateStr.split("/");
+      if (parts.length !== 3) return null;
+      day = Number(parts[0]);
+      month = Number(parts[1]) - 1;
+      year = Number(parts[2]);
+    } else if (dateStr.includes("-")) {
+      const parts = dateStr.split("-");
+      if (parts.length !== 3) return null;
+      year = Number(parts[0]);
+      month = Number(parts[1]) - 1;
+      day = Number(parts[2]);
+    } else {
+      return null;
+    }
     const birth = new Date(year, month, day);
     if (Number.isNaN(birth.getTime())) return null;
 

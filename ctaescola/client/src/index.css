@@ -3304,42 +3304,51 @@ textarea:focus-visible {
     left: 12px;
   }
 /* ==========================================================================
-   Menu Dropdown: Login (Área do Aluno / Área da Coordenação)
+   Header Login Button (Estilo botão CTA amarelo à esquerda)
    ========================================================================== */
+.header-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+.header-login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 5px;
+  background: rgba(255, 216, 0, .14);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+.header-login-btn:hover,
+.nav-dropdown:hover .header-login-btn,
+.nav-dropdown:focus-within .header-login-btn {
+  background: var(--gold);
+  color: var(--navy-deep);
+  transform: translateY(-1px);
+}
+.header-login-btn svg {
+  transition: transform .2s ease;
+}
+.nav-dropdown:hover .header-login-btn svg,
+.nav-dropdown:focus-within .header-login-btn svg {
+  transform: rotate(180deg);
+}
+
 .nav-dropdown {
   position: relative;
   display: inline-flex;
   align-items: center;
 }
-.nav-dropdown__toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: transparent;
-  border: 0;
-  padding: 0;
-  color: #d6deeb;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: color .2s ease;
-}
-.nav-dropdown__toggle:hover,
-.nav-dropdown:hover .nav-dropdown__toggle,
-.nav-dropdown:focus-within .nav-dropdown__toggle {
-  color: var(--gold);
-}
-.nav-dropdown__toggle svg {
-  transition: transform .2s ease;
-}
-.nav-dropdown:hover .nav-dropdown__toggle svg,
-.nav-dropdown:focus-within .nav-dropdown__toggle svg {
-  transform: rotate(180deg);
-}
 .nav-dropdown__menu {
   position: absolute;
-  top: calc(100% + 14px);
+  top: calc(100% + 8px);
   right: 0;
   min-width: 230px;
   background: #0f1d36;
@@ -3382,15 +3391,18 @@ textarea:focus-visible {
 }
 
 @media (max-width: 960px) {
+  .header-actions {
+    display: none;
+  }
   .nav-dropdown {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
   }
-  .nav-dropdown__toggle {
+  .header-login-btn {
     width: 100%;
     justify-content: space-between;
-    padding: 10px 0;
+    margin: 8px 0;
   }
   .nav-dropdown__menu {
     position: static;
