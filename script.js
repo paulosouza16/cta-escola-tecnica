@@ -3264,26 +3264,49 @@ function renderAdminList() {
       });
     }
 
+    function showDashboard(username) {
+      if (painelUserEmail) painelUserEmail.textContent = username || "adm";
+      if (painelLoginCard) {
+        painelLoginCard.classList.add("icon-hidden");
+        painelLoginCard.hidden = true;
+        painelLoginCard.style.setProperty("display", "none", "important");
+      }
+      if (painelDashboard) {
+        painelDashboard.classList.remove("icon-hidden");
+        painelDashboard.hidden = false;
+        painelDashboard.style.setProperty("display", "flex", "important");
+      }
+      renderAdminList();
+      renderExtraDatabaseTables();
+    }
+
+    function hideDashboard() {
+      if (painelDashboard) {
+        painelDashboard.classList.add("icon-hidden");
+        painelDashboard.hidden = true;
+        painelDashboard.style.setProperty("display", "none", "important");
+      }
+      if (painelLoginCard) {
+        painelLoginCard.classList.remove("icon-hidden");
+        painelLoginCard.hidden = false;
+        painelLoginCard.style.setProperty("display", "block", "important");
+      }
+    }
+
     try {
       const savedStaffEmail = window.sessionStorage.getItem(STORAGE_KEY_SEC_SESSAO_STAFF);
       const isAuthorized = savedStaffEmail && (
         savedStaffEmail.toLowerCase() === "adm" ||
-        savedStaffEmail.toLowerCase() === "admin" ||
-        savedStaffEmail.toLowerCase() === "secretaria@ctarj.org.br"
+        savedStaffEmail.toLowerCase() === "admin"
       );
       if (isAuthorized) {
-        if (painelUserEmail) painelUserEmail.textContent = savedStaffEmail;
-        if (painelLoginCard) painelLoginCard.classList.add("icon-hidden");
-        if (painelDashboard) painelDashboard.classList.remove("icon-hidden");
-        renderAdminList();
-        renderExtraDatabaseTables();
+        showDashboard(savedStaffEmail);
       } else {
-        if (painelDashboard) painelDashboard.classList.add("icon-hidden");
-        if (painelLoginCard) painelLoginCard.classList.remove("icon-hidden");
+        window.sessionStorage.removeItem(STORAGE_KEY_SEC_SESSAO_STAFF);
+        hideDashboard();
       }
     } catch (_e) {
-      if (painelDashboard) painelDashboard.classList.add("icon-hidden");
-      if (painelLoginCard) painelLoginCard.classList.remove("icon-hidden");
+      hideDashboard();
     }
 
     painelLoginForm.addEventListener("submit", (e) => {
@@ -3316,8 +3339,8 @@ function renderAdminList() {
       if (invalid) return;
 
       const u = usuarioVal.toLowerCase();
-      const isValidUser = (u === "adm" || u === "admin" || u === "secretaria@ctarj.org.br");
-      const isValidPass = (senhaVal === "123" || senhaVal === "cta2026");
+      const isValidUser = (u === "adm" || u === "admin");
+      const isValidPass = (senhaVal === "123");
 
       if (!isValidUser || !isValidPass) {
         if (painelLoginAlert) {
@@ -3332,11 +3355,7 @@ function renderAdminList() {
       } catch (_e) {
         // ignore
       }
-      if (painelUserEmail) painelUserEmail.textContent = usuarioVal;
-      painelLoginCard.classList.add("icon-hidden");
-      painelDashboard.classList.remove("icon-hidden");
-      renderAdminList();
-      renderExtraDatabaseTables();
+      showDashboard(usuarioVal);
     });
 
     if (painelLogoutBtn) {
@@ -3348,8 +3367,7 @@ function renderAdminList() {
         }
         painelLoginForm.reset();
         selectedProtocol = "";
-        painelDashboard.classList.add("icon-hidden");
-        painelLoginCard.classList.remove("icon-hidden");
+        hideDashboard();
       });
     }
 

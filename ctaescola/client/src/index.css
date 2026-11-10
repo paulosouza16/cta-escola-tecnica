@@ -65,7 +65,7 @@ img { display: block; max-width: 100%; }
 .header-cta { display: inline-flex; align-items: center; gap: 14px; padding: 12px 16px 12px 19px; border-radius: 5px; background: var(--gold); color: var(--navy-deep); font-size: 12px; font-weight: 700; transition: background .2s ease, transform .2s ease; }
 .header-cta:hover { background: #ffe033; transform: translateY(-1px); }
 .header-cta svg { color: var(--navy-deep); }
-.menu-toggle, .mobile-nav-apply, .icon-hidden { display: none; }
+.menu-toggle, .mobile-nav-apply, .icon-hidden, [hidden] { display: none !important; }
 
 .hero { position: relative; padding: 64px max(32px, calc((100vw - 1220px)/2)) 0; background: var(--navy-deep); color: white; overflow: hidden; }
 .hero::before { content: ''; position: absolute; width: 700px; height: 700px; right: 29%; top: -430px; border: 1px solid rgba(255,216,0,.10); border-radius: 50%; box-shadow: 0 0 0 65px rgba(255,216,0,.025), 0 0 0 130px rgba(255,216,0,.022); pointer-events: none; }
@@ -2666,6 +2666,12 @@ textarea:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+.secretaria-dashboard.icon-hidden,
+.secretaria-dashboard[hidden],
+.secretaria-login-card.icon-hidden,
+.secretaria-login-card[hidden] {
+  display: none !important;
 }
 .secretaria-dashboard__topbar {
   display: flex;
