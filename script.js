@@ -1,3 +1,12 @@
+
+function getLocalDuplicateRegistry() {
+  try {
+    return JSON.parse(localStorage.getItem("cta_bolsao_inscricoes_v1") || "{}");
+  } catch {
+    return {};
+  }
+}
+window.getLocalDuplicateRegistry = getLocalDuplicateRegistry;
 document.addEventListener("DOMContentLoaded", () => {
   const menuToggle = document.getElementById("menu-toggle");
   const mobileNav = document.getElementById("mobile-navigation");
@@ -123,8 +132,53 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+    const unidadeSelectEnroll = document.getElementById("unidade");
+  const ALLOWED_ENROLL_COURSES = {
+    Bangu: ["Eletrotécnica", "Enfermagem", "Informática"],
+    "Campo Grande": ["Eletrotécnica", "Informática"],
+  };
+
+  function syncEnrollCourses(selectedUnit, keepCourse) {
+    if (!cursoSelect) return;
+    const allowed = selectedUnit
+      ? ALLOWED_ENROLL_COURSES[selectedUnit] || []
+      : ["Eletrotécnica", "Enfermagem", "Informática"];
+
+    const current = keepCourse !== undefined ? keepCourse : cursoSelect.value;
+    cursoSelect.innerHTML = '<option value="">Selecione o curso</option>';
+    allowed.forEach((c) => {
+      const opt = document.createElement("option");
+      opt.value = c;
+      opt.textContent = c === "Eletrotécnica" ? "Técnico em Eletrotécnica" : c === "Enfermagem" ? "Técnico em Enfermagem" : "Técnico em Informática";
+      cursoSelect.appendChild(opt);
+    });
+
+    if (current && allowed.includes(current)) {
+      cursoSelect.value = current;
+    } else {
+      cursoSelect.value = "";
+    }
+  }
+
+  if (unidadeSelectEnroll) {
+    unidadeSelectEnroll.addEventListener("change", () => {
+      syncEnrollCourses(unidadeSelectEnroll.value);
+    });
+  }
+
+  if (cursoSelect) {
+    const params = new URLSearchParams(window.location.search);
+    const cursoParam = params.get("curso");
+    if (cursoParam) {
+      if (cursoParam === "Enfermagem" && unidadeSelectEnroll) {
+        unidadeSelectEnroll.value = "Bangu";
+      }
+      syncEnrollCourses(unidadeSelectEnroll ? unidadeSelectEnroll.value : "", cursoParam);
+    }
+  }
+
   if (enrollForm) {
-    enrollForm.addEventListener("submit", (e) => {
+    enrollForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const nomeEl = document.getElementById("nome");
       const emailEl = document.getElementById("email");
@@ -182,6 +236,38 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (!valid) return;
+
+      const submitBtnEnroll = enrollForm.querySelector("button[type='submit']");
+      if (submitBtnEnroll) submitBtnEnroll.disabled = true;
+
+      try {
+        const firestoreConfig = window.CTA_SECRETARIA_CONFIG?.firebaseClientConfig;
+        if (firestoreConfig?.projectId && firestoreConfig?.apiKey && !firestoreConfig.apiKey.startsWith("[PREENCHER")) {
+          const docId = 'insc_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+          const firestoreUrl = 'https://firestore.googleapis.com/v1/projects/' + firestoreConfig.projectId + '/databases/(default)/documents/inscricoes/' + docId + '?key=' + firestoreConfig.apiKey;
+          await fetch(firestoreUrl, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              fields: {
+                nome: { stringValue: nome },
+                email: { stringValue: email.toLowerCase() },
+                telefone: { stringValue: telefone },
+                unidade: { stringValue: (document.getElementById("unidade")?.value || "") },
+                curso: { stringValue: curso },
+                segmento: { stringValue: segmento || "" },
+                comoConheceu: { stringValue: comoConheceu || "" },
+                criadoEm: { stringValue: new Date().toISOString() },
+                status: { stringValue: "Pendente de Contato" }
+              }
+            })
+          });
+        }
+      } catch (fErr) {
+        console.warn("Firestore Inscrição sync:", fErr);
+      } finally {
+        if (submitBtnEnroll) submitBtnEnroll.disabled = false;
+      }
 
       if (enrollSummary) {
         enrollSummary.innerHTML = `
@@ -846,8 +932,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   bolsaoForm.querySelectorAll("[data-next-step]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const next = Number(btn.getAttribute("data-next-step"));
+      let next = Number(btn.getAttribute("data-next-step"));
       if (validateStep(currentStep)) {
+        // Se for maior de 18 anos e estiver avançando da Etapa 1, pula direto para a Etapa 3 (Unidade e Curso)
+        if (currentStep === 1 && next === 2 && !isCandidateUnder18()) {
+          next = 3;
+        }
         showStep(next);
       } else {
         const activePane = document.getElementById(`bolsao-step-${currentStep}`);
@@ -859,7 +949,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   bolsaoForm.querySelectorAll("[data-prev-step]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const prev = Number(btn.getAttribute("data-prev-step"));
+      let prev = Number(btn.getAttribute("data-prev-step"));
+      // Se for maior de 18 anos e estiver voltando da Etapa 3, pula a Etapa 2 e volta para a 1
+      if (currentStep === 3 && prev === 2 && !isCandidateUnder18()) {
+        prev = 1;
+      }
       showStep(prev);
     });
   });
@@ -2795,7 +2889,95 @@ document.addEventListener("DOMContentLoaded", () => {
       return sample;
     }
 
-    function renderAdminList() {
+    async function fetchFirestoreCollections() {
+  const cfg = window.CTA_SECRETARIA_CONFIG?.firebaseClientConfig;
+  if (!cfg?.projectId || !cfg?.apiKey || cfg.apiKey.startsWith("[PREENCHER")) return;
+  const baseUrl = 'https://firestore.googleapis.com/v1/projects/' + cfg.projectId + '/databases/(default)/documents/';
+
+  // 1. Requerimentos
+  try {
+    const resReq = await fetch(baseUrl + 'requerimentos?key=' + cfg.apiKey);
+    if (resReq.ok) {
+      const dataReq = await resReq.json();
+      if (dataReq.documents && dataReq.documents.length > 0) {
+        const cloudReqs = dataReq.documents.map((doc) => {
+          const f = doc.fields || {};
+          return {
+            protocolo: f.protocolo?.stringValue || doc.name.split('/').pop(),
+            status: f.status?.stringValue || 'Recebido',
+            nome: f.nome?.stringValue || 'Aluno',
+            cpfMasked: f.cpfMasked?.stringValue || '***.***.***-**',
+            email: f.email?.stringValue || '',
+            unidade: f.unidade?.stringValue || 'Bangu',
+            curso: f.curso?.stringValue || '',
+            anoConclusao: f.anoConclusao?.integerValue || 2026,
+            tipoRequerimento: f.tipoRequerimento?.stringValue || 'Declaração',
+            outrosDescricao: f.outrosDescricao?.stringValue || '',
+            observacaoSecretaria: f.observacaoSecretaria?.stringValue || '',
+            criadoEm: f.criadoEm?.stringValue || new Date().toISOString(),
+            atualizadoEm: f.atualizadoEm?.stringValue || new Date().toISOString()
+          };
+        });
+        saveLocalSecretariaReqs(cloudReqs);
+      }
+    }
+  } catch (err) {
+    console.warn("Falha ao buscar requerimentos do Firestore:", err);
+  }
+
+  // 2. Bolsão
+  try {
+    const resBol = await fetch(baseUrl + 'inscricoes_bolsao?key=' + cfg.apiKey);
+    if (resBol.ok) {
+      const dataBol = await resBol.json();
+      if (dataBol.documents && dataBol.documents.length > 0) {
+        const reg = getLocalDuplicateRegistry();
+        dataBol.documents.forEach((doc) => {
+          const f = doc.fields || {};
+          const p = f.protocolo?.stringValue || doc.name.split('/').pop();
+          reg[p] = {
+            protocolo: p,
+            nome: f.nome?.stringValue || '',
+            email: f.email?.stringValue || '',
+            whatsapp: f.whatsapp?.stringValue || '',
+            unidade: f.unidade?.stringValue || '',
+            curso: f.curso?.stringValue || '',
+            escolaridade: f.escolaridade?.stringValue || '',
+            createdAt: f.enviadoEm?.stringValue || new Date().toISOString()
+          };
+        });
+        localStorage.setItem("cta_bolsao_inscricoes_v1", JSON.stringify(reg));
+      }
+    }
+  } catch (err) {
+    console.warn("Falha ao buscar Bolsão do Firestore:", err);
+  }
+
+  // 3. Alunos
+  try {
+    const resAl = await fetch(baseUrl + 'usuarios_alunos?key=' + cfg.apiKey);
+    if (resAl.ok) {
+      const dataAl = await resAl.json();
+      if (dataAl.documents && dataAl.documents.length > 0) {
+        const cloudAlunos = dataAl.documents.map((doc) => {
+          const f = doc.fields || {};
+          return {
+            nome: f.nome?.stringValue || '',
+            email: f.email?.stringValue || '',
+            cpfMasked: f.cpfMasked?.stringValue || '***.***.***-**',
+            unidade: f.unidade?.stringValue || 'Bangu',
+            curso: f.curso?.stringValue || ''
+          };
+        });
+        saveLocalAlunos(cloudAlunos);
+      }
+    }
+  } catch (err) {
+    console.warn("Falha ao buscar alunos do Firestore:", err);
+  }
+}
+
+function renderAdminList() {
       if (!painelLista) return;
       const allReqs = ensureDemoDataIfEmpty();
       const q = filtroProtocolo ? filtroProtocolo.value.trim().toLowerCase() : "";
@@ -2982,7 +3164,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           entries.forEach((b) => {
             const row = document.createElement("div");
-            row.textContent = `${b.protocolo} · CPF ${b.cpf} · Unidade ${b.unidade} · Curso ${b.curso}`;
+            row.textContent = `${b.protocolo || "—"} · ${b.nome || b.email || "Candidato"} · Unidade ${b.unidade} · Curso ${b.curso} (${b.whatsapp || ""})`;
             dbBolsaoList.appendChild(row);
           });
         }
@@ -3133,7 +3315,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (painelRefreshBtn) {
-      painelRefreshBtn.addEventListener("click", () => {
+      painelRefreshBtn.addEventListener("click", async () => {
+        painelRefreshBtn.disabled = true;
+        await fetchFirestoreCollections();
+        renderAdminList();
+        renderExtraDatabaseTables();
+        painelRefreshBtn.disabled = false;
+        return;
         renderAdminList();
         renderExtraDatabaseTables();
       });

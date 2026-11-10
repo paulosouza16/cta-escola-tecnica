@@ -227,17 +227,31 @@
                   </select>
                 </div>
 
-                <div class="form-field">
-                  <label class="form-label" for="curso">
-                    Curso de interesse <span class="req">*</span>
-                  </label>
-                  <select class="form-select" id="curso" name="curso" required>
-                    <option value="">Selecione o curso</option>
-                    <option value="Eletrotécnica">Eletrotécnica</option>
-                    <option value="Enfermagem">Enfermagem</option>
-                    <option value="Informática">Informática</option>
-                  </select>
-                  <span class="form-error icon-hidden" id="error-curso">Por favor, selecione o curso de interesse.</span>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label class="form-label" for="unidade">
+                      Unidade de interesse <span class="req">*</span>
+                    </label>
+                    <select class="form-select" id="unidade" name="unidade" required>
+                      <option value="">Selecione a unidade</option>
+                      <option value="Bangu">Bangu (Eletrotécnica, Enfermagem e Informática)</option>
+                      <option value="Campo Grande">Campo Grande (Eletrotécnica e Informática)</option>
+                    </select>
+                    <span class="form-error icon-hidden" id="error-unidade">Por favor, selecione a unidade de interesse.</span>
+                  </div>
+
+                  <div class="form-field">
+                    <label class="form-label" for="curso">
+                      Curso de interesse <span class="req">*</span>
+                    </label>
+                    <select class="form-select" id="curso" name="curso" required>
+                      <option value="">Selecione o curso</option>
+                      <option value="Eletrotécnica">Eletrotécnica</option>
+                      <option value="Enfermagem">Enfermagem</option>
+                      <option value="Informática">Informática</option>
+                    </select>
+                    <span class="form-error icon-hidden" id="error-curso">Por favor, selecione o curso de interesse.</span>
+                  </div>
                 </div>
 
                 <div class="form-field">
@@ -390,7 +404,8 @@
       </a>
     </div>
 
-    <script src="script.js"></script>
+    <script src="secretaria-config.js?v=20261110"></script>
+    <script src="script.js?v=20261110"></script>
   </body>
 </html>
 

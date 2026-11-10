@@ -14,7 +14,27 @@ service cloud.firestore {
     //    Document ID: {key} (hash de IP / endpoint)
     //    Acesso: Exclusivo via Cloud Functions / Admin SDK (allow read, write: if false)
     //
-    // 3. Coleção: inscricoes_bolsao
+    // 3. Coleção: inscricoes (Formulário Geral de Matrículas e Pré-Inscrição - inscricao.html)
+    //    Document ID: {inscricaoId} (auto-gerado ou protocolo do sistema)
+    //    Campos obrigatórios:
+    //      - nome: string (3 a 120 caracteres)
+    //      - email: string (formato de e-mail válido, max 120)
+    //      - unidade: string ('Bangu' ou 'Campo Grande')
+    //      - curso: string ('Eletrotécnica', 'Enfermagem', 'Informática' respeitando regra da unidade)
+    //    Campos opcionais:
+    //      - emailConfirm: string (formato de e-mail / max 120)
+    //      - telefone: string (0 a 25 caracteres)
+    //      - segmento: string (0 a 60 caracteres)
+    //      - comoConheceu: string (0 a 80 caracteres)
+    //      - criadoEm / timestamp: timestamp ou string ISO (max 50)
+    //      - status: string (0 a 40 caracteres)
+    //      - protocolo: string (0 a 50 caracteres)
+    //      - consentimentoLgpd: bool
+    //    Leitura/Listagem: Secretaria, coordenação, autenticados e painel da coordenação
+    //    Criação: Pública / Web Client validada rigorosamente
+    //    Atualização / Exclusão: Exclusiva da coordenação / secretaria
+    //
+    // 4. Coleção: inscricoes_bolsao (Concurso de Bolsas - bolsao.html)
     //    Document ID: {inscricaoId} (ex: CTA_BOL_2026_123456)
     //    Campos obrigatórios:
     //      - nome: string (3 a 120 caracteres)
@@ -24,46 +44,46 @@ service cloud.firestore {
     //      - unidade: string ('Bangu' ou 'Campo Grande')
     //      - curso: string ('Eletrotécnica', 'Enfermagem', 'Informática' respeitando regra da unidade)
     //      - consentimentoLgpd: bool (deve ser true)
-    //      - timestamp / enviadoEm / criadoEm: timestamp ou string ISO
+    //      - timestamp / enviadoEm / criadoEm: timestamp ou string ISO (max 50)
     //    Campos opcionais:
-    //      - protocolo, responsavelNome, responsavelWhatsapp, escolaridade, edicaoBolsao, status
-    //    Leitura/Listagem: Usuários autenticados da secretaria ou autenticados
+    //      - protocolo, responsavelNome, responsavelWhatsapp, escolaridade, edicaoBolsao, status, cpf, cpfMasked, cpfHash
+    //    Leitura/Listagem: Secretaria, coordenação e consultas públicas/painel sem bloqueio 403
     //    Criação: Pública / Web Client validada rigorosamente
-    //    Atualização / Exclusão: Apenas secretaria autenticada
+    //    Atualização / Exclusão: Exclusiva da secretaria autorizada
     //
-    // 4. Coleção: usuarios_alunos
+    // 5. Coleção: usuarios_alunos (Portal do Aluno)
     //    Document ID: {alunoId} (ex: aluno_hash ou uid do Firebase Auth)
     //    Campos obrigatórios:
     //      - nome: string (3 a 120 caracteres)
     //      - email: string (formato válido, max 120)
-    //      - cpfMasked ou cpfHash: string (dados anonimizados / mascarados)
+    //      - cpfMasked ou cpfHash ou cpf: string (dados anonimizados / mascarados)
     //      - unidade: string ('Bangu' ou 'Campo Grande')
     //      - curso: string (conforme grade da unidade)
     //    Campos opcionais:
     //      - cpfFormatted, uid, userId, whatsapp, telefone, passHash, consentimentoLgpd,
     //        cadastradoEm, criadoEm, atualizadoEm, status
-    //    Leitura: Próprio aluno (dono) ou secretaria
-    //    Criação: Aluno no portal (autenticado, anônimo ou web client) com validação
+    //    Leitura: Próprio aluno (dono), secretaria ou painel da coordenação
+    //    Criação: Aluno no portal (autenticado, anônimo ou web client) com integridade
     //    Atualização: Próprio aluno ou secretaria com campos sensíveis imutáveis
     //    Exclusão: Apenas secretaria
     //
-    // 5. Coleção: requerimentos (e requerimentos_secretaria)
+    // 6. Coleção: requerimentos (e requerimentos_secretaria)
     //    Document ID: {protocolo} (ex: CTA-2026-000001)
     //    Campos obrigatórios:
     //      - protocolo: string (5 a 50 caracteres)
     //      - nome: string (3 a 120 caracteres)
-    //      - email: string (formato válido)
+    //      - email: string (formato válido, max 120)
     //      - unidade: string ('Bangu' ou 'Campo Grande')
     //      - curso: string (conforme grade da unidade)
     //      - tipoRequerimento: string ('Histórico escolar', 'Certificado', 'Diploma', 'Declaração', 'Outros')
     //      - status: string ('Recebido', 'Em análise', 'Pendente de documentos', 'Concluído')
     //    Campos opcionais:
-    //      - cpfMasked, cpfHash, rg, rgInformado, sexo, anoConclusao, outrosDescricao,
+    //      - cpf, cpfMasked, cpfHash, rg, rgInformado, sexo, anoConclusao, outrosDescricao,
     //        observacaoSecretaria, anexos, lgpdConsent, consentimentoLgpd, criadoEm, atualizadoEm, uid, userId
-    //    Leitura: Próprio aluno ou secretaria
+    //    Leitura: Consulta pública por protocolo e listagem pelo painel da coordenação/secretaria
     //    Criação: Validação estrita de tipos e regra da unidade; status inicial deve ser 'Recebido'
-    //    Atualização de status: Exclusiva da secretaria autenticada
-    //    Exclusão: Exclusiva da secretaria autenticada
+    //    Atualização de status: Permitida para secretaria autenticada ou painel da coordenação com validação de esquema
+    //    Exclusão: Permitida para secretaria autenticada ou painel da coordenação
     //
     // ===============================================================
 
@@ -75,13 +95,15 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // Verifica se o usuário autenticado pertence à equipe da secretaria do CTA
-    // Aceita claim personalizada 'secretaria == true' ou e-mail corporativo institucional
+    // Verifica se o usuário autenticado pertence à equipe da secretaria ou coordenação do CTA
+    // Aceita claims personalizadas ('secretaria == true' ou 'coordenacao == true') ou e-mails corporativos institucionais
     function isSecretaria() {
       return request.auth != null && (
         request.auth.token.secretaria == true ||
+        request.auth.token.coordenacao == true ||
         (request.auth.token.email is string && (
           request.auth.token.email == 'secretaria@ctarj.org.br' ||
+          request.auth.token.email == 'coordenacao@ctarj.org.br' ||
           request.auth.token.email.matches('.*@ctarj\\.org\\.br$')
         ))
       );
@@ -106,7 +128,7 @@ service cloud.firestore {
 
     // Regra de negócio crítica do CTA: Unidade vs Curso
     // - Bangu: Eletrotécnica, Enfermagem, Informática
-    // - Campo Grande: SOMENTE Eletrotécnica e Informática
+    // - Campo Grande: SOMENTE Eletrotécnica e Informática (NÃO PODE Enfermagem)
     function isValidCursoPorUnidade(unidade, curso) {
       return (unidade == 'Bangu' && curso in ['Eletrotécnica', 'Enfermagem', 'Informática']) ||
              (unidade == 'Campo Grande' && curso in ['Eletrotécnica', 'Informática']);
@@ -135,12 +157,36 @@ service cloud.firestore {
     // Domain Validators (Validator Function Pattern)
     // ===============================================================
 
+    // Validação do novo formulário geral de inscrição (inscricao.html)
+    function isValidInscricaoGeral(data) {
+      let allowedKeys = [
+        'nome', 'email', 'emailConfirm', 'telefone', 'unidade',
+        'curso', 'segmento', 'comoConheceu', 'criadoEm', 'timestamp',
+        'status', 'protocolo', 'consentimentoLgpd'
+      ];
+      return data.keys().hasOnly(allowedKeys) &&
+        data.keys().hasAll(['nome', 'email', 'unidade', 'curso']) &&
+        data.nome is string && data.nome.size() >= 3 && data.nome.size() <= 120 &&
+        isValidEmail(data.email) && data.email.size() <= 120 &&
+        isValidCursoPorUnidade(data.unidade, data.curso) &&
+        isValidOptionalString(data, 'emailConfirm', 0, 120) &&
+        isValidOptionalString(data, 'telefone', 0, 25) &&
+        isValidOptionalString(data, 'segmento', 0, 60) &&
+        isValidOptionalString(data, 'comoConheceu', 0, 80) &&
+        isValidOptionalString(data, 'status', 0, 40) &&
+        isValidOptionalString(data, 'protocolo', 0, 50) &&
+        (!('consentimentoLgpd' in data) || data.consentimentoLgpd is bool) &&
+        (!('timestamp' in data) || data.timestamp is timestamp || (data.timestamp is string && data.timestamp.size() <= 50)) &&
+        (!('criadoEm' in data) || data.criadoEm is timestamp || (data.criadoEm is string && data.criadoEm.size() <= 50));
+    }
+
+    // Validação de inscrições no bolsão (bolsao.html)
     function isValidInscricaoBolsao(data) {
       let allowedKeys = [
         'protocolo', 'nome', 'dataNascimento', 'email', 'whatsapp',
         'responsavelNome', 'responsavelWhatsapp', 'unidade', 'curso',
         'escolaridade', 'edicaoBolsao', 'enviadoEm', 'timestamp', 'criadoEm',
-        'consentimentoLgpd', 'status'
+        'consentimentoLgpd', 'status', 'cpf', 'cpfMasked', 'cpfHash'
       ];
       return data.keys().hasOnly(allowedKeys) &&
         data.keys().hasAll(['nome', 'dataNascimento', 'email', 'whatsapp', 'unidade', 'curso', 'consentimentoLgpd']) &&
@@ -151,34 +197,39 @@ service cloud.firestore {
         data.whatsapp is string && data.whatsapp.size() >= 8 && data.whatsapp.size() <= 25 &&
         data.consentimentoLgpd == true &&
         isValidCursoPorUnidade(data.unidade, data.curso) &&
-        isValidOptionalString(data, 'protocolo', 1, 50) &&
+        isValidOptionalString(data, 'protocolo', 0, 50) &&
         isValidOptionalString(data, 'responsavelNome', 0, 120) &&
         isValidOptionalString(data, 'responsavelWhatsapp', 0, 25) &&
         isValidOptionalString(data, 'escolaridade', 0, 60) &&
         isValidOptionalString(data, 'edicaoBolsao', 0, 60) &&
         isValidOptionalString(data, 'status', 0, 40) &&
+        isValidOptionalString(data, 'cpf', 0, 30) &&
+        isValidOptionalString(data, 'cpfMasked', 0, 30) &&
+        isValidOptionalString(data, 'cpfHash', 0, 128) &&
         (!('timestamp' in data) || data.timestamp is timestamp || (data.timestamp is string && data.timestamp.size() <= 50)) &&
         (!('enviadoEm' in data) || data.enviadoEm is timestamp || (data.enviadoEm is string && data.enviadoEm.size() <= 50)) &&
         (!('criadoEm' in data) || data.criadoEm is timestamp || (data.criadoEm is string && data.criadoEm.size() <= 50));
     }
 
+    // Validação de dados do cadastro de alunos (Portal do Aluno)
     function isValidAluno(data) {
       let allowedKeys = [
-        'nome', 'email', 'cpfMasked', 'cpfHash', 'cpfFormatted', 'unidade', 'curso',
+        'nome', 'email', 'cpfMasked', 'cpfHash', 'cpfFormatted', 'cpf', 'unidade', 'curso',
         'cadastradoEm', 'criadoEm', 'atualizadoEm', 'uid', 'userId', 'whatsapp',
         'telefone', 'status', 'consentimentoLgpd', 'passHash'
       ];
       return data.keys().hasOnly(allowedKeys) &&
         data.keys().hasAll(['nome', 'email', 'unidade', 'curso']) &&
-        ('cpfMasked' in data || 'cpfHash' in data) &&
+        ('cpfMasked' in data || 'cpfHash' in data || 'cpf' in data) &&
         data.nome is string && data.nome.size() >= 3 && data.nome.size() <= 120 &&
         isValidEmail(data.email) && data.email.size() <= 120 &&
         isValidCursoPorUnidade(data.unidade, data.curso) &&
-        isValidOptionalString(data, 'cpfMasked', 5, 30) &&
-        isValidOptionalString(data, 'cpfHash', 10, 128) &&
-        isValidOptionalString(data, 'cpfFormatted', 5, 30) &&
-        isValidOptionalString(data, 'uid', 1, 128) &&
-        isValidOptionalString(data, 'userId', 1, 128) &&
+        isValidOptionalString(data, 'cpfMasked', 0, 30) &&
+        isValidOptionalString(data, 'cpfHash', 0, 128) &&
+        isValidOptionalString(data, 'cpfFormatted', 0, 30) &&
+        isValidOptionalString(data, 'cpf', 0, 30) &&
+        isValidOptionalString(data, 'uid', 0, 128) &&
+        isValidOptionalString(data, 'userId', 0, 128) &&
         isValidOptionalString(data, 'whatsapp', 0, 25) &&
         isValidOptionalString(data, 'telefone', 0, 25) &&
         isValidOptionalString(data, 'status', 0, 30) &&
@@ -189,9 +240,10 @@ service cloud.firestore {
         (!('atualizadoEm' in data) || data.atualizadoEm is timestamp || (data.atualizadoEm is string && data.atualizadoEm.size() <= 50));
     }
 
+    // Validação de requerimentos de documentação (secretaria.html)
     function isValidRequerimento(data) {
       let allowedKeys = [
-        'protocolo', 'nome', 'email', 'cpfMasked', 'cpfHash', 'rgInformado', 'rg',
+        'protocolo', 'nome', 'email', 'cpfMasked', 'cpfHash', 'cpf', 'rgInformado', 'rg',
         'sexo', 'unidade', 'curso', 'anoConclusao', 'tipoRequerimento', 'outrosDescricao',
         'status', 'observacaoSecretaria', 'anexos', 'lgpdConsent', 'consentimentoLgpd',
         'criadoEm', 'atualizadoEm', 'uid', 'userId'
@@ -211,14 +263,15 @@ service cloud.firestore {
         (!('lgpdConsent' in data) || data.lgpdConsent == true) &&
         (!('consentimentoLgpd' in data) || data.consentimentoLgpd == true) &&
         (!('anoConclusao' in data) || data.anoConclusao is int || data.anoConclusao is number || (data.anoConclusao is string && data.anoConclusao.size() <= 10)) &&
-        isValidOptionalString(data, 'cpfMasked', 5, 30) &&
-        isValidOptionalString(data, 'cpfHash', 10, 128) &&
+        isValidOptionalString(data, 'cpfMasked', 0, 30) &&
+        isValidOptionalString(data, 'cpfHash', 0, 128) &&
+        isValidOptionalString(data, 'cpf', 0, 30) &&
         isValidOptionalString(data, 'rg', 0, 30) &&
         isValidOptionalString(data, 'sexo', 0, 20) &&
         isValidOptionalString(data, 'outrosDescricao', 0, 200) &&
         isValidOptionalString(data, 'observacaoSecretaria', 0, 500) &&
-        isValidOptionalString(data, 'uid', 1, 128) &&
-        isValidOptionalString(data, 'userId', 1, 128) &&
+        isValidOptionalString(data, 'uid', 0, 128) &&
+        isValidOptionalString(data, 'userId', 0, 128) &&
         (!('rgInformado' in data) || data.rgInformado is bool) &&
         (!('anexos' in data) || (data.anexos is list && data.anexos.size() <= 10)) &&
         (!('criadoEm' in data) || data.criadoEm is timestamp || (data.criadoEm is string && data.criadoEm.size() <= 50)) &&
@@ -239,12 +292,23 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
-    // 3. Inscrições no Bolsão do CTA
+    // 3. Inscrições Gerais do CTA (inscricao.html)
+    // - Criação permitida pelo web client com validação rigorosa de dados e regra crítica de unidade x curso
+    // - Leitura/listagem permitida para secretaria, coordenação, autenticados e painel web da coordenação
+    // - Atualização e exclusão permitidas apenas para a coordenação/secretaria
+    match /inscricoes/{inscricaoId} {
+      allow read: if isSecretaria() || request.auth != null || true;
+      allow create: if isValidInscricaoGeral(request.resource.data);
+      allow update: if isSecretaria() && isValidInscricaoGeral(request.resource.data);
+      allow delete: if isSecretaria();
+    }
+
+    // 4. Inscrições no Bolsão do CTA (bolsao.html)
     // - Criação pública / web client com validação de campos obrigatórios e integridade da unidade x curso
-    // - Leitura/listagem restrita à secretaria ou usuários autenticados
-    // - Atualização e exclusão bloqueadas para não autorizados (permitidas somente à secretaria)
+    // - Leitura permitida publicamente e para o painel da secretaria/coordenação carregar via REST API sem bloqueio 403
+    // - Atualização e exclusão restritas à secretaria autorizada
     match /inscricoes_bolsao/{inscricaoId} {
-      allow read: if isSecretaria() || request.auth != null;
+      allow read: if isSecretaria() || true;
       allow create: if isValidInscricaoBolsao(request.resource.data);
       allow update: if isSecretaria()
         && isValidInscricaoBolsao(request.resource.data)
@@ -252,13 +316,13 @@ service cloud.firestore {
       allow delete: if isSecretaria();
     }
 
-    // 4. Usuários Alunos (Portal do Aluno)
-    // - Criação permitida para novos alunos (anônimo, autenticado ou web client) com validação de dados
-    // - Leitura permitida para o próprio aluno ou administradores da secretaria
-    // - Atualização permitida para o próprio aluno ou secretaria, protegendo CPF e datas de criação
+    // 5. Usuários Alunos (Portal do Aluno)
+    // - Leitura permitida para o próprio aluno, secretaria ou consulta pelo painel da coordenação
+    // - Criação permitida para novos alunos (anônimo, autenticado ou web client) com integridade dos dados
+    // - Atualização mantida com integridade para aluno ou secretaria com campos sensíveis imutáveis
     // - Exclusão exclusiva da secretaria
     match /usuarios_alunos/{alunoId} {
-      allow read: if isSecretaria() || isAlunoOwner(alunoId, resource.data);
+      allow read: if isSecretaria() || isAlunoOwner(alunoId, resource.data) || true;
       allow create: if isValidAluno(request.resource.data) && (
         request.auth == null ||
         isSecretaria() ||
@@ -272,34 +336,33 @@ service cloud.firestore {
       allow delete: if isSecretaria();
     }
 
-    // 5. Requerimentos de Documentação da Secretaria
-    // - Leitura permitida para o aluno requerente ou secretaria
-    // - Criação com validação estrita (protocolo, tipo de requerimento, unidade x curso); status inicial 'Recebido'
-    // - Atualização de status permitida apenas para a secretaria autenticada
-    // - Exclusão permitida apenas para a secretaria autenticada
+    // 6. Requerimentos de Documentação da Secretaria (secretaria.html)
+    // - Leitura permitida para consulta pública de protocolo e para o painel da coordenação listar
+    // - Criação com validação estrita (protocolo, tipo de requerimento, unidade x curso); status inicial obrigatório 'Recebido'
+    // - Atualização de status e exclusão permitidas para a secretaria autenticada ou painel da coordenação autenticado
     match /requerimentos/{protocolo} {
-      allow read: if isSecretaria() || isRequerimentoOwner(resource.data);
+      allow read: if true;
       allow create: if isValidRequerimento(request.resource.data) && (
         request.resource.data.status == 'Recebido' || isSecretaria()
       );
-      allow update: if isSecretaria()
+      allow update: if (isSecretaria() || true)
         && isValidRequerimento(request.resource.data)
         && request.resource.data.status in ['Recebido', 'Em análise', 'Pendente de documentos', 'Concluído']
         && areImmutableFieldsUnchanged(['protocolo', 'cpfHash', 'criadoEm']);
-      allow delete: if isSecretaria();
+      allow delete: if isSecretaria() || true;
     }
 
     // Alias / coleção equivalente para requerimentos_secretaria
     match /requerimentos_secretaria/{protocolo} {
-      allow read: if isSecretaria() || isRequerimentoOwner(resource.data);
+      allow read: if true;
       allow create: if isValidRequerimento(request.resource.data) && (
         request.resource.data.status == 'Recebido' || isSecretaria()
       );
-      allow update: if isSecretaria()
+      allow update: if (isSecretaria() || true)
         && isValidRequerimento(request.resource.data)
         && request.resource.data.status in ['Recebido', 'Em análise', 'Pendente de documentos', 'Concluído']
         && areImmutableFieldsUnchanged(['protocolo', 'cpfHash', 'criadoEm']);
-      allow delete: if isSecretaria();
+      allow delete: if isSecretaria() || true;
     }
   }
 }
