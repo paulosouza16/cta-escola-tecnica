@@ -1872,31 +1872,49 @@ document.addEventListener("DOMContentLoaded", () => {
     const staffEmail = document.getElementById("sec-staff-email");
     const staffSenha = document.getElementById("sec-staff-senha");
     const staffHp = document.getElementById("sec-staff-hp");
+    const staffAlert = document.getElementById("sec-staff-gate-alert");
 
     secStaffGateForm.addEventListener("submit", (e) => {
       e.preventDefault();
       if (staffHp && staffHp.value.trim() !== "") return;
+      if (staffAlert) {
+        staffAlert.textContent = "";
+        staffAlert.classList.add("icon-hidden");
+      }
       const em = staffEmail ? staffEmail.value.trim() : "";
-      const pw = staffSenha ? staffSenha.value : "";
+      const pw = staffSenha ? staffSenha.value.trim() : "";
       const emErr = document.getElementById("sec-staff-email-error");
       const pwErr = document.getElementById("sec-staff-senha-error");
 
       let bad = false;
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
-        if (emErr) emErr.textContent = "Informe o e-mail institucional da secretaria.";
+      if (!em) {
+        if (emErr) emErr.textContent = "Informe o usuário de acesso.";
         bad = true;
       } else if (emErr) {
         emErr.textContent = "";
       }
 
-      if (!pw || pw.length < 6) {
-        if (pwErr) pwErr.textContent = "Informe a senha administrativa (mínimo 6 caracteres).";
+      if (!pw) {
+        if (pwErr) pwErr.textContent = "Informe a senha de acesso.";
         bad = true;
       } else if (pwErr) {
         pwErr.textContent = "";
       }
 
       if (bad) return;
+
+      const u = em.toLowerCase();
+      const isValidUser = (u === "adm" || u === "admin" || u === "secretaria@ctarj.org.br");
+      const isValidPass = (pw === "123" || pw === "cta2026");
+
+      if (!isValidUser || !isValidPass) {
+        if (staffAlert) {
+          staffAlert.textContent = "Usuário ou senha incorretos. Acesso restrito à coordenação e secretaria.";
+          staffAlert.classList.remove("icon-hidden");
+        }
+        return;
+      }
+
       try {
         window.sessionStorage.setItem(STORAGE_KEY_SEC_SESSAO_STAFF, em);
       } catch (_e) {
@@ -3248,15 +3266,24 @@ function renderAdminList() {
 
     try {
       const savedStaffEmail = window.sessionStorage.getItem(STORAGE_KEY_SEC_SESSAO_STAFF);
-      if (savedStaffEmail) {
+      const isAuthorized = savedStaffEmail && (
+        savedStaffEmail.toLowerCase() === "adm" ||
+        savedStaffEmail.toLowerCase() === "admin" ||
+        savedStaffEmail.toLowerCase() === "secretaria@ctarj.org.br"
+      );
+      if (isAuthorized) {
         if (painelUserEmail) painelUserEmail.textContent = savedStaffEmail;
-        painelLoginCard.classList.add("icon-hidden");
-        painelDashboard.classList.remove("icon-hidden");
+        if (painelLoginCard) painelLoginCard.classList.add("icon-hidden");
+        if (painelDashboard) painelDashboard.classList.remove("icon-hidden");
         renderAdminList();
         renderExtraDatabaseTables();
+      } else {
+        if (painelDashboard) painelDashboard.classList.add("icon-hidden");
+        if (painelLoginCard) painelLoginCard.classList.remove("icon-hidden");
       }
     } catch (_e) {
-      // ignore
+      if (painelDashboard) painelDashboard.classList.add("icon-hidden");
+      if (painelLoginCard) painelLoginCard.classList.remove("icon-hidden");
     }
 
     painelLoginForm.addEventListener("submit", (e) => {
@@ -3266,21 +3293,21 @@ function renderAdminList() {
         painelLoginAlert.classList.add("icon-hidden");
       }
 
-      const emailVal = painelEmail ? painelEmail.value.trim() : "";
-      const senhaVal = painelSenha ? painelSenha.value : "";
+      const usuarioVal = painelEmail ? painelEmail.value.trim() : "";
+      const senhaVal = painelSenha ? painelSenha.value.trim() : "";
       const emailErr = document.getElementById("painel-email-error");
       const senhaErr = document.getElementById("painel-senha-error");
 
       let invalid = false;
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-        if (emailErr) emailErr.textContent = "Informe o e-mail institucional da secretaria.";
+      if (!usuarioVal) {
+        if (emailErr) emailErr.textContent = "Informe o usuário de acesso.";
         invalid = true;
       } else if (emailErr) {
         emailErr.textContent = "";
       }
 
-      if (!senhaVal || senhaVal.length < 6) {
-        if (senhaErr) senhaErr.textContent = "Informe a senha de acesso (mínimo 6 caracteres).";
+      if (!senhaVal) {
+        if (senhaErr) senhaErr.textContent = "Informe a senha de acesso.";
         invalid = true;
       } else if (senhaErr) {
         senhaErr.textContent = "";
@@ -3288,12 +3315,24 @@ function renderAdminList() {
 
       if (invalid) return;
 
+      const u = usuarioVal.toLowerCase();
+      const isValidUser = (u === "adm" || u === "admin" || u === "secretaria@ctarj.org.br");
+      const isValidPass = (senhaVal === "123" || senhaVal === "cta2026");
+
+      if (!isValidUser || !isValidPass) {
+        if (painelLoginAlert) {
+          painelLoginAlert.textContent = "Usuário ou senha incorretos. Acesso restrito aos administradores.";
+          painelLoginAlert.classList.remove("icon-hidden");
+        }
+        return;
+      }
+
       try {
-        window.sessionStorage.setItem(STORAGE_KEY_SEC_SESSAO_STAFF, emailVal);
+        window.sessionStorage.setItem(STORAGE_KEY_SEC_SESSAO_STAFF, usuarioVal);
       } catch (_e) {
         // ignore
       }
-      if (painelUserEmail) painelUserEmail.textContent = emailVal;
+      if (painelUserEmail) painelUserEmail.textContent = usuarioVal;
       painelLoginCard.classList.add("icon-hidden");
       painelDashboard.classList.remove("icon-hidden");
       renderAdminList();
